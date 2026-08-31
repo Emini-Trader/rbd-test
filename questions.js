@@ -596,7 +596,7 @@ const QUESTIONS = [
   "id": "Q043",
   "chapter": "G5",
   "chapterName": "SQL1 (SQL Server)",
-  "question": "Dana jest tabela Osoby(Imie, Nazwisko, Zarobki). Które z następujących instrukcji są składniowo poprawnymi instrukcjami SQL w SQL Server? SELECT Osoby.Nazwisko, Osoby.Imie, Osoby.Zarobki WHERE Osoby.Zarobki >1000; / INSERT INTO Osoby VALUES ('Jan', 'Kowalski', 2000) WHERE 'KOWALSKI' = 'KOWALSKI'; / DELETE FROM Osoby WHERE 'KOWALSKI'='KOWALSKI'; / UPDATE Osoby SET Nazwisko='KOWALSKI';",
+  "question": "Dana jest tabela Osoby(Imie, Nazwisko, Zarobki). Które z następujących instrukcji są składniowo poprawnymi instrukcjami SQL w SQL Server?",
   "topicTitle": "Obowiązkowe klauzule FROM i SET",
   "topicSummary": "SELECT bez FROM jest błędem składniowym (chyba że w ogóle nie odwołuje się do żadnej tabeli, np. SELECT 1). INSERT INTO ... VALUES nie przyjmuje klauzuli WHERE - warunek nie ma tu sensu, bo wstawiamy jeden, konkretny wiersz. Natomiast DELETE i UPDATE mogą (ale nie muszą) mieć WHERE - bez niego operacja obejmuje wszystkie wiersze tabeli.",
   "options": [
@@ -610,7 +610,7 @@ const QUESTIONS = [
   "id": "Q044",
   "chapter": "G5",
   "chapterName": "SQL1 (SQL Server)",
-  "question": "Dana jest tabela Osoby(Imie, Nazwisko, Zarobki). Które z następujących instrukcji są składniowo poprawnymi instrukcjami SQL w SQL Server? SELECT Osoby.Nazwisko, Osoby.Imie, Osoby.Zarobki FROM Osoby GROUP BY Osoby.Nazwisko; / INSERT INTO Osoby VALUES ('Jan', 'Kowalski', 2000) WHERE 'KOWALSKI' = 'KOWALSKI'; / DELETE FROM Osoby WHERE 'JANKOWSKI'='KOWALSKI'; / UPDATE Osoby SET Nazwisko='KOWALSKI';",
+  "question": "Dana jest tabela Osoby(Imie, Nazwisko, Zarobki). Które z następujących instrukcji są składniowo poprawnymi instrukcjami SQL w SQL Server?",
   "topicTitle": "GROUP BY a kolumny w SELECT",
   "topicSummary": "Gdy zapytanie ma GROUP BY, każda kolumna w SELECT musi być albo argumentem funkcji agregującej (SUM, COUNT, AVG...), albo występować w GROUP BY. Kolumna \"niezagregowana i niepogrupowana\" (tu: Imie i Zarobki) powoduje błąd, bo dla grupy o wielu wierszach nie wiadomo, którą jej wartość zwrócić.",
   "options": [
@@ -624,7 +624,7 @@ const QUESTIONS = [
   "id": "Q045",
   "chapter": "G5",
   "chapterName": "SQL1 (SQL Server)",
-  "question": "Dana jest tabela Osoby(Imie, Nazwisko, Zarobki). Które z następujących instrukcji są składniowo poprawnymi instrukcjami SQL w SQL Server? SELECT Osoby.Nazwisko, Osoby.Imie, Osoby.Zarobki ORDER BY Osoby.Zarobki; / INSERT INTO Osoby SELECT * FROM Osoby WHERE 'KOWALSKI' = 'KOWALSKI'; / DELETE FROM Osoby WHERE 'KOWALSKI'='KOWALSKI'; / UPDATE Osoby WHERE Nazwisko='KOWALSKI';",
+  "question": "Dana jest tabela Osoby(Imie, Nazwisko, Zarobki). Które z następujących instrukcji są składniowo poprawnymi instrukcjami SQL w SQL Server?",
   "topicTitle": "INSERT INTO ... SELECT oraz obowiązkowość SET",
   "topicSummary": "INSERT INTO ... SELECT jest poprawnym sposobem kopiowania wierszy z zapytania do tabeli, o ile liczba i typy kolumn się zgadzają - tu SELECT * z tej samej tabeli Osoby gwarantuje zgodność. Z kolei UPDATE zawsze wymaga klauzuli SET określającej, co ma zostać zmienione - sama klauzula WHERE bez SET nie ma sensu.",
   "options": [
@@ -638,7 +638,7 @@ const QUESTIONS = [
   "id": "Q046",
   "chapter": "G5",
   "chapterName": "SQL1 (SQL Server)",
-  "question": "Dana jest tabela Osoby(Imie, Nazwisko, Zarobki). Które z następujących instrukcji są składniowo poprawnymi instrukcjami SQL w SQL Server? SELECT Osoby.Nazwisko, Osoby.Imie, Osoby.Zarobki HAVING Osoby.Zarobki>1000; / INSERT INTO Osoby SELECT Nazwisko, Imie FROM Osoby WHERE 'KOWALSKI' = 'KOWALSKI'; / DELETE FROM Osoby WHERE 'KOWALSKI'='KOWALSKI'; / UPDATE Osoby WHERE Nazwisko='KOWALSKI';",
+  "question": "Dana jest tabela Osoby(Imie, Nazwisko, Zarobki). Które z następujących instrukcji są składniowo poprawnymi instrukcjami SQL w SQL Server?",
   "topicTitle": "Zgodność liczby kolumn przy INSERT ... SELECT",
   "topicSummary": "Przy INSERT INTO Tabela SELECT ... liczba (i typy) kolumn zwracanych przez SELECT musi odpowiadać liczbie kolumn docelowej tabeli (lub jawnie wskazanej liście kolumn w INSERT INTO Tabela(kol1, kol2, ...)). Tabela Osoby ma 3 kolumny, więc SELECT zwracający tylko 2 (Nazwisko, Imie) bez podania listy kolumn docelowych jest niezgodny.",
   "options": [
@@ -652,7 +652,7 @@ const QUESTIONS = [
   "id": "Q047",
   "chapter": "G5",
   "chapterName": "SQL1 (SQL Server)",
-  "question": "Dana jest tabela Osoby(Imie, Nazwisko, Zarobki). Które z następujących instrukcji są składniowo poprawnymi instrukcjami SQL w SQL Server? SELECT Osoby.Nazwisko, Osoby.Imie, Osoby.Zarobki FROM Osoby HAVING Osoby.Zarobki>1000; / INSERT INTO Osoby SELECT * FROM Osoby WHERE Nazwisko = 'KOWALSKI'; / DELETE FROM Osoby WHENEVER Osoby.Zarobki<1000; / UPDATE Osoby WHERE Nazwisko='KOWALSKI';",
+  "question": "Dana jest tabela Osoby(Imie, Nazwisko, Zarobki). Które z następujących instrukcji są składniowo poprawnymi instrukcjami SQL w SQL Server?",
   "topicTitle": "HAVING bez agregacji i nieistniejące słowa kluczowe",
   "topicSummary": "HAVING służy do filtrowania już pogrupowanych/zagregowanych wyników i odnoszenie się w nim do zwykłej, niezagregowanej kolumny bez GROUP BY jest błędem. DELETE (podobnie jak SELECT/UPDATE) filtruje wiersze klauzulą WHERE - w SQL nie istnieje słowo kluczowe WHENEVER w tym kontekście.",
   "options": [
@@ -666,7 +666,7 @@ const QUESTIONS = [
   "id": "Q048",
   "chapter": "G5",
   "chapterName": "SQL1 (SQL Server)",
-  "question": "Dane są dwie tabele Osoby(Imie, Nazwisko, Zarobki, Id_działu) oraz Działy(Id_działu, Nazwa). Które z następujących instrukcji są poprawnymi instrukcjami SQL w SQL Server? SELECT Osoby.Nazwisko, Osoby.Imie, Osoby.Id_działu WHERE Działy.Nazwa='PRAWNY'; / INSERT INTO Osoby(Imie, Nazwisko, Zarobki) VALUES ('Jan', 'Kowalski', 2000); / DELETE FROM Osoby WHERE Id_działu=(SELECT Id_działu FROM Działy WHERE Nazwa='BUFET'); / UPDATE Osoby DELETE Nazwisko='KOWALSKI';",
+  "question": "Dane są dwie tabele Osoby(Imie, Nazwisko, Zarobki, Id_działu) oraz Działy(Id_działu, Nazwa). Które z następujących instrukcji są poprawnymi instrukcjami SQL w SQL Server?",
   "topicTitle": "INSERT z jawną listą kolumn i podzapytania skalarne",
   "topicSummary": "INSERT INTO Tabela(kolumny...) VALUES (...) pozwala wstawić wartości tylko do wskazanych kolumn (pozostałe przyjmą domyślną wartość lub NULL). Podzapytanie w WHERE (np. w DELETE) jest poprawne, jeśli zwraca dokładnie jedną wartość (tu: jeden Id_działu dla działu 'BUFET').",
   "options": [
@@ -680,7 +680,7 @@ const QUESTIONS = [
   "id": "Q049",
   "chapter": "G5",
   "chapterName": "SQL1 (SQL Server)",
-  "question": "Dane są dwie tabele Osoby(Imie, Nazwisko, Zarobki, Id_działu) oraz Działy(Id_działu, Nazwa). Które z następujących instrukcji są poprawnymi instrukcjami SQL w SQL Server? SELECT Osoby.Nazwisko, Działy.Nazwa FROM Osoby, Działy WHERE Osoby.Id_działu=Działy.Id_działu GROUP BY Osoby.Nazwisko; / INSERT INTO Osoby VALUES ('Jan', 'Kowalski', 2000) WHERE Osoby.Id_działu = 23; / DELETE FROM Osoby, Działy WHERE Osoby.Nazwisko='KOWALSKI' AND Działy.Nazwa='KASA'; / UPDATE Osoby SET Id_działu=NULL;",
+  "question": "Dane są dwie tabele Osoby(Imie, Nazwisko, Zarobki, Id_działu) oraz Działy(Id_działu, Nazwa). Które z następujących instrukcji są poprawnymi instrukcjami SQL w SQL Server?",
   "topicTitle": "DELETE z wielu tabel w SQL Server",
   "topicSummary": "W SQL Server nie da się napisać DELETE FROM Tabela1, Tabela2 WHERE ... - polecenie DELETE działa na jednej tabeli docelowej naraz; do usuwania na podstawie złączenia z inną tabelą służy inna składnia (DELETE Tabela1 FROM Tabela1 JOIN Tabela2 ON ... WHERE ...). Prosta forma \"DELETE FROM t1, t2\" jest tu błędem składniowym.",
   "options": [
@@ -694,7 +694,7 @@ const QUESTIONS = [
   "id": "Q050",
   "chapter": "G5",
   "chapterName": "SQL1 (SQL Server)",
-  "question": "Dane są dwie tabele Osoby(Imie, Nazwisko, Zarobki, Id_działu) oraz Działy(Id_działu, Nazwa). Które z następujących instrukcji są poprawnymi instrukcjami SQL w SQL Server? SELECT Osoby.Nazwisko, COUNT(Działy.Nazwa) FROM Osoby, Działy WHERE Osoby.Id_działu=Działy.Id_działu GROUP BY Osoby.Nazwisko; / INSERT INTO Osoby VALUES ('Jan', 'Kowalski', 2000) WHERE Osoby.Id_działu = 23; / DELETE FROM Osoby, Działy WHERE Osoby.Nazwisko='KOWALSKI' AND Działy.Nazwa='KASA' AND Osoby.Id_działu=Działy.Id_działu; / UPDATE Osoby SET Id_działu=NULL WHERE COUNT(*)<5;",
+  "question": "Dane są dwie tabele Osoby(Imie, Nazwisko, Zarobki, Id_działu) oraz Działy(Id_działu, Nazwa). Które z następujących instrukcji są poprawnymi instrukcjami SQL w SQL Server?",
   "topicTitle": "Agregaty niedozwolone bezpośrednio w WHERE",
   "topicSummary": "Funkcji agregujących (COUNT, SUM, AVG...) nie wolno używać bezpośrednio w klauzuli WHERE, bo WHERE filtruje pojedyncze wiersze przed ich zgrupowaniem - agregaty ma sens filtrować dopiero w HAVING (po GROUP BY) albo w podzapytaniu.",
   "options": [
@@ -708,7 +708,7 @@ const QUESTIONS = [
   "id": "Q051",
   "chapter": "G5",
   "chapterName": "SQL1 (SQL Server)",
-  "question": "Dane są dwie tabele Osoby(Imie, Nazwisko, Zarobki, Id_działu) oraz Działy(Id_działu, Nazwa). Które z następujących instrukcji są poprawnymi instrukcjami SQL w SQL Server? SELECT Osoby.Nazwisko, COUNT(Działy.Nazwa) FROM Osoby, Działy WHERE Osoby.Id_działu=Działy.Id_działu GROUP BY Osoby.Nazwisko HAVING COUNT(Id_działu)<2; / INSERT INTO Osoby VALUES ('Jan', 'Kowalski', 2000) WHERE Osoby.Id_działu = 23; / DELETE FROM Osoby, Działy WHERE Osoby.Nazwisko='KOWALSKI' AND Działy.Nazwa='KASA' AND Osoby.Id_działu=Działy.Id_działu; / UPDATE Osoby SET Id_działu=NULL WHERE 5>(SELECT COUNT(*) FROM Działy);",
+  "question": "Dane są dwie tabele Osoby(Imie, Nazwisko, Zarobki, Id_działu) oraz Działy(Id_działu, Nazwa). Które z następujących instrukcji są poprawnymi instrukcjami SQL w SQL Server?",
   "topicTitle": "Niejednoznaczne odwołania do kolumn przy złączeniu",
   "topicSummary": "Gdy dwie złączone tabele mają kolumny o tej samej nazwie (tu: Id_działu w Osoby i w Działy), każde odwołanie do niej w zapytaniu musi być kwalifikowane nazwą tabeli (Osoby.Id_działu lub Działy.Id_działu) - w przeciwnym razie silnik nie wie, o którą kolumnę chodzi, i zgłasza błąd niejednoznaczności.",
   "options": [
@@ -722,7 +722,7 @@ const QUESTIONS = [
   "id": "Q052",
   "chapter": "G5",
   "chapterName": "SQL1 (SQL Server)",
-  "question": "Dane są dwie tabele Osoby(Imie, Nazwisko, Zarobki, Id_działu) oraz Działy(Id_działu, Nazwa). Które z następujących instrukcji są poprawnymi instrukcjami SQL w SQL Server? SELECT Osoby.Nazwisko, Działy.Nazwa FROM Osoby, Działy WHERE Osoby.Id_działu=Działy.Id_działu GROUP BY Osoby.Nazwisko HAVING COUNT(Działy.Id_działu)<2; / INSERT INTO Osoby VALUES ('Jan', 'Kowalski', 2000); / DELETE FROM Osoby WHERE Osoby.Nazwisko='KOWALSKI' AND Działy.Id_działu=22; / UPDATE Osoby SET Id_działu=NULL WHERE 5>(SELECT COUNT(*) FROM Działy);",
+  "question": "Dane są dwie tabele Osoby(Imie, Nazwisko, Zarobki, Id_działu) oraz Działy(Id_działu, Nazwa). Które z następujących instrukcji są poprawnymi instrukcjami SQL w SQL Server?",
   "topicTitle": "Widoczność tabel spoza klauzuli FROM",
   "topicSummary": "W poleceniu DELETE FROM Tabela WHERE ... można odwoływać się wyłącznie do kolumn tabeli wymienionej we FROM (tu: Osoby) - użycie kolumny innej tabeli (Działy), której nie ma w żadnej klauzuli FROM/JOIN tego zapytania, jest błędem, bo silnik nie ma dostępu do jej danych.",
   "options": [
@@ -736,7 +736,7 @@ const QUESTIONS = [
   "id": "Q053",
   "chapter": "G5",
   "chapterName": "SQL1 (SQL Server)",
-  "question": "Dana jest tabela Osoby(imie, nazwisko, zarobki). Które z następujących instrukcji są poprawnymi instrukcjami SQL w SQL Server? SELECT imie, nazwisko, zarobki FROM osoby UNION SELECT imie, nazwisko FROM osoby; / SELECT AVG(zarobki) FROM osoby; / SELECT imie, nazwisko FROM osoby WHERE zarobki = MAX(zarobki); / SELECT imie, nazwisko FROM osoby HAVING zarobki = MAX(zarobki);",
+  "question": "Dana jest tabela Osoby(imie, nazwisko, zarobki). Które z następujących instrukcji są poprawnymi instrukcjami SQL w SQL Server?",
   "topicTitle": "Zgodność kolumn w UNION i agregaty poza WHERE",
   "topicSummary": "Każde z zapytań łączonych operatorem UNION musi zwracać tę samą liczbę kolumn (o zgodnych typach) - inaczej jest to błąd. Funkcje agregujące, takie jak MAX, są niedozwolone wprost w WHERE (bo WHERE działa na pojedynczych wierszach przed agregacją); do porównania z maksimum trzeba użyć podzapytania: WHERE zarobki = (SELECT MAX(zarobki) FROM osoby).",
   "options": [
@@ -750,7 +750,7 @@ const QUESTIONS = [
   "id": "Q054",
   "chapter": "G5",
   "chapterName": "SQL1 (SQL Server)",
-  "question": "Dana jest tabela Osoby(imie, nazwisko, zarobki, id_dzialu). Które z następujących instrukcji są poprawnymi instrukcjami SQL w SQL Server? SELECT imie, nazwisko, AVG(zarobki) FROM Osoby GROUP BY id_dzialu; / SELECT id_dzialu, AVG(zarobki) FROM Osoby GROUP BY id_dzialu; / SELECT id_dzialu, AVG(zarobki) FROM Osoby GROUP BY id_dzialu WHERE AVG(zarobki) > 1000; / SELECT AVG(zarobki) FROM Osoby WHERE zarobki > 1000;",
+  "question": "Dana jest tabela Osoby(imie, nazwisko, zarobki, id_dzialu). Które z następujących instrukcji są poprawnymi instrukcjami SQL w SQL Server?",
   "topicTitle": "Kolejność klauzul WHERE i GROUP BY",
   "topicSummary": "Poprawna kolejność klauzul w SELECT to: FROM, WHERE, GROUP BY, HAVING, ORDER BY. WHERE zawsze poprzedza GROUP BY (filtruje wiersze przed grupowaniem) i nie może zawierać funkcji agregujących - do filtrowania po agregacji służy HAVING, umieszczane po GROUP BY.",
   "options": [
@@ -764,7 +764,7 @@ const QUESTIONS = [
   "id": "Q055",
   "chapter": "G5",
   "chapterName": "SQL1 (SQL Server)",
-  "question": "Dana jest tabela Osoby(imie, nazwisko, zarobki). Które z następujących instrukcji są poprawnymi instrukcjami SQL w SQL Server? INSERT INTO Osoby (imie, nazwisko, zarobki) VALUES ('Jan', 'Kowalski', 1000); / INSERT INTO Osoby VALUES ('Jan', 'Kowalski'); / DELETE FROM Osoby WHERE Nazwisko LIKE 'Kowalski'; / UPDATE Osoby.Nazwisko = 'Kowalski';",
+  "question": "Dana jest tabela Osoby(imie, nazwisko, zarobki). Które z następujących instrukcji są poprawnymi instrukcjami SQL w SQL Server?",
   "topicTitle": "Zgodność wartości INSERT z listą kolumn",
   "topicSummary": "Gdy INSERT INTO podaje jawną listę kolumn, liczba wartości w VALUES musi się z nią zgadzać. Gdy listy kolumn nie podano, liczba wartości musi się zgadzać z pełną liczbą kolumn tabeli. UPDATE zawsze wymaga poprawnej postaci UPDATE tabela SET kolumna=wartość ... - nie da się \"zaktualizować\" bezpośrednio wyrażenia tabela.kolumna po lewej stronie znaku równości bez słowa SET.",
   "options": [
@@ -973,7 +973,7 @@ const QUESTIONS = [
   "id": "Q070",
   "chapter": "G7",
   "chapterName": "RBD_test.pdf",
-  "question": "Dana jest tabela OSOBY(imie, nazwisko, zarobki). Które z następujących instrukcji są składniowo poprawnymi instrukcjami SQL w Oracle? INSERT INTO Osoby VALUES ('Jan','Kowalski','2000'); / SELECT imie, zarobki FROM Osoby INTERSECT SELECT nazwisko, zarobki FROM osoby; / INSERT INTO Osoby VALUES ('Jan','Kowalski',2000); / SELECT imie, AVG(zarobki) FROM osoby WHERE AVG(zarobki) > 1000;",
+  "question": "Dana jest tabela OSOBY(imie, nazwisko, zarobki). Które z następujących instrukcji są składniowo poprawnymi instrukcjami SQL w Oracle?",
   "topicTitle": "Niejawna konwersja typów w Oracle",
   "topicSummary": "Oracle potrafi niejawnie skonwertować literał tekstowy na liczbę, jeśli tekst da się zinterpretować jako poprawna liczba (np. '2000' na wartość liczbową 2000) - dlatego wstawienie zarobki jako '2000' w cudzysłowie kompiluje się i wykonuje tak samo, jak podanie liczby 2000 wprost. INTERSECT wymaga jedynie zgodnej liczby kolumn po obu stronach, niezależnie od ich nazw.",
   "options": [
@@ -987,7 +987,7 @@ const QUESTIONS = [
   "id": "Q071",
   "chapter": "G7",
   "chapterName": "RBD_test.pdf",
-  "question": "Zaznacz wszystkie zapytania, które będą się kompilować w dialekcie Oracle: SELECT empno FROM emp ORDER BY 1; / SELECT empno FROM emp ORDER BY empno; / SELECT empno AS e FROM emp ORDER BY empno; / SELECT empno AS e FROM emp ORDER BY e;",
+  "question": "Zaznacz wszystkie zapytania, które będą się kompilować w dialekcie Oracle.",
   "topicTitle": "ORDER BY: pozycja, nazwa kolumny i alias",
   "topicSummary": "Klauzula ORDER BY w Oracle akceptuje trzy równoważne sposoby wskazania kolumny sortującej: numer pozycji kolumny w liście SELECT, oryginalną nazwę kolumny źródłowej (nawet jeśli w SELECT nadano jej alias) oraz sam alias nadany w klauzuli SELECT. Wszystkie cztery poniższe warianty są więc poprawne.",
   "options": [
@@ -1055,7 +1055,7 @@ const QUESTIONS = [
   "id": "Q076",
   "chapter": "G7",
   "chapterName": "RBD_test.pdf",
-  "question": "Dana jest tabela Osoby(imie, nazwisko, zarobki). Które z następujących instrukcji są składniowo poprawnymi instrukcjami SQL w Oracle? SELECT imie, zarobki FROM osoby MINUS nazwisko, zarobki FROM osoby; / SELECT imie, nazwisko FROM osoby GROUP BY imie, nazwisko WHERE zarobki = MAX(zarobki); / DELETE FROM osoby WHERE nazwisko LIKE 'Kowalski'; / SELECT nazwisko, zarobki GROUP BY nazwisko, zarobki ORDER BY nazwisko DESC;",
+  "question": "Dana jest tabela Osoby(imie, nazwisko, zarobki). Które z następujących instrukcji są składniowo poprawnymi instrukcjami SQL w Oracle?",
   "topicTitle": "Operator MINUS wymaga pełnego drugiego SELECT-a",
   "topicSummary": "Operator MINUS (podobnie jak UNION czy INTERSECT) łączy dwa kompletne zapytania SELECT - po jego prawej stronie musi wystąpić pełne słowo kluczowe SELECT, a nie sama lista kolumn. Kolejność klauzul w zapytaniu (FROM, WHERE, GROUP BY, HAVING, ORDER BY) musi też być zachowana, a klauzula FROM jest obowiązkowa, jeśli odwołujemy się do kolumn tabeli.",
   "options": [
@@ -1265,7 +1265,7 @@ const QUESTIONS = [
   "id": "Q091",
   "chapter": "G8",
   "chapterName": "Zdjęcia egzaminu",
-  "question": "Dana jest tabela REZERWACJA(RezerwacjaID, Data, LiczbaUczestników). Które z następujących instrukcji są poprawnymi składniowo instrukcjami SQL w dialekcie Oracle? SELECT Data, AVG(NVL(LiczbaUczestników,0)) FROM Rezerwacja GROUP BY Data; / SELECT *, Data FROM Rezerwacja WHERE RezerwacjaId = 1; / SELECT * FROM Rezerwacja WHERE LiczbaUczestników = (1, 5); / SELECT RezerwacjaID, Data FROM Rezerwacja WHERE LiczbaUczestników = 15 ORDER BY 1 DESC;",
+  "question": "Dana jest tabela REZERWACJA(RezerwacjaID, Data, LiczbaUczestników). Które z następujących instrukcji są poprawnymi składniowo instrukcjami SQL w dialekcie Oracle?",
   "topicTitle": "NVL, gwiazdka SELECT * oraz porównanie skalarne z krotką",
   "topicSummary": "NVL(kolumna, wartość) zamienia NULL na podaną wartość domyślną przed dalszymi obliczeniami (np. przed AVG) - to bardzo częsty wzorzec. Gwiazdka * w SELECT musi wystąpić samodzielnie (lub jako alias_tabeli.*) - nie da się jej łączyć z dodatkową, osobno wypisaną kolumną w tej samej, uproszczonej formie. Skalarna kolumna po lewej stronie „=” nie może być porównywana z listą wartości w nawiasie (1, 5) - do tego służy operator IN.",
   "options": [
@@ -1279,7 +1279,7 @@ const QUESTIONS = [
   "id": "Q092",
   "chapter": "G8",
   "chapterName": "Zdjęcia egzaminu",
-  "question": "Dane są dwie tabele Osoby(Imie, Nazwisko, Zarobki, Id_działu) oraz Działy(Id_działu, Nazwa). Które z następujących instrukcji są poprawnymi instrukcjami SQL w Oracle? SELECT 1 FROM Osoby, Działy, Osoby, Działy; / SELECT * FROM Osoby, Działy WHERE Id_działu = Działy.Id_działu; / SELECT Nazwa FROM Osoby WHERE Osoby.Id_działu = Działy.Id_działu; / SELECT * FROM Osoby, Działy WHERE Zarobki = 1000 ORDER BY Osoby.Imie || Osoby.Nazwisko;",
+  "question": "Dane są dwie tabele Osoby(Imie, Nazwisko, Zarobki, Id_działu) oraz Działy(Id_działu, Nazwa). Które z następujących instrukcji są poprawnymi instrukcjami SQL w Oracle?",
   "topicTitle": "Wielokrotne wystąpienie tabeli bez odwołań do kolumn",
   "topicSummary": "Powtórzenie tej samej tabeli w klauzuli FROM bez aliasów jest problemem tylko wtedy, gdy odwołujemy się do jej kolumn (wtedy trzeba by je rozróżnić aliasami) - jeśli zapytanie w ogóle nie odwołuje się do żadnej kolumny (np. SELECT 1), wielokrotne wystąpienie tej samej tabeli nie powoduje niejednoznaczności. Operator konkatenacji || jest poprawnym sposobem łączenia tekstu, także w klauzuli ORDER BY.",
   "options": [
