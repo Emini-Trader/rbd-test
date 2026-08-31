@@ -248,11 +248,11 @@ const QUESTIONS = [
   "chapterName": "Ogólne RBD, spójność i postacie normalne",
   "question": "Encji odpowiada w relacyjnej bazie danych:",
   "topicTitle": "Model E-R a model relacyjny",
-  "topicSummary": "Model encja-związek (E-R) opisuje świat w kategoriach encji (bytów, np. \"Student\"), ich atrybutów oraz związków między nimi. Przy implementacji w bazie relacyjnej: typowi encji odpowiada tabela, pojedynczej encji (jej egzemplarzowi) - wiersz tej tabeli, a atrybutowi - kolumna.",
+  "topicSummary": "Model encja-związek (E-R) opisuje świat w kategoriach encji (bytów, np. \"Student\"), ich atrybutów oraz związków między nimi. Przy implementacji w bazie relacyjnej: encji (np. \"Student\" jako całości) odpowiada tabela, pojedynczemu wystąpieniu (egzemplarzowi) encji - wiersz tej tabeli, a atrybutowi - kolumna.",
   "options": [
-   { "key": "a", "text": "wiersz w tabeli", "correct": true, "explain": "Tak - pojedyncza encja (konkretny egzemplarz, np. jeden student) odpowiada jednemu wierszowi w tabeli reprezentującej dany typ encji." },
+   { "key": "a", "text": "wiersz w tabeli", "correct": false, "explain": "Nie - wiersz odpowiada pojedynczemu wystąpieniu (egzemplarzowi) encji, np. jednemu konkretnemu studentowi, a nie samej encji „Student” jako całości." },
    { "key": "b", "text": "kolumna w tabeli", "correct": false, "explain": "Nie - kolumna odpowiada atrybutowi encji, a nie samej encji." },
-   { "key": "c", "text": "tabela", "correct": false, "explain": "Nie - cała tabela odpowiada typowi encji (zbiorowi wszystkich egzemplarzy danego rodzaju), a nie pojedynczej encji." },
+   { "key": "c", "text": "tabela", "correct": true, "explain": "Tak - encja (np. „Student” jako zbiór wszystkich studentów) odpowiada tabeli; pojedynczy, konkretny student to już wystąpienie (egzemplarz) tej encji, reprezentowane wierszem tej tabeli." },
    { "key": "d", "text": "klucz obcy", "correct": false, "explain": "Nie - klucz obcy reprezentuje związek między encjami, a nie samą encję." }
   ]
  },
@@ -281,7 +281,7 @@ const QUESTIONS = [
    { "key": "a", "text": "klucz obcy", "correct": false, "explain": "Nie - sam klucz obcy w jednej z tabel wystarcza tylko do związku jednoznacznego (1:N), nie do wieloznacznego." },
    { "key": "b", "text": "tabela", "correct": true, "explain": "Tak - związek wieloznaczny wymaga dodatkowej tabeli łączącej, przechowującej pary powiązanych kluczy obu encji." },
    { "key": "c", "text": "kolumna w tabeli", "correct": false, "explain": "Nie - pojedyncza kolumna nie wystarczy do zapisania relacji wiele-do-wielu bez naruszenia zasad normalizacji." },
-   { "key": "d", "text": "wiersz w tabeli", "correct": false, "explain": "Nie - wiersz odpowiada encji, a nie związkowi między encjami." }
+   { "key": "d", "text": "wiersz w tabeli", "correct": false, "explain": "Nie - wiersz odpowiada pojedynczemu wystąpieniu encji (sama encja to tabela), a nie związkowi między encjami." }
   ]
  },
  {
@@ -290,11 +290,11 @@ const QUESTIONS = [
   "chapterName": "Ogólne RBD, spójność i postacie normalne",
   "question": "Atrybutowi w relacyjnej bazie danych odpowiada:",
   "topicTitle": "Model E-R a model relacyjny",
-  "topicSummary": "Atrybut encji (np. \"imię\", \"data urodzenia\") jest w tabeli reprezentowany przez kolumnę - każdy wiersz przechowuje w niej wartość tego atrybutu dla konkretnej encji.",
+  "topicSummary": "Atrybut encji (np. \"imię\", \"data urodzenia\") jest w tabeli reprezentowany przez kolumnę - każdy wiersz (wystąpienie encji) przechowuje w niej wartość tego atrybutu dla konkretnego egzemplarza.",
   "options": [
    { "key": "a", "text": "kolumna w tabeli", "correct": true, "explain": "Tak - atrybut jest reprezentowany przez kolumnę tabeli." },
-   { "key": "b", "text": "wiersz w tabeli", "correct": false, "explain": "Nie - wiersz odpowiada pojedynczej encji, a nie jej atrybutowi." },
-   { "key": "c", "text": "tabela", "correct": false, "explain": "Nie - tabela odpowiada typowi encji, nie pojedynczemu atrybutowi." },
+   { "key": "b", "text": "wiersz w tabeli", "correct": false, "explain": "Nie - wiersz odpowiada pojedynczemu wystąpieniu encji (a sama encja to tabela), a nie jej atrybutowi." },
+   { "key": "c", "text": "tabela", "correct": false, "explain": "Nie - tabela odpowiada całej encji, nie pojedynczemu atrybutowi." },
    { "key": "d", "text": "indeks w tabeli", "correct": false, "explain": "Nie - indeks jest opcjonalną strukturą przyśpieszającą wyszukiwanie, a nie odpowiednikiem atrybutu." }
   ]
  },
