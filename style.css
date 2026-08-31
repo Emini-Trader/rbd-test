@@ -181,6 +181,18 @@ h1 {
   margin: -8px 0 16px;
 }
 
+.question-image {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  height: auto;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  background: #f4f6f8;
+  padding: 6px;
+  margin-bottom: 18px;
+}
+
 pre.code-block {
   background: #0b1119;
   border: 1px solid var(--border);

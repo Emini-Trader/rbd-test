@@ -1252,6 +1252,8 @@ const QUESTIONS = [
   "chapter": "G8",
   "chapterName": "Zdjęcia egzaminu",
   "question": "W bazie danych chcemy przechowywać informacje o kanałach oraz filmach z serwisu YouTube. Dla każdego kanału chcemy znać liczbę subskrybentów (subskrybent to inny kanał), listę kanałów, które subskrybuje, oraz listę filmów, których jest autorem. Autorem danego filmu może być tylko jeden kanał. Wybierz najlepszy diagram spełniający wymienione wymagania.",
+  "image": "images/q090-vertabelo-diagrams.jpg",
+  "imageAlt": "Cztery diagramy Vertabelo z wariantami schematu Kanał/Film/Subskrypcja do wyboru w pytaniu 16 z egzaminu",
   "topicTitle": "Samoodwołujący związek wiele-do-wielu (subskrypcje kanałów)",
   "topicSummary": "Ponieważ „subskrybent to inny kanał”, subskrypcja jest związkiem N:M encji Kanał samej ze sobą - wymaga samoodwołującej tabeli asocjacyjnej z dwoma kluczami obcymi do Kanał (subskrybowany i subskrybujący), tworzącymi razem klucz główny. Liczbę subskrybentów danego kanału wylicza się wtedy zapytaniem (COUNT), zamiast przechowywać ją redundantnie jako osobną kolumnę. Autorstwo filmu (dokładnie jeden kanał na film) to zwykły związek 1:N, realizowany kluczem obcym w tabeli Film.",
   "options": [
