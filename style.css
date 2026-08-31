@@ -181,16 +181,16 @@ h1 {
   margin: -8px 0 16px;
 }
 
-.question-image {
+.option-image {
   display: block;
   width: 100%;
-  max-width: 100%;
+  max-width: 420px;
   height: auto;
-  border-radius: 10px;
+  border-radius: 8px;
   border: 1px solid var(--border);
   background: #f4f6f8;
   padding: 6px;
-  margin-bottom: 18px;
+  margin: 10px 0;
 }
 
 pre.code-block {

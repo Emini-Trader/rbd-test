@@ -206,16 +206,17 @@ function renderBrowse() {
 
 function renderBrowseQuestion(q) {
   const codeHtml = q.code ? `<pre class="code-block">${escapeHtml(q.code)}</pre>` : "";
-  const imageHtml = q.image
-    ? `<img class="question-image" src="${escapeHtml(q.image)}" alt="${escapeHtml(q.imageAlt || "")}">`
-    : "";
 
   const optionsHtml = q.options.map(opt => {
     const cls = opt.correct ? "browse-option correct" : "browse-option";
     const badge = opt.correct ? '<span class="option-badge">Poprawna</span>' : "";
+    const imageHtml = opt.image
+      ? `<img class="option-image" src="${escapeHtml(opt.image)}" alt="${escapeHtml(opt.imageAlt || "")}">`
+      : "";
     return `
       <div class="${cls}">
         <div class="browse-option-text">${opt.correct ? "✓" : "○"} ${escapeHtml(opt.text)} ${badge}</div>
+        ${imageHtml}
         <div class="browse-option-explain">${escapeHtml(opt.explain)}</div>
       </div>
     `;
@@ -232,7 +233,6 @@ function renderBrowseQuestion(q) {
     <div class="card browse-question">
       <div class="browse-question-id">${q.id}</div>
       <p class="question-text">${escapeHtml(q.question)}</p>
-      ${imageHtml}
       ${codeHtml}
       <div class="options">${optionsHtml}</div>
       ${topicHtml}
@@ -297,9 +297,6 @@ function renderQuiz() {
   const codeHtml = q.code
     ? `<pre class="code-block">${escapeHtml(q.code)}</pre>`
     : "";
-  const imageHtml = q.image
-    ? `<img class="question-image" src="${escapeHtml(q.image)}" alt="${escapeHtml(q.imageAlt || "")}">`
-    : "";
 
   const optionsHtml = q.options.map(opt => {
     const isChecked = !!state.checked[opt.key];
@@ -321,12 +318,17 @@ function renderQuiz() {
       classes += " checked";
     }
 
+    const imageHtml = opt.image
+      ? `<img class="option-image" src="${escapeHtml(opt.image)}" alt="${escapeHtml(opt.imageAlt || "")}">`
+      : "";
+
     return `
       <label class="${classes}" data-key="${opt.key}">
         <input type="checkbox" ${isChecked ? "checked" : ""} ${state.answered ? "disabled" : ""} data-key="${opt.key}">
         <div class="option-main">
           <span class="option-text">${escapeHtml(opt.text)}</span>
           ${badge}
+          ${imageHtml}
           <div class="option-explain">${escapeHtml(opt.explain)}</div>
         </div>
       </label>
@@ -361,7 +363,6 @@ function renderQuiz() {
     <div class="progress-bar"><div class="progress-bar-fill" style="width:${pctDone}%"></div></div>
     <div class="card">
       <p class="question-text">${escapeHtml(q.question)}</p>
-      ${imageHtml}
       ${codeHtml}
       <div class="options">${optionsHtml}</div>
       ${verdictHtml}
