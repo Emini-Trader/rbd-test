@@ -136,12 +136,12 @@ const QUESTIONS = [
   "chapterName": "Ogólne SQL",
   "question": "Jaka jest wartość wyrażenia NULL = NULL?",
   "topicTitle": "Logika trójwartościowa (NULL)",
-  "topicSummary": "SQL operuje na logice trójwartościowej: TRUE, FALSE i UNKNOWN. NULL oznacza wartość nieznaną, więc porównanie dwóch wartości NULL nie daje TRUE - dwie \"nieznane\" wartości nie muszą być sobie równe, dlatego wynikiem jest UNKNOWN. Z tego powodu do sprawdzania, czy coś jest NULL, używa się IS NULL / IS NOT NULL, a nie operatora \"=\".",
+  "topicSummary": "SQL operuje na logice trójwartościowej - obok TRUE i FALSE istnieje trzecia, nieokreślona wartość logiczna, zapisywana w tym materiale jako NULL (w standardzie SQL formalnie nazywana UNKNOWN - to dwie nazwy tego samego stanu). Porównanie dwóch wartości NULL nie daje TRUE - dwie \"nieznane\" wartości nie muszą być sobie równe, dlatego wynikiem jest NULL. Z tego powodu do sprawdzania, czy coś jest NULL, używa się IS NULL / IS NOT NULL, a nie operatora \"=\".",
   "options": [
-   { "key": "a", "text": "jest nieokreślone (UNKNOWN)", "correct": true, "explain": "Tak - porównanie z NULL zawsze daje UNKNOWN, niezależnie od drugiego argumentu." },
+   { "key": "a", "text": "jest nieokreślone (UNKNOWN)", "correct": false, "explain": "Prawie - to ten sam stan logiczny co NULL (w standardzie SQL bywa on formalnie nazywany UNKNOWN), ale w przyjętej tu notacji poprawną, dosłowną odpowiedzią jest wariant NULL - patrz opcja d)." },
    { "key": "b", "text": "TRUE", "correct": false, "explain": "Nie - NULL nie jest \"równy\" nawet samemu sobie w sensie operatora =." },
-   { "key": "c", "text": "FALSE", "correct": false, "explain": "Nie - wynikiem nie jest jednoznaczne FALSE, tylko UNKNOWN." },
-   { "key": "d", "text": "NULL", "correct": false, "explain": "Nie - wynikiem porównania (wyrażenia logicznego) jest wartość logiczna UNKNOWN, a nie NULL (choć bywa ona techniczne reprezentowana jako NULL, w logice trójwartościowej nazywana jest UNKNOWN)." }
+   { "key": "c", "text": "FALSE", "correct": false, "explain": "Nie - wynikiem nie jest jednoznaczne FALSE, tylko NULL." },
+   { "key": "d", "text": "NULL", "correct": true, "explain": "Tak - porównanie z NULL zawsze daje NULL (trzecią, nieokreśloną wartość logiki trójwartościowej), niezależnie od drugiego argumentu." }
   ]
  },
  {
@@ -164,12 +164,12 @@ const QUESTIONS = [
   "chapterName": "Ogólne SQL",
   "question": "Jaka jest wartość wyrażenia FALSE OR NULL?",
   "topicTitle": "Logika trójwartościowa (NULL)",
-  "topicSummary": "Gdy jeden operand OR jest FALSE, wynik zależy wyłącznie od drugiego operandu. Skoro drugi operand jest nieznany (NULL/UNKNOWN), to i wynik całego wyrażenia jest nieznany - stąd FALSE OR NULL = UNKNOWN.",
+  "topicSummary": "Gdy jeden operand OR jest FALSE, wynik zależy wyłącznie od drugiego operandu. Skoro drugi operand jest nieznany (NULL), to i wynik całego wyrażenia jest nieznany - stąd FALSE OR NULL = NULL.",
   "options": [
-   { "key": "a", "text": "jest nieokreślone (UNKNOWN)", "correct": true, "explain": "Tak - FALSE nie przesądza wyniku OR, więc wynik zależy od nieznanej wartości drugiego operandu i jest UNKNOWN." },
+   { "key": "a", "text": "jest nieokreślone (UNKNOWN)", "correct": false, "explain": "Prawie - to ten sam stan co NULL (formalna nazwa w standardzie SQL), ale w przyjętej tu notacji poprawną, dosłowną odpowiedzią jest wariant NULL - patrz opcja d)." },
    { "key": "b", "text": "TRUE", "correct": false, "explain": "Nie - nie wiadomo, czy drugi operand jest TRUE, więc nie można przesądzić o TRUE." },
    { "key": "c", "text": "FALSE", "correct": false, "explain": "Nie - nie wiadomo, czy drugi operand jest FALSE, więc nie można przesądzić o FALSE." },
-   { "key": "d", "text": "NULL", "correct": false, "explain": "Nie - poprawną nazwą wyniku logicznego jest UNKNOWN." }
+   { "key": "d", "text": "NULL", "correct": true, "explain": "Tak - FALSE nie przesądza wyniku OR, więc wynik zależy od nieznanej wartości drugiego operandu i jest NULL." }
   ]
  },
  {
@@ -192,12 +192,12 @@ const QUESTIONS = [
   "chapterName": "Ogólne SQL",
   "question": "Jaka jest wartość wyrażenia TRUE AND NULL?",
   "topicTitle": "Logika trójwartościowa (NULL)",
-  "topicSummary": "Gdy jeden operand AND jest TRUE, wynik zależy wyłącznie od drugiego operandu. Skoro ten drugi jest nieznany, wynik całego wyrażenia też jest nieznany - stąd TRUE AND NULL = UNKNOWN.",
+  "topicSummary": "Gdy jeden operand AND jest TRUE, wynik zależy wyłącznie od drugiego operandu. Skoro ten drugi jest nieznany, wynik całego wyrażenia też jest nieznany - stąd TRUE AND NULL = NULL.",
   "options": [
-   { "key": "a", "text": "jest nieokreślone (UNKNOWN)", "correct": true, "explain": "Tak - TRUE nie przesądza wyniku AND, więc wynik zależy od nieznanej wartości drugiego operandu." },
+   { "key": "a", "text": "jest nieokreślone (UNKNOWN)", "correct": false, "explain": "Prawie - to ten sam stan co NULL (formalna nazwa w standardzie SQL), ale w przyjętej tu notacji poprawną, dosłowną odpowiedzią jest wariant NULL - patrz opcja d)." },
    { "key": "b", "text": "TRUE", "correct": false, "explain": "Nie - nie wiadomo, czy drugi operand jest TRUE." },
    { "key": "c", "text": "FALSE", "correct": false, "explain": "Nie - nie wiadomo, czy drugi operand jest FALSE." },
-   { "key": "d", "text": "NULL", "correct": false, "explain": "Nie - poprawną nazwą wyniku logicznego jest UNKNOWN." }
+   { "key": "d", "text": "NULL", "correct": true, "explain": "Tak - TRUE nie przesądza wyniku AND, więc wynik zależy od nieznanej wartości drugiego operandu i jest NULL." }
   ]
  },
  {
@@ -206,12 +206,12 @@ const QUESTIONS = [
   "chapterName": "Ogólne SQL",
   "question": "Jaka jest wartość wyrażenia NOT NULL?",
   "topicTitle": "Logika trójwartościowa (NULL)",
-  "topicSummary": "Negacja wartości nieznanej pozostaje nieznana: skoro nie wiadomo, czy dana wartość logiczna jest TRUE czy FALSE, to nie wiadomo też, czym jest jej zaprzeczenie. Dlatego NOT NULL (jako wyrażenie logiczne, nie ograniczenie kolumny o tej samej nazwie) daje UNKNOWN.",
+  "topicSummary": "Negacja wartości nieznanej pozostaje nieznana: skoro nie wiadomo, czy dana wartość logiczna jest TRUE czy FALSE, to nie wiadomo też, czym jest jej zaprzeczenie. Dlatego NOT NULL (jako wyrażenie logiczne, nie ograniczenie kolumny o tej samej nazwie) daje NULL.",
   "options": [
-   { "key": "a", "text": "jest nieokreślone (UNKNOWN)", "correct": true, "explain": "Tak - negacja nieznanej wartości logicznej jest nadal nieznana." },
+   { "key": "a", "text": "jest nieokreślone (UNKNOWN)", "correct": false, "explain": "Prawie - to ten sam stan co NULL (formalna nazwa w standardzie SQL), ale w przyjętej tu notacji poprawną, dosłowną odpowiedzią jest wariant NULL - patrz opcja d)." },
    { "key": "b", "text": "TRUE", "correct": false, "explain": "Nie - nie można przesądzić TRUE bez znajomości wartości wejściowej." },
    { "key": "c", "text": "FALSE", "correct": false, "explain": "Nie - nie można przesądzić FALSE bez znajomości wartości wejściowej." },
-   { "key": "d", "text": "NULL", "correct": false, "explain": "Nie - poprawną nazwą wyniku logicznego jest UNKNOWN." }
+   { "key": "d", "text": "NULL", "correct": true, "explain": "Tak - negacja nieznanej wartości logicznej jest nadal nieznana, czyli NULL." }
   ]
  },
  {
@@ -220,7 +220,7 @@ const QUESTIONS = [
   "chapterName": "Ogólne SQL",
   "question": "Relacja R ma atrybut a. Jaka liczba może być wynikiem wykonania instrukcji SELECT COUNT(*) FROM R WHERE a=a?",
   "topicTitle": "COUNT(*) a wartości NULL",
-  "topicSummary": "Warunek a=a jest prawdziwy (TRUE) tylko dla wierszy, w których a nie jest NULL - dla wierszy z NULL warunek daje UNKNOWN i wiersz jest odrzucany. Wynikiem COUNT(*) z takim warunkiem jest więc liczba wierszy o wartości a różnej od NULL, czyli dowolna liczba całkowita nieujemna od 0 do liczebności R (nie każda liczba całkowita w ogóle, bo ujemne wykluczone, i niekoniecznie cała liczebność R).",
+  "topicSummary": "Warunek a=a jest prawdziwy (TRUE) tylko dla wierszy, w których a nie jest NULL - dla wierszy z NULL warunek daje NULL i wiersz jest odrzucany. Wynikiem COUNT(*) z takim warunkiem jest więc liczba wierszy o wartości a różnej od NULL, czyli dowolna liczba całkowita nieujemna od 0 do liczebności R (nie każda liczba całkowita w ogóle, bo ujemne wykluczone, i niekoniecznie cała liczebność R).",
   "options": [
    { "key": "a", "text": "0", "correct": true, "explain": "Tak - jeśli wszystkie wartości a są NULL (albo relacja jest pusta), wynikiem jest 0 - to skrajny, ale możliwy przypadek." },
    { "key": "b", "text": "1", "correct": true, "explain": "Tak - dla dowolnej liczby wierszy z a różnym od NULL wynik może wynosić dokładnie 1, jeśli tylko jeden wiersz spełnia ten warunek." },
@@ -234,7 +234,7 @@ const QUESTIONS = [
   "chapterName": "Ogólne SQL",
   "question": "Relacja R ma atrybut a. Jaka liczba może być wynikiem wykonania instrukcji SELECT COUNT(*) FROM R WHERE a<a?",
   "topicTitle": "COUNT(*) a warunki zawsze fałszywe",
-  "topicSummary": "Warunek a<a nie może być prawdziwy dla żadnej wartości - dla wartości nie-NULL zawsze daje FALSE (żadna liczba/tekst nie jest mniejsza od samej siebie), a dla NULL daje UNKNOWN. W obu przypadkach wiersz nie trafia do wyniku, więc COUNT(*) z takim warunkiem zawsze wynosi 0, niezależnie od zawartości relacji R.",
+  "topicSummary": "Warunek a<a nie może być prawdziwy dla żadnej wartości - dla wartości nie-NULL zawsze daje FALSE (żadna liczba/tekst nie jest mniejsza od samej siebie), a dla NULL daje NULL. W obu przypadkach wiersz nie trafia do wyniku, więc COUNT(*) z takim warunkiem zawsze wynosi 0, niezależnie od zawartości relacji R.",
   "options": [
    { "key": "a", "text": "zawsze 0", "correct": true, "explain": "Tak - warunek a<a nigdy nie jest TRUE, więc żaden wiersz nie zostanie policzony." },
    { "key": "b", "text": "1", "correct": false, "explain": "Nie - żaden wiersz nie może spełnić a<a, więc wynik nigdy nie jest równy 1." },
@@ -1003,7 +1003,7 @@ const QUESTIONS = [
   "chapterName": "RBD_test.pdf",
   "question": "Co będzie wynikiem realizacji instrukcji SELECT * FROM Emp WHERE EmpNo=EmpNo OR EmpNo=NULL (na niepustej relacji Emp, EmpNo to klucz główny - nie może być NULL)?",
   "topicTitle": "TRUE OR cokolwiek = TRUE",
-  "topicSummary": "Skoro EmpNo jest kluczem głównym, nigdy nie jest NULL, więc EmpNo=EmpNo zawsze daje TRUE. Ponieważ TRUE OR X zawsze daje TRUE niezależnie od wartości X (nawet UNKNOWN dla EmpNo=NULL), cały warunek WHERE jest prawdziwy dla każdego wiersza - zapytanie zwraca więc całą relację Emp.",
+  "topicSummary": "Skoro EmpNo jest kluczem głównym, nigdy nie jest NULL, więc EmpNo=EmpNo zawsze daje TRUE. Ponieważ TRUE OR X zawsze daje TRUE niezależnie od wartości X (nawet NULL dla EmpNo=NULL), cały warunek WHERE jest prawdziwy dla każdego wiersza - zapytanie zwraca więc całą relację Emp.",
   "options": [
    { "key": "a", "text": "relacja Emp", "correct": true, "explain": "Tak - EmpNo=EmpNo jest zawsze TRUE (EmpNo jako klucz główny nigdy nie jest NULL), a TRUE OR cokolwiek to zawsze TRUE, więc warunek jest spełniony dla każdego wiersza." },
    { "key": "b", "text": "relacja pusta", "correct": false, "explain": "Nie - przeciwnie, warunek jest spełniony przez każdy wiersz relacji." },
@@ -1015,11 +1015,11 @@ const QUESTIONS = [
   "chapter": "G7",
   "chapterName": "RBD_test.pdf",
   "question": "Co będzie wynikiem realizacji instrukcji SELECT * FROM Emp WHERE EmpNo=EmpNo AND NULL=EmpNo (na niepustej relacji Emp, EmpNo to klucz główny - nie może być NULL)?",
-  "topicTitle": "TRUE AND UNKNOWN = UNKNOWN",
-  "topicSummary": "EmpNo=EmpNo zawsze daje TRUE, ale NULL=EmpNo zawsze daje UNKNOWN (porównanie z NULL nigdy nie jest TRUE ani FALSE). TRUE AND UNKNOWN daje UNKNOWN, a warunek WHERE przepuszcza tylko wiersze, dla których wyrażenie logiczne jest TRUE - UNKNOWN nie wystarcza, więc żaden wiersz nie zostanie zwrócony.",
+  "topicTitle": "TRUE AND NULL = NULL",
+  "topicSummary": "EmpNo=EmpNo zawsze daje TRUE, ale NULL=EmpNo zawsze daje NULL (porównanie z NULL nigdy nie jest TRUE ani FALSE). TRUE AND NULL daje NULL, a warunek WHERE przepuszcza tylko wiersze, dla których wyrażenie logiczne jest TRUE - NULL nie wystarcza, więc żaden wiersz nie zostanie zwrócony.",
   "options": [
-   { "key": "a", "text": "relacja Emp", "correct": false, "explain": "Nie - warunek dla każdego wiersza sprowadza się do UNKNOWN, a nie TRUE, więc żaden wiersz nie zostanie zwrócony." },
-   { "key": "b", "text": "relacja pusta", "correct": true, "explain": "Tak - NULL=EmpNo zawsze daje UNKNOWN, a TRUE AND UNKNOWN to UNKNOWN, które nie spełnia warunku WHERE - wynikiem jest więc pusty zbiór wierszy." },
+   { "key": "a", "text": "relacja Emp", "correct": false, "explain": "Nie - warunek dla każdego wiersza sprowadza się do NULL, a nie TRUE, więc żaden wiersz nie zostanie zwrócony." },
+   { "key": "b", "text": "relacja pusta", "correct": true, "explain": "Tak - NULL=EmpNo zawsze daje NULL, a TRUE AND NULL to NULL, które nie spełnia warunku WHERE - wynikiem jest więc pusty zbiór wierszy." },
    { "key": "c", "text": "instrukcja jest niepoprawna", "correct": false, "explain": "Nie - to składniowo w pełni poprawna instrukcja SQL, choć jej wynik zawsze jest pusty." }
   ]
  },
@@ -1029,11 +1029,11 @@ const QUESTIONS = [
   "chapterName": "RBD_test.pdf",
   "question": "Co będzie wynikiem realizacji instrukcji SELECT * FROM Student WHERE NrIndeksu = NrIndeksu AND NrIndeksu IS NULL na niepustej relacji STUDENT(IdStudent, Imie, Nazwisko, NrIndeksu)?",
   "topicTitle": "Warunek zawsze fałszywy niezależnie od danych",
-  "topicSummary": "Tu NrIndeksu nie jest kluczem, więc może być NULL. Dla wierszy z NrIndeksu = NULL: NrIndeksu=NrIndeksu daje UNKNOWN, a UNKNOWN AND TRUE (IS NULL) to nadal UNKNOWN - odrzucone. Dla wierszy z NrIndeksu niepustym: NrIndeksu=NrIndeksu daje TRUE, ale NrIndeksu IS NULL daje FALSE, więc TRUE AND FALSE = FALSE - też odrzucone. W obu przypadkach warunek nigdy nie jest TRUE, więc wynik jest zawsze pusty, niezależnie od zawartości danych.",
+  "topicSummary": "Tu NrIndeksu nie jest kluczem, więc może być NULL. Dla wierszy z NrIndeksu = NULL: NrIndeksu=NrIndeksu daje NULL, a NULL AND TRUE (IS NULL) to nadal NULL - odrzucone. Dla wierszy z NrIndeksu niepustym: NrIndeksu=NrIndeksu daje TRUE, ale NrIndeksu IS NULL daje FALSE, więc TRUE AND FALSE = FALSE - też odrzucone. W obu przypadkach warunek nigdy nie jest TRUE, więc wynik jest zawsze pusty, niezależnie od zawartości danych.",
   "options": [
    { "key": "a", "text": "Relacja STUDENT", "correct": false, "explain": "Nie - dla żadnego wiersza (z NrIndeksu NULL lub nie-NULL) warunek nie daje TRUE." },
-   { "key": "b", "text": "Relacja pusta", "correct": true, "explain": "Tak - jak wyjaśniono w bloku „Warto wiedzieć”, dla dowolnego wiersza warunek sprowadza się albo do UNKNOWN, albo do FALSE, nigdy do TRUE, więc wynik jest zawsze pusty." },
-   { "key": "c", "text": "Zawsze zbiór rekordów, dla których NrIndeksu jest NULL", "correct": false, "explain": "Nie - dla takich rekordów warunek NrIndeksu=NrIndeksu daje UNKNOWN, a nie TRUE, więc nie zostaną one zwrócone." },
+   { "key": "b", "text": "Relacja pusta", "correct": true, "explain": "Tak - jak wyjaśniono w bloku „Warto wiedzieć”, dla dowolnego wiersza warunek sprowadza się albo do NULL, albo do FALSE, nigdy do TRUE, więc wynik jest zawsze pusty." },
+   { "key": "c", "text": "Zawsze zbiór rekordów, dla których NrIndeksu jest NULL", "correct": false, "explain": "Nie - dla takich rekordów warunek NrIndeksu=NrIndeksu daje NULL, a nie TRUE, więc nie zostaną one zwrócone." },
    { "key": "d", "text": "Zawsze zbiór rekordów, dla których NrIndeksu nie jest NULL", "correct": false, "explain": "Nie - dla takich rekordów warunek NrIndeksu IS NULL daje FALSE, więc całe wyrażenie AND też jest FALSE i te rekordy również nie zostaną zwrócone." }
   ]
  },
