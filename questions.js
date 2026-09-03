@@ -891,11 +891,11 @@ const QUESTIONS = [
   "chapter": "G6",
   "chapterName": "SQL2 (schemat EMP/DEPT)",
   "question": "Wskazać poprawne zapytanie SQL znajdujące stanowiska, na których średni zarobek wynosi 3000 lub więcej.",
-  "topicTitle": "HAVING z funkcją agregującą",
-  "topicSummary": "Podobnie jak przy COUNT(*), warunek AVG(sal) >= 3000 dotyczy już zagregowanej wartości dla grupy, więc musi znaleźć się w klauzuli HAVING po GROUP BY, a nie w WHERE ani w niepoprawnej kolejności klauzul.",
+  "topicTitle": "HAVING z funkcją agregującą - dowolna kolejność klauzul w Oracle",
+  "topicSummary": "Podobnie jak przy COUNT(*), warunek AVG(sal) >= 3000 dotyczy już zagregowanej wartości dla grupy, więc musi znaleźć się w klauzuli HAVING, a nie w WHERE. Oracle dopuszcza przy tym zapisanie HAVING zarówno po, jak i przed GROUP BY - obie kolejności dają identyczny wynik, choć standardowa i zalecana jest kolejność GROUP BY ... HAVING ...",
   "options": [
-   { "key": "a", "text": "SELECT job, AVG(sal) FROM emp GROUP BY job HAVING AVG(sal) >= 3000;", "correct": true, "explain": "Poprawne - GROUP BY job grupuje po stanowisku, a HAVING AVG(sal) >= 3000 filtruje grupy o średniej pensji od 3000 wzwyż." },
-   { "key": "b", "text": "SELECT job, AVG(sal) FROM emp HAVING AVG(sal) >= 3000 GROUP BY job;", "correct": false, "explain": "Niepoprawne - HAVING musi występować po GROUP BY." },
+   { "key": "a", "text": "SELECT job, AVG(sal) FROM emp GROUP BY job HAVING AVG(sal) >= 3000;", "correct": true, "explain": "Poprawne i zalecane - GROUP BY job grupuje po stanowisku, a HAVING AVG(sal) >= 3000 filtruje grupy o średniej pensji od 3000 wzwyż." },
+   { "key": "b", "text": "SELECT job, AVG(sal) FROM emp HAVING AVG(sal) >= 3000 GROUP BY job;", "correct": true, "explain": "Poprawne w Oracle - dialekt ten dopuszcza zapisanie HAVING przed GROUP BY, z identycznym wynikiem jak w odpowiedzi A, choć taki zapis jest niezalecany i niezgodny ze standardem SQL." },
    { "key": "c", "text": "SELECT job, AVG(sal) FROM emp GROUP BY job WHERE AVG(sal) >= 3000;", "correct": false, "explain": "Niepoprawne - WHERE musi poprzedzać GROUP BY, a agregat AVG w WHERE jest niedozwolony." },
    { "key": "d", "text": "SELECT job, AVG(sal) FROM emp WHERE AVG(sal) >= 3000 GROUP BY job;", "correct": false, "explain": "Niepoprawne - AVG(sal) w klauzuli WHERE jest niedozwolone." }
   ]
