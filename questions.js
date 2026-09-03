@@ -5,6 +5,48 @@
 
 const QUESTIONS = [
  {
+  "id": "Q004",
+  "chapter": "G1",
+  "chapterName": "Najnowszy zjazd",
+  "question": "Instrukcja UPDATE służy do:",
+  "topicTitle": "Polecenia DML",
+  "topicSummary": "UPDATE zmienia wartości wskazanych kolumn w wierszach spełniających warunek WHERE. Pominięcie WHERE powoduje aktualizację wszystkich wierszy tabeli, co jest częstym źródłem błędów - warto najpierw sprawdzić zasięg zmiany odpowiadającym jej SELECT-em z tym samym warunkiem.",
+  "options": [
+   { "key": "a", "text": "sprowadzania rekordów z bazy danych", "correct": false, "explain": "Nie - to zadanie SELECT." },
+   { "key": "b", "text": "wstawiania rekordów do bazy danych", "correct": false, "explain": "Nie - to zadanie INSERT." },
+   { "key": "c", "text": "usuwania rekordów z bazy danych", "correct": false, "explain": "Nie - to zadanie DELETE." },
+   { "key": "d", "text": "aktualizacji rekordów w bazie danych", "correct": true, "explain": "Tak - UPDATE modyfikuje wartości w istniejących wierszach." }
+  ]
+ },
+ {
+  "id": "Q023",
+  "chapter": "G1",
+  "chapterName": "Najnowszy zjazd",
+  "question": "Spójność referencyjna dotyczy faktu:",
+  "topicTitle": "Spójność referencyjna",
+  "topicSummary": "Spójność referencyjna (referential integrity) to zasada mówiąca, że wartość klucza obcego musi albo być NULL (brak powiązania), albo odpowiadać istniejącej wartości klucza głównego w tabeli, do której się odwołuje. Dzięki temu nie może istnieć np. zamówienie odwołujące się do nieistniejącego klienta.",
+  "options": [
+   { "key": "a", "text": "wartością klucza obcego może być NULL lub wartość odpowiadającego mu klucza głównego", "correct": true, "explain": "Tak - to jest właśnie definicja spójności (integralności) referencyjnej." },
+   { "key": "b", "text": "wartości w kolumnie nie powtarzają się", "correct": false, "explain": "Nie - to opisuje ograniczenie unikalności (np. klucz jednoznaczny), a nie spójność referencyjną." },
+   { "key": "c", "text": "wartości w kolumnie nie mogą zależeć ani od części klucza, ani przechodnio od klucza", "correct": false, "explain": "Nie - to definicja III postaci normalnej, dotyczy zależności funkcyjnych, a nie relacji między tabelami przez klucz obcy." },
+   { "key": "d", "text": "w każdej tabeli powinien istnieć dokładnie jeden klucz", "correct": false, "explain": "Nie - to nie jest definicja spójności referencyjnej; dodatkowo tabela może mieć jeden klucz główny i wiele kluczy kandydujących/unikalnych." }
+  ]
+ },
+ {
+  "id": "Q078",
+  "chapter": "G1",
+  "chapterName": "Najnowszy zjazd",
+  "question": "Zapytanie SELECT Wycieczka_ID AS Wycieczki FROM AtrakcjaNaWycieczce WHERE Atrakcja_ID = 1 INTERSECT SELECT Wycieczka_ID AS Wycieczki2 FROM AtrakcjaNaWycieczce WHERE Atrakcja_ID = 2; pokazuje w wyniku:",
+  "topicTitle": "Nazwa kolumny wyniku przy operatorach zbiorowych",
+  "topicSummary": "INTERSECT zwraca wiersze wspólne dla wyników obu zapytań składowych - tu: identyfikatory wycieczek, na których jest zarówno atrakcja 1, jak i atrakcja 2. Przy operatorach zbiorowych (UNION, INTERSECT, MINUS) nazwę kolumny wynikowej wyznacza alias z pierwszego zapytania składowego - alias nadany w drugim zapytaniu (tu: Wycieczki2) jest ignorowany.",
+  "options": [
+   { "key": "a", "text": "Wycieczki, na których jest atrakcja 1 i atrakcja 2.", "correct": true, "explain": "Tak - INTERSECT zwraca część wspólną: identyfikatory wycieczek występujące w obu podzapytaniach, czyli mających zarówno atrakcję 1, jak i 2." },
+   { "key": "b", "text": "Kolumnę o nazwie Wycieczki.", "correct": true, "explain": "Tak - nazwa kolumny wynikowej pochodzi od aliasu z pierwszego zapytania (Wycieczki), niezależnie od aliasu nadanego w drugim." },
+   { "key": "c", "text": "Kolumnę o nazwie Wycieczki2.", "correct": false, "explain": "Nie - alias z drugiego zapytania (Wycieczki2) jest ignorowany przy nazywaniu kolumny wynikowej operatora zbiorowego." },
+   { "key": "d", "text": "Zapytanie zwraca błąd.", "correct": false, "explain": "Nie - zapytanie jest składniowo i semantycznie poprawne (obie strony INTERSECT zwracają po jednej, zgodnej typem kolumnie)." }
+  ]
+ },
+ {
   "id": "Q083",
   "chapter": "G1",
   "chapterName": "Najnowszy zjazd",
@@ -411,6 +453,20 @@ const QUESTIONS = [
   ]
  },
  {
+  "id": "Q132",
+  "chapter": "G1",
+  "chapterName": "Najnowszy zjazd",
+  "question": "Dany jest schemat relacyjny R={Miasto, Ulica, Kod}, F = {Miasto,Ulica→Kod; Kod→Miasto}. W której postaci normalnej jest ten schemat (zaznacz wszystkie spełnione)?",
+  "topicTitle": "Postacie normalne są zagnieżdżone - trzeba sprawdzić każdą z osobna",
+  "topicSummary": "Jedynym kluczem jest tu para (Miasto, Ulica) - Kod zależy od całego klucza (bez naruszenia 2NF), a jedyna \"podejrzana\" zależność Kod→Miasto ma po prawej stronie atrybut PRIME (Miasto należy do klucza), więc nie łamie 3NF (3NF dopuszcza zależności nie-klucza do atrybutu klucza). BCNF jest jednak surowsza i wymaga, by KAŻDY wyznacznik był nadkluczem - a Kod nadkluczem nie jest (nie determinuje Ulicy), więc BCNF zostaje złamana. Schemat jest więc w I, II i III postaci normalnej, ale nie w BCNF.",
+  "options": [
+   { "key": "a", "text": "I postać normalna", "correct": true, "explain": "Tak - wartości są atomowe, co jest warunkiem koniecznym każdej wyższej postaci normalnej." },
+   { "key": "b", "text": "II postać normalna", "correct": true, "explain": "Tak - jedyny atrybut nieklucza (Kod) zależy od całego klucza (Miasto,Ulica), bez zależności częściowej." },
+   { "key": "c", "text": "III postać normalna", "correct": true, "explain": "Tak - zależność Kod→Miasto nie łamie 3NF, bo Miasto jest atrybutem klucza (prime), co 3NF wyraźnie dopuszcza." },
+   { "key": "d", "text": "postać normalna Boyce'a-Codda", "correct": false, "explain": "Nie - BCNF wymaga, by każdy wyznacznik (tu również Kod) był nadkluczem, a Kod nie determinuje całego klucza (nie wyznacza Ulicy)." }
+  ]
+ },
+ {
   "id": "Q169",
   "chapter": "G1",
   "chapterName": "Najnowszy zjazd",
@@ -776,6 +832,76 @@ const QUESTIONS = [
   ]
  },
  {
+  "id": "Q195",
+  "chapter": "G1",
+  "chapterName": "Najnowszy zjazd",
+  "question": "Atrybutowi encji w relacyjnej bazie danych odpowiada:",
+  "topicTitle": "Atrybut to kolumna, nie wiersz ani indeks",
+  "topicSummary": "Atrybut encji to pojedyncza cecha (np. imię, data urodzenia) - w modelu relacyjnym odpowiada jej kolumna tabeli reprezentującej tę encję. Cała tabela odpowiada samej encji (nie pojedynczemu atrybutowi), indeks jest strukturą pomocniczą przyspieszającą wyszukiwanie, a typ danych opisuje jedynie dziedzinę wartości kolumny, nie sam atrybut.",
+  "options": [
+   { "key": "a", "text": "kolumna w tabeli", "correct": true, "explain": "Tak - pojedynczy atrybut encji jest reprezentowany jako kolumna w odpowiadającej jej tabeli." },
+   { "key": "b", "text": "tabela", "correct": false, "explain": "Nie - to encji jako całości (nie pojedynczemu atrybutowi) odpowiada cała tabela." },
+   { "key": "c", "text": "indeks w tabeli", "correct": false, "explain": "Nie - indeks jest opcjonalną strukturą przyspieszającą wyszukiwanie, a nie reprezentacją atrybutu." },
+   { "key": "d", "text": "typ danych tabeli", "correct": false, "explain": "Nie - typ danych opisuje jedynie dopuszczalne wartości kolumny (np. VARCHAR2, NUMBER), a nie sam atrybut." }
+  ]
+ },
+ {
+  "id": "Q196",
+  "chapter": "G1",
+  "chapterName": "Najnowszy zjazd",
+  "question": "Instrukcja GRANT służy do:",
+  "topicTitle": "GRANT nadaje uprawnienia - nic więcej",
+  "topicSummary": "GRANT (polecenie DCL) nadaje uprawnienia w bazie danych - to jego jedyne zadanie. Nie ma nic wspólnego z zatwierdzaniem zmian (COMMIT), modyfikacją danych (UPDATE) ani z rozpoczynaniem transakcji (transakcja zaczyna się niejawnie wraz z pierwszą instrukcją modyfikującą dane).",
+  "options": [
+   { "key": "a", "text": "przyznawania uprawnień w bazie danych", "correct": true, "explain": "Tak - GRANT nadaje uprawnienia użytkownikom lub rolom do wykonywania operacji na obiektach bazy." },
+   { "key": "b", "text": "zatwierdzania zmian w bazie danych", "correct": false, "explain": "Nie - zmiany zatwierdza COMMIT, nie GRANT." },
+   { "key": "c", "text": "aktualizacji rekordów w bazie danych", "correct": false, "explain": "Nie - rekordy aktualizuje UPDATE." },
+   { "key": "d", "text": "rozpoczęcia transakcji", "correct": false, "explain": "Nie - GRANT nie służy do rozpoczynania transakcji; w Oracle transakcja zaczyna się niejawnie przy pierwszej instrukcji modyfikującej dane." }
+  ]
+ },
+ {
+  "id": "Q197",
+  "chapter": "G1",
+  "chapterName": "Najnowszy zjazd",
+  "question": "Baza ma przechowywać informacje o umiejętnościach, przedmiotach uczących tych umiejętności i książkach, w których umiejętności są opisane. Który schemat prawidłowo i bez redundancji modeluje zagadnienie?",
+  "topicTitle": "Trzy realne rzeczy - trzy tabele, plus osobne tabele łączące dla dwóch niezależnych związków",
+  "topicSummary": "Umiejętność, przedmiot i książka to trzy niezależne encje, z których każda zasługuje na osobną tabelę z własnymi atrybutami - spłaszczenie ich do jednej tabeli (jak w wariancie A) albo dopisywanie ISBN-u i numerów stron wprost do Umiejętności (jak w B) łamie normalizację. Umiejętność może być opisana w książce (związek N:M, wymaga tabeli łączącej z numerami stron) i może być uczona na wielu przedmiotach (drugi, NIEZALEŻNY związek N:M, wymaga OSOBNEJ tabeli łączącej) - żadnego z tych dwóch związków nie da się wycisnąć na ten sam mechanizm bez utraty informacji.",
+  "options": [
+   { "key": "a", "text": "Umiejętności(umiejętność, przedmiot, książka)", "correct": false, "explain": "Niepoprawne - jedna, spłaszczona tabela nie pozwala umiejętności być opisanej w wielu książkach ani uczonej na wielu przedmiotach bez powtarzania całego wiersza (redundancja)." },
+   { "key": "b", "text": "Przedmioty(ID_PRZEDMIOTU, nazwa, semestr); Książki(ISBN, tytuł, autorzy); Umiejętności(ID_UMIEJĘTNOŚCI, ID_PRZEDMIOTU, nazwa, opis, isbn, od_strony, do_strony)", "correct": false, "explain": "Niepoprawne - Umiejętności ma wprost wbudowane ID_PRZEDMIOTU oraz isbn/od_strony/do_strony, co ogranicza umiejętność do JEDNEGO przedmiotu i JEDNEJ książki, łamiąc wymóg związków wiele-do-wielu." },
+   { "key": "c", "text": "Przedmioty(ID_PRZEDMIOTU, nazwa, semestr); Książki(ISBN, tytuł); Umiejętności(ID_UMIEJĘTNOŚCI, nazwa, opis); Opis(ID_UMIEJĘTNOŚCI, ISBN, OD_STRONY, do_strony); Uczy(ID_UMIEJĘTNOŚCI, ID_PRZEDMIOTU)", "correct": true, "explain": "Poprawne - dwie osobne tabele łączące: Opis (umiejętność-książka, ze stronami) i Uczy (umiejętność-przedmiot) poprawnie modelują oba, niezależne związki wiele-do-wielu, bez żadnej redundancji." },
+   { "key": "d", "text": "Przedmioty(ID_PRZEDMIOTU, nazwa, semestr); Egzemplarze_książek(SYGNATURA, tytuł, autorzy, nr_półki); Umiejętności(ID_UMIEJĘTNOŚCI, nazwa, opis); Opis(ID_UMIEJĘTNOŚCI, sygnatura, od_strony, do_strony)", "correct": false, "explain": "Niepoprawne - brakuje jakiejkolwiek tabeli łączącej Umiejętności z Przedmiotami, więc nie da się zapisać, na jakim przedmiocie dana umiejętność jest uczona." }
+  ]
+ },
+ {
+  "id": "Q198",
+  "chapter": "G1",
+  "chapterName": "Najnowszy zjazd",
+  "question": "Relacja R ma atrybut a. Jaka liczba może być wynikiem: SELECT COUNT(*) FROM R WHERE a = a;",
+  "topicTitle": "Wynik zależy od danych: od 0 (same NULL-e) do liczebności R (brak NULL-i)",
+  "topicSummary": "Warunek a=a jest prawdziwy dla każdego wiersza z wartością nie-NULL (wartość jest równa sama sobie) i nierozstrzygnięty (UNKNOWN) dla wierszy z NULL (NULL nigdy nie jest równe niczemu, nawet samemu sobie). Wynik COUNT(*) jest więc liczbą wierszy z niepustym a - może to być zarówno 0 (gdy wszystkie wartości a są NULL), jak i dowolna inna konkretna liczba nie większa niż liczebność R (np. 2, jeśli akurat tyle wierszy ma niepuste a) - ale nigdy więcej niż liczebność całej relacji.",
+  "options": [
+   { "key": "a", "text": "0", "correct": true, "explain": "Tak - jeśli wszystkie wartości atrybutu a są NULL, żaden wiersz nie spełni warunku a=a i wynik wyniesie 0." },
+   { "key": "b", "text": "2", "correct": true, "explain": "Tak - to tylko jeden z możliwych, konkretnych wyników: jeśli dokładnie dwa wiersze mają niepustą wartość a, COUNT(*) zwróci 2." },
+   { "key": "c", "text": "dowolna liczba całkowita", "correct": false, "explain": "Nie - wynik nie może być ujemny ani większy od liczebności relacji R, więc nie jest to \"dowolna\" liczba całkowita, tylko liczba z przedziału od 0 do liczebności R." },
+   { "key": "d", "text": "zawsze jest taka, jak liczebność relacji R", "correct": false, "explain": "Nie - to prawda tylko wtedy, gdy żadna wartość a nie jest NULL; przy choćby jednym NULL-u wynik będzie mniejszy." }
+  ]
+ },
+ {
+  "id": "Q199",
+  "chapter": "G1",
+  "chapterName": "Najnowszy zjazd",
+  "question": "Dany jest schemat: R = {Miasto, Ulica, Kod, Poczta}, F = {Miasto,Ulica -> Kod; Kod -> Miasto; Kod -> Poczta}. Schemat ten:",
+  "topicTitle": "Druga zależność funkcyjna tworzy drugi klucz kandydujący - i psuje 2NF",
+  "topicSummary": "Na pierwszy rzut oka jedynym kluczem wydaje się (Miasto,Ulica), ale zależność Kod→Miasto sprawia, że (Kod,Ulica) TAKŻE jest kluczem kandydującym (Kod→Miasto,Poczta, a razem z Ulicą domyka wszystkie atrybuty). Względem tego drugiego klucza zależność Kod→Poczta jest już zależnością CZĘŚCIOWĄ (Poczta zależy tylko od Kod, właściwego podzbioru klucza (Kod,Ulica)) - to łamie już II postać normalną, a więc tym bardziej III i BCNF. Schemat jest więc tylko w I postaci normalnej.",
+  "options": [
+   { "key": "a", "text": "jest w postaci normalnej Boyce'a-Codda", "correct": false, "explain": "Nie - skoro schemat nie spełnia nawet II postaci normalnej, nie może spełniać znacznie silniejszej BCNF." },
+   { "key": "b", "text": "jest w III postaci normalnej, ale nie w BCNF", "correct": false, "explain": "Nie - schemat nie spełnia nawet II postaci normalnej, więc tym bardziej nie spełnia III." },
+   { "key": "c", "text": "jest w III postaci normalnej", "correct": false, "explain": "Nie - zależność częściowa Kod→Poczta (względem klucza (Kod,Ulica)) wyklucza już II postać normalną, a więc i III." },
+   { "key": "d", "text": "nie jest ani w II postaci normalnej, ani w BCNF", "correct": true, "explain": "Tak - istnienie drugiego klucza kandydującego (Kod,Ulica) sprawia, że Kod→Poczta jest zależnością częściową, łamiącą 2NF - a skoro tak, schemat nie spełnia też żadnej z mocniejszych postaci (3NF, BCNF)." }
+  ]
+ },
+ {
   "id": "Q001",
   "chapter": "G2",
   "chapterName": "Administracja bazą: polecenia, transakcje, uprawnienia i indeksy",
@@ -818,20 +944,6 @@ const QUESTIONS = [
   ]
  },
  {
-  "id": "Q004",
-  "chapter": "G2",
-  "chapterName": "Administracja bazą: polecenia, transakcje, uprawnienia i indeksy",
-  "question": "Instrukcja UPDATE służy do:",
-  "topicTitle": "Polecenia DML",
-  "topicSummary": "UPDATE zmienia wartości wskazanych kolumn w wierszach spełniających warunek WHERE. Pominięcie WHERE powoduje aktualizację wszystkich wierszy tabeli, co jest częstym źródłem błędów - warto najpierw sprawdzić zasięg zmiany odpowiadającym jej SELECT-em z tym samym warunkiem.",
-  "options": [
-   { "key": "a", "text": "sprowadzania rekordów z bazy danych", "correct": false, "explain": "Nie - to zadanie SELECT." },
-   { "key": "b", "text": "wstawiania rekordów do bazy danych", "correct": false, "explain": "Nie - to zadanie INSERT." },
-   { "key": "c", "text": "usuwania rekordów z bazy danych", "correct": false, "explain": "Nie - to zadanie DELETE." },
-   { "key": "d", "text": "aktualizacji rekordów w bazie danych", "correct": true, "explain": "Tak - UPDATE modyfikuje wartości w istniejących wierszach." }
-  ]
- },
- {
   "id": "Q005",
   "chapter": "G2",
   "chapterName": "Administracja bazą: polecenia, transakcje, uprawnienia i indeksy",
@@ -870,20 +982,6 @@ const QUESTIONS = [
    { "key": "a", "text": "wycofywania zmian w bazie danych", "correct": true, "explain": "Tak - ROLLBACK anuluje niezatwierdzone zmiany bieżącej transakcji." },
    { "key": "b", "text": "zatwierdzania zmian w bazie danych", "correct": false, "explain": "Nie - to zadanie COMMIT, czyli operacja odwrotna do ROLLBACK." },
    { "key": "c", "text": "usuwania rekordów z bazy danych", "correct": false, "explain": "Nie - to zadanie DELETE." },
-   { "key": "d", "text": "aktualizacji rekordów w bazie danych", "correct": false, "explain": "Nie - to zadanie UPDATE." }
-  ]
- },
- {
-  "id": "Q008",
-  "chapter": "G2",
-  "chapterName": "Administracja bazą: polecenia, transakcje, uprawnienia i indeksy",
-  "question": "Instrukcja GRANT służy do:",
-  "topicTitle": "Zarządzanie uprawnieniami (DCL)",
-  "topicSummary": "GRANT i REVOKE to polecenia DCL. GRANT przyznaje użytkownikowi lub roli określone uprawnienia (np. SELECT, INSERT na danej tabeli), a REVOKE je odbiera. Uprawnienia te są sprawdzane przez system bazodanowy przy każdej próbie wykonania operacji na obiekcie.",
-  "options": [
-   { "key": "a", "text": "przyznawania uprawnień w bazie danych", "correct": true, "explain": "Tak - GRANT nadaje uprawnienia do obiektów bazy danych." },
-   { "key": "b", "text": "zatwierdzania zmian w bazie danych", "correct": false, "explain": "Nie - to zadanie COMMIT." },
-   { "key": "c", "text": "odbierania uprawnień w bazie danych", "correct": false, "explain": "Nie - odbieranie uprawnień to zadanie polecenia REVOKE, przeciwnego do GRANT." },
    { "key": "d", "text": "aktualizacji rekordów w bazie danych", "correct": false, "explain": "Nie - to zadanie UPDATE." }
   ]
  },
@@ -1110,20 +1208,6 @@ const QUESTIONS = [
   ]
  },
  {
-  "id": "Q016",
-  "chapter": "G3",
-  "chapterName": "Logika trójwartościowa i wartości NULL",
-  "question": "Relacja R ma atrybut a. Jaka liczba może być wynikiem wykonania instrukcji SELECT COUNT(*) FROM R WHERE a=a?",
-  "topicTitle": "COUNT(*) a wartości NULL",
-  "topicSummary": "Warunek a=a jest prawdziwy (TRUE) tylko dla wierszy, w których a nie jest NULL - dla wierszy z NULL warunek daje NULL i wiersz jest odrzucany. Wynikiem COUNT(*) z takim warunkiem jest więc liczba wierszy o wartości a różnej od NULL, czyli dowolna liczba całkowita nieujemna od 0 do liczebności R (nie każda liczba całkowita w ogóle, bo ujemne wykluczone, i niekoniecznie cała liczebność R).",
-  "options": [
-   { "key": "a", "text": "0", "correct": true, "explain": "Tak - jeśli wszystkie wartości a są NULL (albo relacja jest pusta), wynikiem jest 0 - to skrajny, ale możliwy przypadek." },
-   { "key": "b", "text": "1", "correct": true, "explain": "Tak - dla dowolnej liczby wierszy z a różnym od NULL wynik może wynosić dokładnie 1, jeśli tylko jeden wiersz spełnia ten warunek." },
-   { "key": "c", "text": "dowolna liczba całkowita", "correct": false, "explain": "Nie - wynik COUNT(*) nigdy nie jest ujemny, więc \"dowolna liczba całkowita\" jest zbyt szerokim stwierdzeniem (poprawnie byłoby: dowolna nieujemna liczba całkowita nie większa niż liczebność R)." },
-   { "key": "d", "text": "zawsze tyle, jaka jest liczebność relacji R", "correct": false, "explain": "Nie - tak byłoby tylko, gdyby żadna wartość a nie była NULL; w ogólnym przypadku wynik może być mniejszy." }
-  ]
- },
- {
   "id": "Q017",
   "chapter": "G3",
   "chapterName": "Logika trójwartościowa i wartości NULL",
@@ -1234,20 +1318,6 @@ const QUESTIONS = [
   ]
  },
  {
-  "id": "Q021",
-  "chapter": "G4",
-  "chapterName": "Terminologia i notacja modelu E-R",
-  "question": "Atrybutowi w relacyjnej bazie danych odpowiada:",
-  "topicTitle": "Model E-R a model relacyjny",
-  "topicSummary": "Atrybut encji (np. \"imię\", \"data urodzenia\") jest w tabeli reprezentowany przez kolumnę - każdy wiersz (wystąpienie encji) przechowuje w niej wartość tego atrybutu dla konkretnego egzemplarza.",
-  "options": [
-   { "key": "a", "text": "kolumna w tabeli", "correct": true, "explain": "Tak - atrybut jest reprezentowany przez kolumnę tabeli." },
-   { "key": "b", "text": "wiersz w tabeli", "correct": false, "explain": "Nie - wiersz odpowiada pojedynczemu wystąpieniu encji (a sama encja to tabela), a nie jej atrybutowi." },
-   { "key": "c", "text": "tabela", "correct": false, "explain": "Nie - tabela odpowiada całej encji, nie pojedynczemu atrybutowi." },
-   { "key": "d", "text": "indeks w tabeli", "correct": false, "explain": "Nie - indeks jest opcjonalną strukturą przyśpieszającą wyszukiwanie, a nie odpowiednikiem atrybutu." }
-  ]
- },
- {
   "id": "Q022",
   "chapter": "G4",
   "chapterName": "Terminologia i notacja modelu E-R",
@@ -1259,20 +1329,6 @@ const QUESTIONS = [
    { "key": "b", "text": "indeks w tabeli", "correct": false, "explain": "Nie - indeks jest jedynie techniczną strukturą wspierającą (często automatycznie zakładaną dla klucza głównego), a nie samym pojęciem identyfikatora." },
    { "key": "c", "text": "klucz obcy", "correct": false, "explain": "Nie - klucz obcy reprezentuje związek z inną tabelą, a nie jednoznaczny identyfikator encji." },
    { "key": "d", "text": "klucz główny", "correct": true, "explain": "Tak - klucz główny to kolumna lub zestaw kolumn jednoznacznie identyfikujący każdy wiersz tabeli." }
-  ]
- },
- {
-  "id": "Q023",
-  "chapter": "G4",
-  "chapterName": "Terminologia i notacja modelu E-R",
-  "question": "Spójność referencyjna dotyczy faktu:",
-  "topicTitle": "Spójność referencyjna",
-  "topicSummary": "Spójność referencyjna (referential integrity) to zasada mówiąca, że wartość klucza obcego musi albo być NULL (brak powiązania), albo odpowiadać istniejącej wartości klucza głównego w tabeli, do której się odwołuje. Dzięki temu nie może istnieć np. zamówienie odwołujące się do nieistniejącego klienta.",
-  "options": [
-   { "key": "a", "text": "wartością klucza obcego może być NULL lub wartość odpowiadającego mu klucza głównego", "correct": true, "explain": "Tak - to jest właśnie definicja spójności (integralności) referencyjnej." },
-   { "key": "b", "text": "wartości w kolumnie nie powtarzają się", "correct": false, "explain": "Nie - to opisuje ograniczenie unikalności (np. klucz jednoznaczny), a nie spójność referencyjną." },
-   { "key": "c", "text": "wartości w kolumnie nie mogą zależeć ani od części klucza, ani przechodnio od klucza", "correct": false, "explain": "Nie - to definicja III postaci normalnej, dotyczy zależności funkcyjnych, a nie relacji między tabelami przez klucz obcy." },
-   { "key": "d", "text": "w każdej tabeli powinien istnieć dokładnie jeden klucz", "correct": false, "explain": "Nie - to nie jest definicja spójności referencyjnej; dodatkowo tabela może mieć jeden klucz główny i wiele kluczy kandydujących/unikalnych." }
   ]
  },
  {
@@ -1677,34 +1733,6 @@ const QUESTIONS = [
   ]
  },
  {
-  "id": "Q132",
-  "chapter": "G6",
-  "chapterName": "Normalizacja: zależności funkcyjne i postacie normalne",
-  "question": "Dany jest schemat relacyjny R={Miasto, Ulica, Kod}, F = {Miasto,Ulica→Kod; Kod→Miasto}. W której postaci normalnej jest ten schemat (zaznacz wszystkie spełnione)?",
-  "topicTitle": "Postacie normalne są zagnieżdżone - trzeba sprawdzić każdą z osobna",
-  "topicSummary": "Jedynym kluczem jest tu para (Miasto, Ulica) - Kod zależy od całego klucza (bez naruszenia 2NF), a jedyna \"podejrzana\" zależność Kod→Miasto ma po prawej stronie atrybut PRIME (Miasto należy do klucza), więc nie łamie 3NF (3NF dopuszcza zależności nie-klucza do atrybutu klucza). BCNF jest jednak surowsza i wymaga, by KAŻDY wyznacznik był nadkluczem - a Kod nadkluczem nie jest (nie determinuje Ulicy), więc BCNF zostaje złamana. Schemat jest więc w I, II i III postaci normalnej, ale nie w BCNF.",
-  "options": [
-   { "key": "a", "text": "I postać normalna", "correct": true, "explain": "Tak - wartości są atomowe, co jest warunkiem koniecznym każdej wyższej postaci normalnej." },
-   { "key": "b", "text": "II postać normalna", "correct": true, "explain": "Tak - jedyny atrybut nieklucza (Kod) zależy od całego klucza (Miasto,Ulica), bez zależności częściowej." },
-   { "key": "c", "text": "III postać normalna", "correct": true, "explain": "Tak - zależność Kod→Miasto nie łamie 3NF, bo Miasto jest atrybutem klucza (prime), co 3NF wyraźnie dopuszcza." },
-   { "key": "d", "text": "postać normalna Boyce'a-Codda", "correct": false, "explain": "Nie - BCNF wymaga, by każdy wyznacznik (tu również Kod) był nadkluczem, a Kod nie determinuje całego klucza (nie wyznacza Ulicy)." }
-  ]
- },
- {
-  "id": "Q133",
-  "chapter": "G6",
-  "chapterName": "Normalizacja: zależności funkcyjne i postacie normalne",
-  "question": "Dany jest schemat relacyjny R={Miasto, Ulica, Kod, Poczta}, F = {Miasto,Ulica→Kod; Kod→Miasto; Kod→Poczta}. W której postaci normalnej jest ten schemat (zaznacz wszystkie spełnione)?",
-  "topicTitle": "Drugi klucz kandydujący ujawnia zależność częściową",
-  "topicSummary": "Ten schemat ma pułapkę: (Miasto,Ulica) rzeczywiście jest kluczem kandydującym (wyznacza Kod, a przez Kod→Poczta także Pocztę), ale dzięki dodatkowej zależności Kod→Miasto istnieje też DRUGI, niezależny klucz kandydujący (Kod,Ulica) - jego domknięcie też obejmuje wszystkie atrybuty (Kod→Miasto, Kod→Poczta). Względem tego drugiego klucza Kod→Poczta jest już zależnością CZĘŚCIOWĄ (Poczta zależy tylko od Kod, czyli od właściwego podzbioru klucza (Kod,Ulica)), co łamie II postać normalną - schemat jest więc tylko w I postaci normalnej.",
-  "options": [
-   { "key": "a", "text": "I postać normalna", "correct": true, "explain": "Tak - wartości są atomowe, co jest warunkiem koniecznym każdej wyższej postaci normalnej." },
-   { "key": "b", "text": "II postać normalna", "correct": false, "explain": "Nie - oprócz klucza (Miasto,Ulica) istnieje też drugi klucz kandydujący (Kod,Ulica) (bo Kod→Miasto,Poczta, a razem z Ulicą domyka wszystkie atrybuty). Względem niego Kod→Poczta jest zależnością częściową (Poczta zależy tylko od Kod, właściwego podzbioru tego klucza), co łamie 2NF." },
-   { "key": "c", "text": "III postać normalna", "correct": false, "explain": "Nie - skoro schemat nie spełnia nawet II postaci normalnej, nie może spełniać silniejszej III postaci normalnej (postacie normalne są zagnieżdżone)." },
-   { "key": "d", "text": "postać normalna Boyce'a-Codda", "correct": false, "explain": "Nie - skoro schemat nie spełnia nawet II postaci normalnej, tym bardziej nie spełnia silniejszej od niej BCNF." }
-  ]
- },
- {
   "id": "Q134",
   "chapter": "G6",
   "chapterName": "Normalizacja: zależności funkcyjne i postacie normalne",
@@ -1827,20 +1855,6 @@ const QUESTIONS = [
    { "key": "b", "text": "Studenci(id_studenta, imię, nazwisko, rok); Zajęcia(id_zajęcia, nazwa); Stanowiska(id_stanowiska, nazwa); Jakie_zajęcie(id_studenta, id_zajęcia); Jakie_stanowisko(id_studenta, id_stanowiska)", "correct": true, "explain": "Tak - dwie osobne tabele łączące poprawnie i niezależnie od siebie modelują relacje N:M student-zajęcie oraz student-stanowisko." },
    { "key": "c", "text": "Studenci(imię, nazwisko, rok, zajęcie, stanowisko)", "correct": false, "explain": "Nie - pojedyncze kolumny zajęcie i stanowisko w Studenci pozwalają zapisać tylko jeden wybór każdego rodzaju na studenta, a treść zadania nie ogranicza liczby wybieranych zajęć/stanowisk." },
    { "key": "d", "text": "Studenci(id_studenta, imię, nazwisko, rok); Kto_co(id_studenta, stanowisko, zajęcie)", "correct": false, "explain": "Nie - poza tym samym problemem sztucznego parowania wyborów co w a), stanowisko i zajęcie jako wolny tekst zamiast kluczy obcych do słownikowych tabel tracą spójność i możliwość ponownego użycia tych samych nazw." }
-  ]
- },
- {
-  "id": "Q039",
-  "chapter": "G7",
-  "chapterName": "Projektowanie schematów E-R (studia przypadków)",
-  "question": "W PJWSTK ma powstać baza danych zbierająca informacje o umiejętnościach przydatnych w pracy zawodowej, o przedmiotach, które uczą tych umiejętności oraz o książkach, w których umiejętności są opisane. Który ze schematów jest najodpowiedniejszy z punktu widzenia zasad projektowania baz danych?",
-  "topicTitle": "Dwie relacje N:M z dodatkowymi atrybutami związku",
-  "topicSummary": "Jedna umiejętność może być uczona na wielu przedmiotach i opisana w wielu książkach (i odwrotnie) - to dwie osobne relacje N:M. Związek umiejętność-książka niesie dodatkowe informacje (zakres stron), więc musi mieć własną tabelę łączącą z tymi atrybutami, a nie być wciśnięty jako zwykłe kolumny w tabeli Umiejętności.",
-  "options": [
-   { "key": "a", "text": "Umiejętności(umiejętność, przedmiot, książka)", "correct": false, "explain": "Nie - jedna, płaska tabela tekstowa nie pozwala poprawnie zapisać, że dana umiejętność występuje w wielu przedmiotach i książkach jednocześnie, bez masowego powielania wierszy i utraty spójności nazw." },
-   { "key": "b", "text": "Przedmioty(id_przedmiotu, nazwa, semestr); Książki(ISBN, tytuł, autorzy); Umiejętności(id_umiejętności, id_przedmiotu, nazwa, opis, ISBN, od_strony, do_strony)", "correct": false, "explain": "Nie - id_przedmiotu i ISBN wpisane bezpośrednio w Umiejętności ograniczają umiejętność do jednego przedmiotu i jednej książki, a treść zadania nie zakłada takiego ograniczenia (ta sama umiejętność może występować w wielu miejscach)." },
-   { "key": "c", "text": "Przedmioty(id_przedmiotu, nazwa, semestr); Książki(ISBN, tytuł, sygnatura); Umiejętności(id_umiejętności, nazwa, opis); Gdzie(id_umiejętności, ISBN, od_strony, do_strony); Na(id_umiejętności, id_przedmiotu)", "correct": true, "explain": "Tak - Gdzie i Na to osobne tabele łączące odpowiadające za dwie niezależne relacje N:M (umiejętność-książka, z dodatkowymi atrybutami zakresu stron, oraz umiejętność-przedmiot)." },
-   { "key": "d", "text": "Przedmioty(id_przedmiotu, nazwa, semestr); Egzemplarze_książek(sygnatura, tytuł, autorzy, nr_półki); Umiejętności(id_umiejętności, nazwa, opis); Gdzie(id_umiejętności, sygnatura, od_strony, do_strony)", "correct": false, "explain": "Nie - brakuje w ogóle tabeli łączącej umiejętności z przedmiotami (odpowiednika \"Na\"), więc nie da się zapisać, na jakich przedmiotach dana umiejętność jest nauczana." }
   ]
  },
  {
@@ -2278,34 +2292,6 @@ const QUESTIONS = [
   ]
  },
  {
-  "id": "Q065",
-  "chapter": "G9",
-  "chapterName": "Zapytania grupujące i podzapytania (schemat EMP/DEPT)",
-  "question": "Wskazać poprawne zapytanie SQL znajdujące departamenty zatrudniające powyżej trzech pracowników.",
-  "topicTitle": "HAVING z COUNT(*) - dowolna kolejność klauzul w Oracle",
-  "topicSummary": "Kolejny przykład tego samego wzorca: warunek na liczbę pracowników w grupie (COUNT(*) > 3) musi trafić do HAVING, nigdy do WHERE. Oracle dopuszcza przy tym zapisanie klauzuli HAVING zarówno po, jak i przed GROUP BY - obie kolejności dają identyczny wynik, choć standardowa i zalecana jest kolejność GROUP BY ... HAVING ...",
-  "options": [
-   { "key": "a", "text": "SELECT deptno, COUNT(*) FROM emp GROUP BY deptno HAVING COUNT(*) > 3;", "correct": true, "explain": "Poprawne i zalecane - klasyczny wzorzec GROUP BY ... HAVING COUNT(*) > 3." },
-   { "key": "b", "text": "SELECT deptno, COUNT(*) FROM emp HAVING COUNT(*) > 3 GROUP BY deptno;", "correct": true, "explain": "Poprawne w Oracle - dialekt ten dopuszcza zapisanie HAVING przed GROUP BY, z identycznym wynikiem jak w odpowiedzi A, choć taki zapis jest niezalecany i niezgodny ze standardem SQL." },
-   { "key": "c", "text": "SELECT deptno, COUNT(*) FROM emp GROUP BY deptno WHERE COUNT(*) > 3;", "correct": false, "explain": "Niepoprawne - WHERE po GROUP BY to błąd kolejności, a agregat w WHERE jest niedozwolony." },
-   { "key": "d", "text": "SELECT deptno, COUNT(*) FROM emp WHERE COUNT(*) > 3 GROUP BY deptno;", "correct": false, "explain": "Niepoprawne - COUNT(*) w WHERE jest niedozwolone." }
-  ]
- },
- {
-  "id": "Q066",
-  "chapter": "G9",
-  "chapterName": "Zapytania grupujące i podzapytania (schemat EMP/DEPT)",
-  "question": "Wskazać poprawne zapytanie SQL znajdujące liczbę pracowników w dziale mającym siedzibę w DALLAS.",
-  "topicTitle": "Poprawne złączenie i poprawny GROUP BY",
-  "topicSummary": "Aby policzyć pracowników działu z Dallas, trzeba połączyć emp z dept po deptno (albo skorzystać z podzapytania zwracającego deptno działu w Dallas) i dopiero wtedy policzyć COUNT(*). Częstym błędem jest podanie w GROUP BY nazwy tabeli zamiast kwalifikowanej kolumny (np. \"dept, deptno\" zamiast \"dept.deptno\") oraz pominięcie warunku złączenia, co prowadzi do iloczynu kartezjańskiego.",
-  "options": [
-   { "key": "a", "text": "SELECT COUNT(*) FROM emp, dept WHERE dept.loc = 'DALLAS' AND emp.deptno = dept.deptno GROUP BY dept.deptno;", "correct": true, "explain": "Poprawne - poprawny warunek złączenia emp.deptno = dept.deptno, filtr na lokalizację i GROUP BY po prawidłowo zakwalifikowanej kolumnie dept.deptno." },
-   { "key": "b", "text": "SELECT COUNT(*) FROM emp WHERE deptno = (SELECT deptno FROM dept WHERE loc = 'DALLAS');", "correct": true, "explain": "Poprawne - przy założeniu, że w Dallas znajduje się dokładnie jeden dział (jak w klasycznym schemacie SCOTT), podzapytanie skalarne zwraca jedną wartość deptno." },
-   { "key": "c", "text": "SELECT COUNT(*) FROM emp, dept WHERE dept.loc = 'DALLAS' GROUP BY dept, deptno;", "correct": false, "explain": "Niepoprawne - \"dept\" w GROUP BY to nazwa tabeli, a nie kolumna, a dodatkowo brakuje warunku złączenia emp.deptno = dept.deptno, co powoduje iloczyn kartezjański obu tabel." },
-   { "key": "d", "text": "SELECT COUNT(*) FROM emp, dept WHERE emp.deptno = dept.deptno GROUP BY dept, deptno HAVING dept.loc = 'DALLAS';", "correct": false, "explain": "Niepoprawne - ponownie \"dept\" jako nazwa tabeli w GROUP BY zamiast kolumny to błąd składniowy." }
-  ]
- },
- {
   "id": "Q067",
   "chapter": "G9",
   "chapterName": "Zapytania grupujące i podzapytania (schemat EMP/DEPT)",
@@ -2357,34 +2343,6 @@ const QUESTIONS = [
    { "key": "a", "text": "kartezjańskie", "correct": false, "explain": "Nie - złączenie kartezjańskie nie ma żadnego warunku łączącego wiersze; tu warunek e1.mgr=e2.empno jest obecny." },
    { "key": "b", "text": "zewnętrzne", "correct": false, "explain": "Nie - złączenie zewnętrzne (OUTER JOIN) zwraca też niedopasowane wiersze z jednej ze stron, a tu użyto zwykłego złączenia wewnętrznego (przecinek + WHERE)." },
    { "key": "c", "text": "samozłączenie", "correct": true, "explain": "Tak - tabela emp występuje dwukrotnie pod różnymi aliasami (e1, e2) i jest złączona sama ze sobą po warunku e1.mgr=e2.empno, co jest definicją samozłączenia." }
-  ]
- },
- {
-  "id": "Q162",
-  "chapter": "G9",
-  "chapterName": "Zapytania grupujące i podzapytania (schemat EMP/DEPT)",
-  "question": "Wskaż poprawne zapytanie SQL (dialekt Oracle) znajdujące pracowników zarabiających minimalną pensję na ich stanowiskach pracy:",
-  "topicTitle": "Minimum per stanowisko: przez (sal,job) IN albo skorelowane podzapytanie",
-  "topicSummary": "Znalezienie pracowników zarabiających najmniej NA SWOIM stanowisku wymaga porównania z minimum policzonym OSOBNO dla każdego stanowiska (job) - można to zrobić przez parę (sal,job) IN (SELECT MIN(sal), job ... GROUP BY job), albo przez skorelowane podzapytanie porównujące sal z MIN(sal) tego samego stanowiska (WHERE job = e.job). Zapytanie porównujące z jednym, globalnym MIN(sal) po wszystkich stanowiskach (bez korelacji po job) jest błędne, bo ignoruje podział na stanowiska - a zapis z brakującym przecinkiem w SELECT jest po prostu niepoprawny składniowo.",
-  "options": [
-   { "key": "a", "text": "SELECT ename, job, sal FROM emp WHERE (sal,job) IN (SELECT MIN(sal), job FROM emp GROUP BY job);", "correct": true, "explain": "Poprawne - para (sal,job) porównywana jest z parami (minimalna pensja, stanowisko) osobno dla każdego stanowiska, więc zwraca dokładnie tych, którzy zarabiają minimum na swoim stanowisku." },
-   { "key": "b", "text": "SELECT ename, job MIN(sal) FROM emp GROUP BY job;", "correct": false, "explain": "Niepoprawne składniowo - brakuje przecinka między job a MIN(sal) na liście SELECT." },
-   { "key": "c", "text": "SELECT ename, job, sal FROM emp WHERE sal = (SELECT MIN(sal) FROM emp GROUP BY job);", "correct": false, "explain": "Niepoprawne - podzapytanie z GROUP BY job (bez korelacji) zwraca WIELE wierszy (po jednym na stanowisko), a porównanie sal = (...) oczekuje dokładnie jednej wartości, więc Oracle zgłosi błąd." },
-   { "key": "d", "text": "SELECT ename, job, sal FROM emp e WHERE sal = (SELECT MIN(sal) FROM emp WHERE job = e.job);", "correct": true, "explain": "Poprawne - skorelowane podzapytanie liczy minimalną pensję tylko dla tego samego stanowiska co bieżący wiersz (job = e.job), zwracając dokładnie jedną wartość do porównania." }
-  ]
- },
- {
-  "id": "Q070",
-  "chapter": "G10",
-  "chapterName": "Zapytania i funkcje SQL w Oracle (różne schematy)",
-  "question": "Dana jest tabela OSOBY(imie, nazwisko, zarobki). Które z następujących instrukcji są składniowo poprawnymi instrukcjami SQL w Oracle?",
-  "topicTitle": "Niejawna konwersja typów w Oracle",
-  "topicSummary": "Oracle potrafi niejawnie skonwertować literał tekstowy na liczbę, jeśli tekst da się zinterpretować jako poprawna liczba (np. '2000' na wartość liczbową 2000) - dlatego wstawienie zarobki jako '2000' w cudzysłowie kompiluje się i wykonuje tak samo, jak podanie liczby 2000 wprost. INTERSECT wymaga jedynie zgodnej liczby kolumn po obu stronach, niezależnie od ich nazw.",
-  "options": [
-   { "key": "a", "text": "INSERT INTO Osoby VALUES ('Jan','Kowalski','2000');", "correct": true, "explain": "Poprawne - Oracle niejawnie skonwertuje literał tekstowy '2000' na wartość liczbową kolumny zarobki." },
-   { "key": "b", "text": "SELECT imie, zarobki FROM Osoby INTERSECT SELECT nazwisko, zarobki FROM osoby;", "correct": true, "explain": "Poprawne - obie strony INTERSECT zwracają po 2 kolumny, co jest wystarczające do poprawności składniowej tego operatora." },
-   { "key": "c", "text": "INSERT INTO Osoby VALUES ('Jan','Kowalski',2000);", "correct": true, "explain": "Poprawne - trzy wartości zgodne typem i liczbą z trzema kolumnami tabeli." },
-   { "key": "d", "text": "SELECT imie, AVG(zarobki) FROM osoby WHERE AVG(zarobki) > 1000;", "correct": false, "explain": "Niepoprawne - funkcji agregującej AVG nie wolno użyć bezpośrednio w klauzuli WHERE." }
   ]
  },
  {
@@ -2441,20 +2399,6 @@ const QUESTIONS = [
    { "key": "b", "text": "SELECT DISTINCT Konto_ID FROM Przelew WHERE Konto_ID IN (SELECT Konto_ID FROM Przelew WHERE Kwota > 5000) AND Konto_ID NOT IN (SELECT Konto_ID FROM Przelew WHERE Kwota < 100);", "correct": true, "explain": "Poprawne - IN sprawdza przynależność do zbioru kont z dużym przelewem, a NOT IN wyklucza konta z małym przelewem; przy braku wartości NULL w Konto_ID jest to bezpieczne i poprawne." },
    { "key": "c", "text": "SELECT DISTINCT Konto_ID FROM Przelew p WHERE EXISTS (SELECT Konto_ID FROM Przelew WHERE Kwota > 5000 AND Konto_ID = p.Konto_ID) AND NOT EXISTS (SELECT Konto_ID FROM Przelew WHERE Kwota < 100 AND Konto_ID = p.Konto_ID);", "correct": true, "explain": "Poprawne - EXISTS/NOT EXISTS z podzapytaniami skorelowanymi po Konto_ID to bezpieczny (odporny na NULL-e) odpowiednik powyższych podejść." },
    { "key": "d", "text": "SELECT DISTINCT Konto_ID FROM Przelew WHERE Kwota > 5000 AND Kwota >= 100;", "correct": false, "explain": "Niepoprawne logicznie - to zapytanie ocenia pojedyncze wiersze przelewów (kwota jednocześnie >5000 i >=100, czyli po prostu >5000), a nie sprawdza, czy na koncie nie istnieje gdzie indziej żaden przelew poniżej 100." }
-  ]
- },
- {
-  "id": "Q078",
-  "chapter": "G10",
-  "chapterName": "Zapytania i funkcje SQL w Oracle (różne schematy)",
-  "question": "Zapytanie SELECT Wycieczka_ID AS Wycieczki FROM AtrakcjaNaWycieczce WHERE Atrakcja_ID = 1 INTERSECT SELECT Wycieczka_ID AS Wycieczki2 FROM AtrakcjaNaWycieczce WHERE Atrakcja_ID = 2; pokazuje w wyniku:",
-  "topicTitle": "Nazwa kolumny wyniku przy operatorach zbiorowych",
-  "topicSummary": "INTERSECT zwraca wiersze wspólne dla wyników obu zapytań składowych - tu: identyfikatory wycieczek, na których jest zarówno atrakcja 1, jak i atrakcja 2. Przy operatorach zbiorowych (UNION, INTERSECT, MINUS) nazwę kolumny wynikowej wyznacza alias z pierwszego zapytania składowego - alias nadany w drugim zapytaniu (tu: Wycieczki2) jest ignorowany.",
-  "options": [
-   { "key": "a", "text": "Wycieczki, na których jest atrakcja 1 i atrakcja 2.", "correct": true, "explain": "Tak - INTERSECT zwraca część wspólną: identyfikatory wycieczek występujące w obu podzapytaniach, czyli mających zarówno atrakcję 1, jak i 2." },
-   { "key": "b", "text": "Kolumnę o nazwie Wycieczki.", "correct": true, "explain": "Tak - nazwa kolumny wynikowej pochodzi od aliasu z pierwszego zapytania (Wycieczki), niezależnie od aliasu nadanego w drugim." },
-   { "key": "c", "text": "Kolumnę o nazwie Wycieczki2.", "correct": false, "explain": "Nie - alias z drugiego zapytania (Wycieczki2) jest ignorowany przy nazywaniu kolumny wynikowej operatora zbiorowego." },
-   { "key": "d", "text": "Zapytanie zwraca błąd.", "correct": false, "explain": "Nie - zapytanie jest składniowo i semantycznie poprawne (obie strony INTERSECT zwracają po jednej, zgodnej typem kolumnie)." }
   ]
  },
  {
