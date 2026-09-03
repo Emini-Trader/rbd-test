@@ -4,6 +4,22 @@ const AVAILABLE_COUNTS = [10, 15, 20, 25, 30, 50];
 const REVIEW_THRESHOLD = 70; // % poniżej którego rozdział trafia do listy "do powtórki"
 const MASTERY_KEY = "quizMasteredIds";
 
+// Lista rozdziałów (grup tematycznych) w kolejności pierwszego wystąpienia w bazie,
+// z liczbą pytań w każdym - używana zarówno w przeglądarce pytań, jak i w wyborze
+// grup do testu.
+function getChaptersInfo() {
+  const order = [];
+  const byChapter = new Map();
+  QUESTIONS.forEach(q => {
+    if (!byChapter.has(q.chapter)) {
+      byChapter.set(q.chapter, { code: q.chapter, name: q.chapterName, count: 0 });
+      order.push(q.chapter);
+    }
+    byChapter.get(q.chapter).count++;
+  });
+  return order.map(code => byChapter.get(code));
+}
+
 function getMasteredIds() {
   try {
     const raw = localStorage.getItem(MASTERY_KEY);
@@ -49,6 +65,7 @@ function checkFullCycleReset() {
 const state = {
   screen: "start", // start | quiz | summary
   selectedCount: null,
+  selectedChapters: new Set(getChaptersInfo().map(c => c.code)), // domyślnie wszystkie grupy
   pool: [],
   currentIndex: 0,
   checked: {},     // aktualnie zaznaczone klucze opcji dla bieżącego pytania
@@ -68,21 +85,27 @@ function shuffle(arr) {
 }
 
 function startQuiz(count) {
-  const n = Math.min(count, QUESTIONS.length);
+  // Pula ograniczona do wybranych grup tematycznych (domyślnie wszystkie).
+  const scope = state.selectedChapters && state.selectedChapters.size > 0
+    ? QUESTIONS.filter(q => state.selectedChapters.has(q.chapter))
+    : QUESTIONS;
+
+  const n = Math.min(count, scope.length);
 
   // Zabezpieczenie na wypadek gdyby ekran startowy nie zdążył zrobić resetu
   // (np. wywołanie startQuiz() bez wcześniejszego renderStart()).
   checkFullCycleReset();
 
   let mastered = getMasteredIds();
-  let unmastered = QUESTIONS.filter(q => !mastered.has(q.id));
+  let unmastered = scope.filter(q => !mastered.has(q.id));
 
   const shuffledUnmastered = shuffle(unmastered);
   let pool = shuffledUnmastered.slice(0, n);
 
-  // Za mało nieopanowanych pytań na wybraną liczbę - dobieramy resztę z już opanowanych.
+  // Za mało nieopanowanych pytań na wybraną liczbę - dobieramy resztę z już opanowanych
+  // (w obrębie tych samych, wybranych grup tematycznych).
   if (pool.length < n) {
-    const masteredQuestions = QUESTIONS.filter(q => mastered.has(q.id));
+    const masteredQuestions = scope.filter(q => mastered.has(q.id));
     const filler = shuffle(masteredQuestions).slice(0, n - pool.length);
     pool = shuffle(pool.concat(filler));
   }
@@ -243,6 +266,18 @@ function renderBrowseQuestion(q) {
 function renderStart() {
   const justFinishedCycle = checkFullCycleReset();
   const masteredCount = getMasteredIds().size;
+  const chapters = getChaptersInfo();
+
+  const chaptersHtml = chapters.map(c => {
+    const isSelected = state.selectedChapters.has(c.code);
+    return `
+      <button class="chapter-toggle${isSelected ? " selected" : ""}" data-chapter="${escapeHtml(c.code)}" aria-pressed="${isSelected}">
+        <span class="chapter-toggle-check">${isSelected ? "✓" : ""}</span>
+        <span class="chapter-toggle-label"><span class="chapter-tag">${escapeHtml(c.code)}</span>${escapeHtml(c.name)}</span>
+        <span class="chapter-toggle-count">${c.count}</span>
+      </button>
+    `;
+  }).join("");
 
   appEl.innerHTML = `
     <h1>Quiz RBD</h1>
@@ -254,25 +289,66 @@ function renderStart() {
         ${masteredCount > 0 ? '<button class="link-btn" id="resetProgressBtn">Wyczyść postęp</button>' : ""}
       </div>
       <div class="count-grid" id="countGrid">
-        ${AVAILABLE_COUNTS.map(c => `<button class="count-btn" data-count="${c}">${c}</button>`).join("")}
+        ${AVAILABLE_COUNTS.map(c => `<button class="count-btn${state.selectedCount === c ? " selected" : ""}" data-count="${c}">${c}</button>`).join("")}
       </div>
       <div class="count-note">Pytania już opanowane (poprawnie rozwiązane) są pomijane, dopóki nie przerobisz całej bazy - błędne odpowiedzi wracają do puli.</div>
+
+      <div class="chapters-header">
+        <span class="chapters-title">Grupy tematyczne w teście</span>
+        <span class="chapters-header-actions">
+          <button class="link-btn" id="selectAllChaptersBtn">Zaznacz wszystkie</button>
+          <button class="link-btn" id="selectNoneChaptersBtn">Odznacz wszystkie</button>
+        </span>
+      </div>
+      <div class="chapter-grid" id="chapterGrid">${chaptersHtml}</div>
+      <div class="count-note" id="chapterScopeNote">${chapterScopeNoteText()}</div>
+
       <button class="btn full" id="startBtn" disabled>Rozpocznij test</button>
       <button class="btn secondary full" id="browseBtn">📖 Zobacz wszystkie pytania i odpowiedzi</button>
     </div>
   `;
+
+  updateStartBtnState();
 
   document.querySelectorAll(".count-btn").forEach(btn => {
     btn.addEventListener("click", () => {
       document.querySelectorAll(".count-btn").forEach(b => b.classList.remove("selected"));
       btn.classList.add("selected");
       state.selectedCount = parseInt(btn.dataset.count, 10);
-      document.getElementById("startBtn").disabled = false;
+      updateStartBtnState();
     });
   });
 
+  function setChapterSelected(code, selected) {
+    if (selected) state.selectedChapters.add(code);
+    else state.selectedChapters.delete(code);
+    const btn = document.querySelector(`.chapter-toggle[data-chapter="${CSS.escape(code)}"]`);
+    if (btn) {
+      btn.classList.toggle("selected", selected);
+      btn.setAttribute("aria-pressed", String(selected));
+      btn.querySelector(".chapter-toggle-check").textContent = selected ? "✓" : "";
+    }
+    document.getElementById("chapterScopeNote").textContent = chapterScopeNoteText();
+    updateStartBtnState();
+  }
+
+  document.querySelectorAll(".chapter-toggle").forEach(btn => {
+    btn.addEventListener("click", () => {
+      const code = btn.dataset.chapter;
+      setChapterSelected(code, !state.selectedChapters.has(code));
+    });
+  });
+
+  document.getElementById("selectAllChaptersBtn").addEventListener("click", () => {
+    chapters.forEach(c => setChapterSelected(c.code, true));
+  });
+
+  document.getElementById("selectNoneChaptersBtn").addEventListener("click", () => {
+    chapters.forEach(c => setChapterSelected(c.code, false));
+  });
+
   document.getElementById("startBtn").addEventListener("click", () => {
-    if (state.selectedCount) startQuiz(state.selectedCount);
+    if (state.selectedCount && state.selectedChapters.size > 0) startQuiz(state.selectedCount);
   });
 
   document.getElementById("browseBtn").addEventListener("click", () => {
@@ -287,6 +363,22 @@ function renderStart() {
       render();
     });
   }
+}
+
+function chapterScopeNoteText() {
+  if (state.selectedChapters.size === 0) {
+    return "Wybierz co najmniej jedną grupę tematyczną, żeby rozpocząć test.";
+  }
+  const scopeCount = QUESTIONS.filter(q => state.selectedChapters.has(q.chapter)).length;
+  if (state.selectedChapters.size === getChaptersInfo().length) {
+    return `Wybrano wszystkie grupy - ${scopeCount} pytań w puli.`;
+  }
+  return `Wybrano ${state.selectedChapters.size} z ${getChaptersInfo().length} grup - ${scopeCount} pytań w puli.`;
+}
+
+function updateStartBtnState() {
+  const startBtn = document.getElementById("startBtn");
+  if (startBtn) startBtn.disabled = !state.selectedCount || state.selectedChapters.size === 0;
 }
 
 function renderQuiz() {
