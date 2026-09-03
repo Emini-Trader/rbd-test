@@ -1856,13 +1856,13 @@ const QUESTIONS = [
   "chapter": "G10",
   "chapterName": "Dodatkowa pula pytań (RBD/SBD)",
   "question": "Dany jest schemat relacyjny R={Miasto, Ulica, Kod, Poczta}, F = {Miasto,Ulica→Kod; Kod→Miasto; Kod→Poczta}. W której postaci normalnej jest ten schemat (zaznacz wszystkie spełnione)?",
-  "topicTitle": "Zależność przechodnia łamie już III postać normalną",
-  "topicSummary": "Jedynym kluczem jest tu (Miasto, Ulica) - obie zależności częściowe od klucza (Miasto,Ulica→Kod) są w porządku (2NF trzyma się). Ale Kod→Poczta jest zależnością przechodnią: Kod nie jest nadkluczem, a Poczta nie jest atrybutem klucza (nie jest prime), więc ta zależność łamie już III postać normalną - a tym bardziej BCNF. Schemat jest więc tylko w I i II postaci normalnej.",
+  "topicTitle": "Drugi klucz kandydujący ujawnia zależność częściową",
+  "topicSummary": "Ten schemat ma pułapkę: (Miasto,Ulica) rzeczywiście jest kluczem kandydującym (wyznacza Kod, a przez Kod→Poczta także Pocztę), ale dzięki dodatkowej zależności Kod→Miasto istnieje też DRUGI, niezależny klucz kandydujący (Kod,Ulica) - jego domknięcie też obejmuje wszystkie atrybuty (Kod→Miasto, Kod→Poczta). Względem tego drugiego klucza Kod→Poczta jest już zależnością CZĘŚCIOWĄ (Poczta zależy tylko od Kod, czyli od właściwego podzbioru klucza (Kod,Ulica)), co łamie II postać normalną - schemat jest więc tylko w I postaci normalnej.",
   "options": [
-   { "key": "a", "text": "I postać normalna", "correct": true, "explain": "Tak - wartości są atomowe." },
-   { "key": "b", "text": "II postać normalna", "correct": true, "explain": "Tak - jedyny klucz (Miasto,Ulica) determinuje wprost pozostałe atrybuty nieklucza bez zależności częściowej na etapie samego klucza." },
-   { "key": "c", "text": "III postać normalna", "correct": false, "explain": "Nie - Kod→Poczta to zależność przechodnia (Kod nie jest nadkluczem, Poczta nie jest atrybutem klucza), co łamie 3NF." },
-   { "key": "d", "text": "postać normalna Boyce'a-Codda", "correct": false, "explain": "Nie - skoro schemat nie spełnia nawet III postaci normalnej, nie może spełniać silniejszej od niej BCNF." }
+   { "key": "a", "text": "I postać normalna", "correct": true, "explain": "Tak - wartości są atomowe, co jest warunkiem koniecznym każdej wyższej postaci normalnej." },
+   { "key": "b", "text": "II postać normalna", "correct": false, "explain": "Nie - oprócz klucza (Miasto,Ulica) istnieje też drugi klucz kandydujący (Kod,Ulica) (bo Kod→Miasto,Poczta, a razem z Ulicą domyka wszystkie atrybuty). Względem niego Kod→Poczta jest zależnością częściową (Poczta zależy tylko od Kod, właściwego podzbioru tego klucza), co łamie 2NF." },
+   { "key": "c", "text": "III postać normalna", "correct": false, "explain": "Nie - skoro schemat nie spełnia nawet II postaci normalnej, nie może spełniać silniejszej III postaci normalnej (postacie normalne są zagnieżdżone)." },
+   { "key": "d", "text": "postać normalna Boyce'a-Codda", "correct": false, "explain": "Nie - skoro schemat nie spełnia nawet II postaci normalnej, tym bardziej nie spełnia silniejszej od niej BCNF." }
   ]
  },
  {
@@ -2343,6 +2343,373 @@ const QUESTIONS = [
    { "key": "b", "text": "Kolumnach często występujących w WHERE", "correct": true, "explain": "Tak - indeks na kolumnie filtrującej pozwala szybko zawęzić liczbę przeszukiwanych wierszy." },
    { "key": "c", "text": "kolumnach, w których wartości są często aktualizowane przez instrukcje UPDATE", "correct": false, "explain": "Nie - częste aktualizacje wymuszają też częstą, kosztowną aktualizację samego indeksu, co jest wadą, a nie zaletą zakładania go na takiej kolumnie." },
    { "key": "d", "text": "kluczach obcych", "correct": true, "explain": "Tak - indeksy na kluczach obcych przyspieszają złączenia oraz sprawdzanie spójności referencyjnej przy operacjach na tabeli nadrzędnej." }
+  ]
+ }
+,
+ {
+  "id": "Q169",
+  "chapter": "G10",
+  "chapterName": "Dodatkowa pula pytań (RBD/SBD)",
+  "question": "Jaka jest wartość logiczna wyrażenia (TRUE AND NULL) AND FALSE?",
+  "topicTitle": "AND z FALSE zawsze daje FALSE, nawet obok NULL",
+  "topicSummary": "Liczymy od środka: TRUE AND NULL daje Null (bo bez wartości Null nie da się rozstrzygnąć koniunkcji). Ale FALSE jest dla operatora AND wartością „pochłaniającą” - Null AND FALSE daje FALSE, niezależnie od tego, czym jest ta nieznana wartość Null (bo jeśli jeden z argumentów koniunkcji jest fałszywy, cała koniunkcja jest fałszywa, bez względu na resztę).",
+  "options": [
+   { "key": "a", "text": "0", "correct": false, "explain": "Nie - wynikiem wyrażenia logicznego jest wartość logiczna (False), a nie liczba." },
+   { "key": "b", "text": "True", "correct": false, "explain": "Nie - obecność członu FALSE w koniunkcji wyklucza wynik TRUE." },
+   { "key": "c", "text": "False", "correct": true, "explain": "Tak - TRUE AND NULL daje Null, a Null AND FALSE daje FALSE, bo FALSE jest wartością pochłaniającą dla AND (fałszywy człon zawsze daje fałszywą koniunkcję)." },
+   { "key": "d", "text": "Null", "correct": false, "explain": "Nie - mimo że pośredni wynik (TRUE AND NULL) to Null, końcowe AND z FALSE rozstrzyga całość na FALSE." }
+  ]
+ },
+ {
+  "id": "Q170",
+  "chapter": "G10",
+  "chapterName": "Dodatkowa pula pytań (RBD/SBD)",
+  "question": "Relacja R ma atrybut a. Jaka liczba może być wynikiem wykonania instrukcji: SELECT COUNT(*) FROM R WHERE a <> a;",
+  "topicTitle": "a <> a nigdy nie jest prawdziwe - także dla NULL",
+  "topicSummary": "Warunek a <> a (różny od samego siebie) jest fałszywy dla każdej niepustej wartości (żadna wartość nie różni się sama od siebie), a dla wartości NULL porównanie <> również nie daje TRUE, tylko UNKNOWN (porównania z NULL nigdy nie są prawdziwe). Żaden wiersz nie spełnia więc tego warunku, niezależnie od danych w tabeli - wynik to zawsze 0.",
+  "options": [
+   { "key": "a", "text": "zawsze 0", "correct": true, "explain": "Tak - warunek a <> a nie jest prawdziwy dla żadnego wiersza: dla wartości nie-NULL jest fałszywy (bo wartość nie różni się sama od siebie), a dla NULL daje UNKNOWN, nigdy TRUE." },
+   { "key": "b", "text": "1", "correct": false, "explain": "Nie - żaden wiersz nie spełnia tego warunku, więc wynik nie może wynosić 1." },
+   { "key": "c", "text": "dowolna liczba całkowita", "correct": false, "explain": "Nie - warunek jest zawsze fałszywy (lub UNKNOWN dla NULL), więc wynik jest zawsze dokładnie 0, a nie dowolną liczbą." },
+   { "key": "d", "text": "zawsze jest taka, jak liczebność relacji R", "correct": false, "explain": "Nie - to byłoby prawdą dla warunku zawsze spełnionego (np. a=a dla wartości nie-NULL), a nie dla warunku a<>a, który nigdy nie jest prawdziwy." }
+  ]
+ },
+ {
+  "id": "Q171",
+  "chapter": "G10",
+  "chapterName": "Dodatkowa pula pytań (RBD/SBD)",
+  "question": "Co może być wynikiem realizacji poniższej instrukcji na niepustej relacji OSOBA(IdOsoba, Imie, Nazwisko, NrKonta)? SELECT * FROM Osoba WHERE NrKonta <> NrKonta OR NULL = NrKonta;",
+  "topicTitle": "Dwa fałszywe/nierozstrzygnięte człony dają zawsze relację pustą",
+  "topicSummary": "Żaden z dwóch członów alternatywy nie jest nigdy prawdziwy: NrKonta <> NrKonta jest fałszywe dla wartości nie-NULL i nierozstrzygnięte (UNKNOWN) dla NULL, a NULL = NrKonta jest zawsze nierozstrzygnięte (porównanie z literałem NULL nigdy nie daje TRUE, niezależnie od wartości NrKonta). Alternatywa dwóch członów, z których żaden nigdy nie jest TRUE, sama nigdy nie jest TRUE - żaden wiersz nie przejdzie przez WHERE, więc wynikiem jest zawsze relacja pusta, bez względu na dane.",
+  "options": [
+   { "key": "a", "text": "relacja Osoba", "correct": false, "explain": "Nie - żaden wiersz nie spełnia tego warunku (oba człony alternatywy są zawsze fałszywe albo nierozstrzygnięte), więc wynik nie może być całą tabelą." },
+   { "key": "b", "text": "relacja pusta", "correct": true, "explain": "Tak - NrKonta <> NrKonta nigdy nie jest TRUE, a NULL = NrKonta też nigdy nie jest TRUE (porównanie z literałem NULL zawsze daje UNKNOWN), więc warunek WHERE nigdy nie jest spełniony i wynikiem jest zawsze pusta relacja." },
+   { "key": "c", "text": "instrukcja jest niepoprawna składniowo", "correct": false, "explain": "Nie - to w pełni poprawna składniowo instrukcja SQL, mimo że logicznie nigdy nic nie zwraca." },
+   { "key": "d", "text": "zawsze zbiór rekordów, dla których NrKonta <> NrKonta", "correct": false, "explain": "Nie - taki zbiór jest zawsze pusty (żadna wartość nie jest różna sama od siebie), a drugi człon alternatywy (NULL = NrKonta) i tak nigdy niczego nie dodaje, więc cały wynik jest po prostu zawsze pusty." }
+  ]
+ },
+ {
+  "id": "Q172",
+  "chapter": "G10",
+  "chapterName": "Dodatkowa pula pytań (RBD/SBD)",
+  "question": "Dany jest schemat relacyjny R = {Student, Uczelnia, Adres, Klub}, F = {Student -> Uczelnia; Klub -> Adres; Uczelnia -> Adres}. Schemat ten:",
+  "topicTitle": "Zależność częściowa Student→Uczelnia łamie już 2NF",
+  "topicSummary": "Jedynym kluczem kandydującym jest tu (Student, Klub): Student wyznacza Uczelnię, a ta z kolei Adres (Uczelnia→Adres), natomiast Klub wyznacza Adres bezpośrednio (Klub→Adres) - razem obie kolumny domykają cały schemat, a żadna z nich osobno nie wystarcza. Atrybut nieklucza Uczelnia zależy jednak TYLKO od Studenta, czyli od właściwego podzbioru klucza (Student,Klub) - to zależność częściowa, łamiąca już II postać normalną, a więc tym bardziej III postać normalną i BCNF.",
+  "options": [
+   { "key": "a", "text": "jest w postaci normalnej Boyce'a-Codda", "correct": false, "explain": "Nie - skoro schemat nie spełnia nawet II postaci normalnej, nie może spełniać dużo silniejszej BCNF." },
+   { "key": "b", "text": "jest w III postaci normalnej, ale nie jest w BCNF", "correct": false, "explain": "Nie - schemat nie spełnia nawet II postaci normalnej, więc tym bardziej nie spełnia III postaci normalnej." },
+   { "key": "c", "text": "jest w III postaci normalnej", "correct": false, "explain": "Nie - zależność częściowa Student→Uczelnia (od części klucza (Student,Klub)) wyklucza już II postać normalną, a więc i III." },
+   { "key": "d", "text": "nie jest ani w III postaci normalnej, ani w BCNF", "correct": true, "explain": "Tak - Uczelnia zależy tylko od Studenta, czyli od właściwego podzbioru klucza (Student,Klub), co jest zależnością częściową łamiącą już 2NF - a skoro tak, schemat nie spełnia też silniejszych 3NF ani BCNF." }
+  ]
+ },
+ {
+  "id": "Q173",
+  "chapter": "G10",
+  "chapterName": "Dodatkowa pula pytań (RBD/SBD)",
+  "question": "Encje LEK i RECEPTA (lek może być wypisywany na wielu receptach, obok innych leków) połączone są związkiem:",
+  "topicTitle": "Recepta z wieloma lekami, lek na wielu receptach - związek wiele-do-wielu",
+  "topicSummary": "Skoro dana recepta może obejmować wiele leków („obok innych leków”), a dany lek może być wypisywany na wielu różnych receptach, to związek między LEK a RECEPTA jest wiele-do-wielu. Taki związek nie da się zapisać samym kluczem obcym w żadnej z dwóch tabel - wymaga dodatkowej tabeli łączącej (asocjacyjnej) z kluczami obcymi do obu encji (np. z dawkowaniem jako dodatkowym atrybutem tej tabeli).",
+  "options": [
+   { "key": "a", "text": "jeden–wiele", "correct": false, "explain": "Nie - to pomijałoby fakt, że recepta może zawierać wiele różnych leków." },
+   { "key": "b", "text": "wiele–jeden", "correct": false, "explain": "Nie - to pomijałoby fakt, że lek może występować na wielu różnych receptach." },
+   { "key": "c", "text": "wiele–wiele", "correct": true, "explain": "Tak - lek może być na wielu receptach, a recepta może zawierać wiele leków, co jest definicją związku wiele-do-wielu." },
+   { "key": "d", "text": "wymagającym dodatkowej tabeli łączącej", "correct": true, "explain": "Tak - związek wiele-do-wielu nie da się zapisać kluczem obcym w żadnej z dwóch tabel i wymaga osobnej tabeli asocjacyjnej łączącej LEK i RECEPTA." }
+  ]
+ },
+ {
+  "id": "Q174",
+  "chapter": "G10",
+  "chapterName": "Dodatkowa pula pytań (RBD/SBD)",
+  "question": "Dana jest tabela Osoby(Imie, Nazwisko, Zarobki). Które instrukcje są składniowo poprawnymi instrukcjami SQL w Oracle?",
+  "topicTitle": "INSERT nie ma klauzuli WHERE",
+  "topicSummary": "DELETE i UPDATE bez warunku (czy z nim) to standardowe, poprawne instrukcje - UPDATE bez WHERE po prostu zmienia wszystkie wiersze naraz, co jest składniowo dopuszczalne, choć rzadko zamierzone. Za to INSERT w ogóle nie ma klauzuli WHERE - wstawia dokładnie jeden, z góry określony wiersz, bez żadnego warunku, więc jej użycie jest błędem składniowym. SELECT bez FROM też jest niepoprawny, jeśli odwołuje się do kolumn tabeli.",
+  "options": [
+   { "key": "a", "text": "SELECT Osoby.Nazwisko, Osoby.Imie, Osoby.Zarobki WHERE Osoby.Zarobki > 1000;", "correct": false, "explain": "Niepoprawne - brakuje obowiązkowej klauzuli FROM Osoby, mimo że zapytanie odwołuje się do kolumn tej tabeli." },
+   { "key": "b", "text": "INSERT INTO Osoby VALUES ('Jan', 'Kowalski', 2000) WHERE USER = 'KOWALSKI';", "correct": false, "explain": "Niepoprawne - INSERT nie posiada klauzuli WHERE; wstawia dokładnie jeden, ustalony wiersz bezwarunkowo." },
+   { "key": "c", "text": "DELETE FROM Osoby WHERE Nazwisko = 'KOWALSKI';", "correct": true, "explain": "Poprawne - standardowe DELETE z warunkiem na jednej kolumnie." },
+   { "key": "d", "text": "UPDATE Osoby SET Nazwisko = 'Zieliński';", "correct": true, "explain": "Poprawne, choć bez WHERE zmieni nazwisko WSZYSTKICH wierszy naraz - składniowo jest to jednak w pełni dopuszczalna instrukcja." }
+  ]
+ },
+ {
+  "id": "Q175",
+  "chapter": "G10",
+  "chapterName": "Dodatkowa pula pytań (RBD/SBD)",
+  "question": "Wskaż poprawne w Oracle zapytania znajdujące nazwiska pracowników, którzy mają pensję wyższą niż najgorzej zarabiający pracownik zatrudniony w DALLAS.",
+  "topicTitle": "\"Wyższa niż najgorszy w DALLAS\" to > ANY albo > MIN",
+  "topicSummary": "„Wyższa niż najgorzej zarabiający pracownik z Dallas” oznacza porównanie z minimalną pensją w tym dziale - da się to zapisać albo operatorem > ANY (podzapytanie) (prawdziwe, gdy wartość jest większa od co najmniej jednej wartości ze zbioru, czyli w praktyce od minimum), albo wprost przez > (SELECT MIN(sal) ...). Operator > ALL byłby zbyt restrykcyjny (wymagałby przebicia NAJLEPIEJ zarabiającego), a mieszanie zwykłej kolumny z funkcją agregującą w jednym warunku WHERE bez GROUP BY (sal = MIN(sal)) jest błędem składniowym.",
+  "options": [
+   { "key": "a", "text": "SELECT ename, sal FROM emp WHERE sal > ANY (SELECT sal FROM emp WHERE deptno = (SELECT deptno FROM dept WHERE loc = 'DALLAS'));", "correct": true, "explain": "Poprawne - operator > ANY sprowadza się do porównania z wartością minimalną w podzapytaniu, czyli dokładnie z najgorzej zarabiającym pracownikiem z Dallas." },
+   { "key": "b", "text": "SELECT ename, sal FROM emp WHERE sal > ALL (SELECT sal FROM emp WHERE deptno = (SELECT deptno FROM dept WHERE loc = 'DALLAS'));", "correct": false, "explain": "Niepoprawne względem treści - operator > ALL wymagałby pensji wyższej od WSZYSTKICH pracowników z Dallas, czyli od najlepiej (nie najgorzej) zarabiającego." },
+   { "key": "c", "text": "SELECT ename, sal FROM emp WHERE sal > (SELECT sal FROM emp INNER JOIN dept ON emp.deptno = dept.deptno WHERE loc = 'DALLAS' AND sal = MIN(sal));", "correct": false, "explain": "Niepoprawne - funkcji agregującej MIN nie wolno użyć bezpośrednio w warunku WHERE bez GROUP BY; to błąd składniowy (agregat nie może być mieszany ze zwykłą kolumną w tym kontekście)." },
+   { "key": "d", "text": "SELECT ename, sal FROM emp WHERE sal > (SELECT MIN(sal) FROM emp INNER JOIN dept ON emp.deptno = dept.deptno WHERE loc = 'DALLAS');", "correct": true, "explain": "Poprawne - podzapytanie skalarne MIN(sal) po złączeniu z dept i filtrze na Dallas zwraca dokładnie najniższą pensję w tym dziale, z którą porównywana jest pensja pracownika." }
+  ]
+ },
+ {
+  "id": "Q176",
+  "chapter": "G10",
+  "chapterName": "Dodatkowa pula pytań (RBD/SBD)",
+  "question": "Które stwierdzenie jest prawdziwe dla związku identyfikującego?",
+  "topicTitle": "Związek identyfikujący: klucz obcy wchodzi w skład klucza głównego po stronie \"wiele\"",
+  "topicSummary": "Związek identyfikujący (identifying relationship) to taki, w którym encja po stronie „wiele” nie ma własnej, niezależnej tożsamości - jej klucz główny SKŁADA się (częściowo lub w całości) z klucza obcego wskazującego na encję nadrzędną („jeden”). W związku nieidentyfikującym klucz obcy jest za to zwykłą, osobną kolumną encji „wiele”, nie wchodzącą w skład jej klucza głównego.",
+  "options": [
+   { "key": "a", "text": "klucz obcy wchodzi w skład klucza głównego encji po stronie „jeden”", "correct": false, "explain": "Nie - to strona „jeden” jest źródłem klucza głównego, do którego odwołuje się klucz obcy; to nie ona go w sobie zawiera." },
+   { "key": "b", "text": "klucz obcy nie wchodzi w skład klucza głównego encji po stronie „wiele”", "correct": false, "explain": "Nie - to opisuje związek NIEidentyfikujący, przeciwieństwo związku identyfikującego." },
+   { "key": "c", "text": "klucz obcy wchodzi w skład klucza głównego encji po stronie „wiele”", "correct": true, "explain": "Tak - w związku identyfikującym encja „wiele” nie ma tożsamości niezależnej od encji nadrzędnej; jej klucz obcy do „jeden” jest (częścią) jej własnego klucza głównego." },
+   { "key": "d", "text": "klucz obcy nie wchodzi w skład klucza głównego encji po stronie „jeden”, ale w encji po stronie „jeden” pojawia się kolumna klucza obcego", "correct": false, "explain": "Nie - klucz obcy w takim związku znajduje się w encji po stronie „wiele” (wskazując na „jeden”), a nie odwrotnie." }
+  ]
+ },
+ {
+  "id": "Q177",
+  "chapter": "G10",
+  "chapterName": "Dodatkowa pula pytań (RBD/SBD)",
+  "question": "Dana jest tabela Rezerwacja(RezerwacjaID, Data, LiczbaUczestników). Które instrukcje są poprawne składniowo w Oracle?",
+  "topicTitle": "HAVING wymaga GROUP BY, gdy w SELECT jest niezagregowana kolumna",
+  "topicSummary": "HAVING bez GROUP BY jest dopuszczalne tylko wtedy, gdy SELECT zawiera wyłącznie funkcje agregujące (traktuje całą tabelę jako jedną grupę) - tu jednak SELECT zawiera też niezagregowaną kolumnę Data, więc GROUP BY Data jest konieczne. Oracle dopuszcza przy tym zapisanie HAVING zarówno po, jak i przed GROUP BY. Zwykłe zapytanie bez agregacji, z aliasem tabeli i prostym warunkiem, jest oczywiście też poprawne.",
+  "options": [
+   { "key": "a", "text": "SELECT Data, AVG(LiczbaUczestników) FROM Rezerwacja HAVING AVG(LiczbaUczestników) > 10;", "correct": false, "explain": "Niepoprawne - brak GROUP BY, a SELECT zawiera niezagregowaną kolumnę Data obok agregatu AVG, co bez grupowania jest błędem." },
+   { "key": "b", "text": "SELECT Data, AVG(LiczbaUczestników) FROM Rezerwacja GROUP BY Data HAVING AVG(LiczbaUczestników) > 10;", "correct": true, "explain": "Poprawne - standardowy wzorzec GROUP BY ... HAVING z warunkiem na średniej w grupie." },
+   { "key": "c", "text": "SELECT Data, COUNT(*) FROM Rezerwacja HAVING COUNT(*) > 2 GROUP BY Data;", "correct": true, "explain": "Poprawne w Oracle - dialekt ten dopuszcza zapisanie HAVING przed GROUP BY, z tym samym wynikiem, co przy standardowej kolejności." },
+   { "key": "d", "text": "SELECT Data, COUNT(*) FROM Rezerwacja GROUP BY Data HAVING COUNT(*) > 2;", "correct": true, "explain": "Poprawne - klasyczny, zalecany wzorzec GROUP BY ... HAVING COUNT(*) > 2." },
+   { "key": "e", "text": "SELECT RezerwacjaID, Data, LiczbaUczestników FROM Rezerwacja r WHERE r.LiczbaUczestników > 3;", "correct": true, "explain": "Poprawne - zwykłe zapytanie bez agregacji, z aliasem tabeli i warunkiem na kolumnie LiczbaUczestników." }
+  ]
+ },
+ {
+  "id": "Q178",
+  "chapter": "G10",
+  "chapterName": "Dodatkowa pula pytań (RBD/SBD)",
+  "question": "Zaznacz wszystkie zapytania, które będą się kompilować w dialekcie Oracle (tabela emp).",
+  "topicTitle": "Wyrażenia liczbowe w WHERE tak, gołe literały TRUE/FALSE - nie",
+  "topicSummary": "Warunki oparte na wyrażeniach liczbowych (1=1, 1-1=0) są w SQL w pełni poprawne - to zwykłe porównania, tyle że o stałej, znanej z góry wartości logicznej (zawsze prawdziwe). Gołych literałów logicznych TRUE/FALSE nie da się jednak użyć bezpośrednio w klauzuli WHERE zapytania SQL (w odróżnieniu od PL/SQL, gdzie typ BOOLEAN istnieje) - próba taka kończy się błędem składniowym (przed Oracle 23c/23ai, gdzie SQL zyskało natywny typ logiczny).",
+  "options": [
+   { "key": "a", "text": "SELECT empno FROM emp WHERE 1 = 1;", "correct": true, "explain": "Poprawne - to zwykłe, zawsze prawdziwe porównanie liczbowe, w pełni dopuszczalne w WHERE." },
+   { "key": "b", "text": "SELECT empno FROM emp WHERE 1 - 1 = 0;", "correct": true, "explain": "Poprawne - wyrażenie arytmetyczne porównywane z liczbą, zawsze prawdziwe, ale składniowo bez zarzutu." },
+   { "key": "c", "text": "SELECT empno FROM emp WHERE TRUE AND FALSE;", "correct": false, "explain": "Niepoprawne - goły literał logiczny (TRUE/FALSE) nie jest standardowo dopuszczalny bezpośrednio w klauzuli WHERE zapytania SQL." },
+   { "key": "d", "text": "SELECT empno FROM emp WHERE TRUE;", "correct": false, "explain": "Niepoprawne - z tego samego powodu: sam literał TRUE nie jest poprawnym warunkiem WHERE w klasycznym SQL Oracle." }
+  ]
+ },
+ {
+  "id": "Q179",
+  "chapter": "G10",
+  "chapterName": "Dodatkowa pula pytań (RBD/SBD)",
+  "question": "Wskaż poprawne zapytania znajdujące departamenty, w których suma zarobków przekracza 2000.",
+  "topicTitle": "SUM(sal)>2000 w HAVING - i pułapka z kolumną job spoza GROUP BY",
+  "topicSummary": "Warunek na sumę zarobków w grupie (SUM(sal) > 2000) musi trafić do HAVING, nie do WHERE. Dodatkową pułapką jest tu kolumna job na liście SELECT bez agregacji i bez obecności w GROUP BY deptno - taka kolumna jest niejednoznaczna (który job wyświetlić dla działu z wieloma stanowiskami?) i Oracle to odrzuci błędem. Oracle dopuszcza przy tym zapisanie HAVING zarówno po, jak i przed GROUP BY.",
+  "options": [
+   { "key": "a", "text": "SELECT deptno FROM emp GROUP BY deptno WHERE SUM(sal) > 2000;", "correct": false, "explain": "Niepoprawne - WHERE musi poprzedzać GROUP BY, a nie po nim występować, a dodatkowo agregat w WHERE jest niedozwolony." },
+   { "key": "b", "text": "SELECT deptno, job, SUM(sal) FROM emp GROUP BY deptno HAVING SUM(sal) > 2000;", "correct": false, "explain": "Niepoprawne - kolumna job jest niezagregowana i nie występuje w GROUP BY (grupowanie jest tylko po deptno), co jest błędem „not a GROUP BY expression”." },
+   { "key": "c", "text": "SELECT deptno, SUM(sal) FROM emp GROUP BY deptno HAVING SUM(sal) > 2000;", "correct": true, "explain": "Poprawne - klasyczny wzorzec GROUP BY ... HAVING SUM(sal) > 2000, bez żadnej niezagregowanej kolumny spoza GROUP BY." },
+   { "key": "d", "text": "SELECT deptno FROM emp HAVING SUM(sal) > 2000 GROUP BY deptno;", "correct": true, "explain": "Poprawne w Oracle - ten dialekt dopuszcza zapisanie HAVING przed GROUP BY, z identycznym wynikiem co w odpowiedzi C." }
+  ]
+ },
+ {
+  "id": "Q180",
+  "chapter": "G10",
+  "chapterName": "Dodatkowa pula pytań (RBD/SBD)",
+  "question": "Zapytanie: SELECT e1.ename, e2.ename FROM emp e1 FULL OUTER JOIN emp e2 ON e1.mgr = e2.empno; zwraca w wyniku:",
+  "topicTitle": "FULL OUTER JOIN łączy wszystkie trzy przypadki: dopasowanych, bez szefa i bez podwładnych",
+  "topicSummary": "FULL OUTER JOIN zwraca: dopasowane pary (pracownik-szef, gdy e1.mgr=e2.empno), NIEdopasowane wiersze z lewej strony (pracownicy, których mgr nie pasuje do żadnego empno - np. osoba na szczycie hierarchii bez przełożonego, z NULL-em po stronie e2), oraz NIEdopasowane wiersze z prawej strony (osoby, które nigdy nie są dla nikogo szefem, czyli nie mają podwładnych - z NULL-em po stronie e1.ename). Zwykły INNER JOIN dałby tylko pierwszą z tych trzech grup.",
+  "options": [
+   { "key": "a", "text": "nazwiska pracowników z przypisanymi szefami", "correct": false, "explain": "Niepełne - to opisuje tylko dopasowaną część wyniku (odpowiednik INNER JOIN), pomijając wiersze bez dopasowania z obu stron, które też zwraca FULL OUTER JOIN." },
+   { "key": "b", "text": "nazwiska pracowników bez podwładnych", "correct": false, "explain": "Niepełne - to tylko jedna z trzech grup wierszy zwracanych przez to zapytanie." },
+   { "key": "c", "text": "nazwiska pracowników mających przypisanego szefa oraz tych, u których szef jest nieprzypisany (NULL)", "correct": false, "explain": "Niepełne - pomija trzecią grupę: menedżerów, którzy sami nie mają żadnych podwładnych (niedopasowane wiersze e2, z NULL po stronie e1.ename)." },
+   { "key": "d", "text": "nazwiska pracowników z przypisanymi szefami, nazwiska pracowników bez przypisanego szefa oraz wartości NULL w miejscu nazwisk pracowników nieposiadających podwładnych", "correct": true, "explain": "Tak - to pełny, trzyczęściowy opis wyniku FULL OUTER JOIN: dopasowania, niedopasowane wiersze e1 (bez szefa) i niedopasowane wiersze e2 (menedżerowie bez podwładnych, z NULL w kolumnie e1.ename)." }
+  ]
+ },
+ {
+  "id": "Q181",
+  "chapter": "G10",
+  "chapterName": "Dodatkowa pula pytań (RBD/SBD)",
+  "question": "Co zwróci zapytanie Oracle: SELECT deptno FROM emp HAVING COUNT(*) > 10 GROUP BY deptno;",
+  "topicTitle": "Kolejność HAVING/GROUP BY nie zmienia wyniku w Oracle",
+  "topicSummary": "To zapytanie różni się od swojej „standardowej” wersji (GROUP BY deptno HAVING COUNT(*) > 10) wyłącznie kolejnością zapisu klauzul - a Oracle dopuszcza obie kolejności, dając identyczny wynik: numery działów zatrudniających więcej niż 10 pracowników.",
+  "options": [
+   { "key": "a", "text": "wszystkie działy", "correct": false, "explain": "Nie - HAVING COUNT(*) > 10 odfiltrowuje działy z co najwyżej 10 pracownikami, więc wynik to tylko część wszystkich działów." },
+   { "key": "b", "text": "numery działów mających więcej niż 10 pracowników", "correct": true, "explain": "Tak - GROUP BY deptno grupuje pracowników według działu, a HAVING COUNT(*) > 10 zostawia tylko działy liczniejsze niż 10 osób." },
+   { "key": "c", "text": "błąd składni", "correct": false, "explain": "Nie - Oracle dopuszcza zapisanie HAVING przed GROUP BY; to nie jest błąd składniowy." },
+   { "key": "d", "text": "zawsze to samo, co: SELECT deptno FROM emp GROUP BY deptno HAVING COUNT(*) > 10;", "correct": true, "explain": "Tak - kolejność klauzul HAVING i GROUP BY nie wpływa na wynik w Oracle; obie wersje dają identyczną odpowiedź." }
+  ]
+ },
+ {
+  "id": "Q182",
+  "chapter": "G10",
+  "chapterName": "Dodatkowa pula pytań (RBD/SBD)",
+  "question": "Dane są tabele Przelew(ID, DataPrzelewu, Kwota, Konto_ID) i Konto(ID, Numer, Waluta). Które instrukcje nie zwrócą błędu w Oracle?",
+  "topicTitle": "Iloczyn kartezjański i FULL OUTER JOIN nie są błędami składniowymi",
+  "topicSummary": "Wszystkie cztery zapytania są poprawne składniowo, choć nie wszystkie są sensowne merytorycznie: zapytanie bez żadnego warunku złączenia (przecinkowy iloczyn kartezjański) się wykona, tylko da bezsensownie dużo wierszy; złączenie z warunkiem WHERE oraz FULL OUTER JOIN (nawet bez sensownego powiązania z kolumnami przelewu) też są poprawną składnią; a zapytanie z SUM i GROUP BY po dacie jest standardowym, prawidłowym wzorcem agregującym.",
+  "options": [
+   { "key": "a", "text": "SELECT * FROM Przelew, Konto;", "correct": true, "explain": "Poprawne (bez błędu) - to iloczyn kartezjański bez warunku złączenia; da bezsensownie dużo wierszy, ale nie jest błędem składniowym." },
+   { "key": "b", "text": "SELECT p.*, k.* FROM Przelew p, Konto k WHERE p.Konto_ID = k.ID;", "correct": true, "explain": "Poprawne - standardowe złączenie w składni przecinkowej z warunkiem WHERE." },
+   { "key": "c", "text": "SELECT DataPrzelewu, Kwota FROM Przelew p FULL OUTER JOIN Konto k ON k.ID = p.Konto_ID;", "correct": true, "explain": "Poprawne - FULL OUTER JOIN jest prawidłową składnią, niezależnie od tego, czy wynik jest tu merytorycznie przydatny." },
+   { "key": "d", "text": "SELECT DataPrzelewu, SUM(Kwota) FROM Przelew GROUP BY DataPrzelewu;", "correct": true, "explain": "Poprawne - standardowy, prawidłowy wzorzec agregujący kwoty przelewów w obrębie każdej daty." }
+  ]
+ },
+ {
+  "id": "Q183",
+  "chapter": "G10",
+  "chapterName": "Dodatkowa pula pytań (RBD/SBD)",
+  "question": "Jaka jest wartość logiczna wyrażenia (TRUE AND NULL) OR FALSE?",
+  "topicTitle": "AND daje Null, a Null OR FALSE zostaje przy Null",
+  "topicSummary": "Najpierw liczymy nawias: TRUE AND NULL daje Null (bez wartości Null nie da się rozstrzygnąć koniunkcji). Potem Null OR FALSE - FALSE nie rozstrzyga alternatywy z nieznaną wartością (w przeciwieństwie do TRUE, które od razu dałoby TRUE), więc wynikiem całego wyrażenia pozostaje Null.",
+  "options": [
+   { "key": "a", "text": "0", "correct": false, "explain": "Nie - wynikiem wyrażenia logicznego jest wartość logiczna (Null), a nie liczba." },
+   { "key": "b", "text": "True", "correct": false, "explain": "Nie - żaden fragment wyrażenia nie daje pewnego TRUE; FALSE po prawej stronie nie rozstrzyga alternatywy na TRUE." },
+   { "key": "c", "text": "False", "correct": false, "explain": "Nie - FALSE otrzymalibyśmy tylko, gdyby oba człony alternatywy były fałszywe, a pierwszy człon (TRUE AND NULL) to Null, nie FALSE." },
+   { "key": "d", "text": "Null", "correct": true, "explain": "Tak - TRUE AND NULL daje Null, a Null OR FALSE pozostaje przy Null, bo FALSE nie rozstrzyga alternatywy z nieznaną wartością." }
+  ]
+ },
+ {
+  "id": "Q184",
+  "chapter": "G10",
+  "chapterName": "Dodatkowa pula pytań (RBD/SBD)",
+  "question": "Encje WALUTA i PAŃSTWO (w państwie obowiązuje jedna waluta, która może obowiązywać również w innych państwach) połączone są związkiem:",
+  "topicTitle": "Jedna waluta może obowiązywać w wielu państwach - związek jeden-do-wielu",
+  "topicSummary": "„W państwie obowiązuje jedna waluta” oznacza, że z punktu widzenia PAŃSTWA związek jest jednoznaczny (każde państwo ma dokładnie jedną walutę, więc PAŃSTWO dostaje klucz obcy do WALUTA). „Waluta może obowiązywać w wielu państwach” oznacza z kolei, że z punktu widzenia WALUTY związek jest wieloznaczny (jedna waluta - wiele państw, jak np. euro w wielu krajach UE). Razem to klasyczny związek jeden-do-wielu: jedna waluta do wielu państw.",
+  "options": [
+   { "key": "a", "text": "wiele–jeden", "correct": false, "explain": "Nie - to odwrotny kierunek zapisu tego samego faktu; przyjęta w tej bazie konwencja (waluta jako strona „jeden”) to jeden-do-wielu, nie wiele-do-jeden." },
+   { "key": "b", "text": "wiele–wiele", "correct": false, "explain": "Nie - gdyby państwo mogło mieć wiele walut naraz, byłby to związek wiele-do-wielu, ale treść zadania mówi wprost o JEDNEJ walucie na państwo." },
+   { "key": "c", "text": "wymagającym dodatkowej tabeli łączącej", "correct": false, "explain": "Nie - związek jeden-do-wielu nie wymaga dodatkowej tabeli łączącej; wystarczy klucz obcy do WALUTA umieszczony bezpośrednio w tabeli PAŃSTWO." },
+   { "key": "d", "text": "jeden–wiele", "correct": true, "explain": "Tak - jedna waluta może obowiązywać w wielu państwach, ale każde państwo ma dokładnie jedną walutę, co jest definicją związku jeden-do-wielu (klucz obcy do WALUTA w tabeli PAŃSTWO)." }
+  ]
+ },
+ {
+  "id": "Q185",
+  "chapter": "G10",
+  "chapterName": "Dodatkowa pula pytań (RBD/SBD)",
+  "question": "Baza ma przechowywać informację, jakie oprogramowanie jest zainstalowane w poszczególnych salach oraz do jakich przedmiotów jest potrzebne. Który schemat prawidłowo i bez redundancji modeluje zagadnienie?",
+  "topicTitle": "Trzy realne rzeczy - trzy tabele, plus dwie tabele łączące dla dwóch niezależnych związków N:M",
+  "topicSummary": "W zagadnieniu występują trzy niezależne \"rzeczy\" (sala, program, przedmiot), z których każda ma sens jako osobna encja z własnymi atrybutami (sala ma choćby liczbę komputerów, program - firmę i wersję, przedmiot - nazwę) - każda zasługuje więc na osobną tabelę, a nie na spłaszczenie do samej nazwy/numeru użytego jako tekst gdzie indziej. Instalacja oprogramowania w sali to jeden związek wiele-do-wielu (Sale_programy, z dodatkowym atrybutem ile_instalacji), a przydatność programu do przedmiotu to drugi, NIEZALEŻNY związek wiele-do-wielu (Przedmioty_programy) - żadnego z nich nie da się wycisnąć na jedną, wspólną tabelę bez utraty informacji lub redundancji.",
+  "options": [
+   { "key": "a", "text": "Sale(numer_sali, nazwa_programu, wersja, ile_instalacji); Programy(nazwa_programu, wersja, nazwa_przedmiotu)", "correct": false, "explain": "Niepoprawne - Sale miesza atrybuty sali z atrybutami zainstalowanego programu (redundancja przy wielu instalacjach w tej samej sali), a Programy dodatkowo dubluje nazwę przedmiotu przy każdym programie, zamiast osobnej tabeli Przedmioty." },
+   { "key": "b", "text": "Programy(ID_PROGRAMU, firma, nazwa, wersja); Przedmioty(ID_PRZEDMIOTU, nazwa); Sale_programy(ID_SALI, ID_PROGRAMU, ile_instalacji); Przedmioty_programy(ID_PRZEDMIOTU, ID_PROGRAMU)", "correct": false, "explain": "Niepełne - brakuje osobnej tabeli Sale; ID_SALI jest tu używane wyłącznie jako identyfikator w Sale_programy, bez możliwości przechowania żadnych własnych atrybutów sali (np. liczby komputerów)." },
+   { "key": "c", "text": "Programy(ID_PROGRAMU, firma, nazwa, wersja, nazwa_przedmiotu); Sale_programy(ID_SALI, ID_PROGRAMU, ile_instalacji)", "correct": false, "explain": "Niepoprawne - dołączenie nazwa_przedmiotu wprost do Programy zakłada, że program jest przypisany do JEDNEGO przedmiotu, a nie modeluje niezależnego związku wiele-do-wielu między programami a przedmiotami; brakuje też osobnej tabeli Sale." },
+   { "key": "d", "text": "Sale(ID_SALI, numer, ile_komputerów); Programy(ID_PROGRAMU, firma, nazwa, wersja); Przedmioty(ID_PRZEDMIOTU, nazwa); Sale_programy(ID_SALI, ID_PROGRAMU, ile_instalacji); Przedmioty_programy(ID_PRZEDMIOTU, ID_PROGRAMU)", "correct": true, "explain": "Poprawne - wszystkie trzy realne encje (Sale, Programy, Przedmioty) mają osobne tabele z własnymi atrybutami, a oba niezależne związki wiele-do-wielu (sala-program i program-przedmiot) mają osobne tabele łączące, bez żadnej redundancji." }
+  ]
+ },
+ {
+  "id": "Q186",
+  "chapter": "G10",
+  "chapterName": "Dodatkowa pula pytań (RBD/SBD)",
+  "question": "Zdefiniowanie aliasu kolumny lub wyrażenia może pojawić się w klauzuli:",
+  "topicTitle": "Alias definiuje się w SELECT (a używa dopiero w ORDER BY)",
+  "topicSummary": "Alias kolumny lub wyrażenia (np. SELECT sal AS pensja) NADAJE się w klauzuli SELECT - to jedyne miejsce w zapytaniu, gdzie faktycznie się go definiuje. Można się do niego potem ODWOŁAĆ w klauzuli ORDER BY (bo wykonuje się jako ostatnia, po ustaleniu już listy wynikowej), ale WHERE, GROUP BY i HAVING działają logicznie PRZED obliczeniem listy SELECT, więc nie mogą używać aliasów tam zdefiniowanych - to jednak używanie już istniejącego aliasu, a nie jego definiowanie.",
+  "options": [
+   { "key": "a", "text": "ORDER BY", "correct": false, "explain": "Nie - w ORDER BY alias można co najwyżej WYKORZYSTAĆ (bo wykonuje się po SELECT), ale to nie tam się go definiuje." },
+   { "key": "b", "text": "WHERE", "correct": false, "explain": "Nie - WHERE działa przed obliczeniem listy SELECT, więc nie może ani zdefiniować, ani nawet użyć aliasu tam nadanego." },
+   { "key": "c", "text": "HAVING", "correct": false, "explain": "Nie - z tego samego powodu co WHERE; HAVING (poza rzadkimi wyjątkami) też nie operuje na aliasach z SELECT." },
+   { "key": "d", "text": "SELECT", "correct": true, "explain": "Tak - alias kolumny lub wyrażenia definiuje się właśnie w klauzuli SELECT, np. SELECT sal AS pensja." }
+  ]
+ },
+ {
+  "id": "Q187",
+  "chapter": "G10",
+  "chapterName": "Dodatkowa pula pytań (RBD/SBD)",
+  "question": "Dane są tabele Osoby(Imie, Nazwisko, Zarobki, id_działu) oraz Działy(id_działu, Nazwa). Które instrukcje są poprawne w Oracle?",
+  "topicTitle": "INNER/LEFT JOIN z aliasami - poprawne; DELETE z tabelą spoza FROM - błąd",
+  "topicSummary": "Jawne INNER JOIN z aliasami tabel i odpowiednio zakwalifikowanymi kolumnami jest poprawną, standardową składnią. LEFT OUTER JOIN z warunkiem WHERE porównującym konkatenację kolumn do pustego stringa jest składniowo dopuszczalny (nawet jeśli logicznie nic nie zwróci, bo konkatenacja z NULL-em daje NULL, a nie pusty tekst). Za to DELETE nie ma klauzuli FROM z wieloma tabelami - odwołanie się w WHERE do tabeli Działy, która nigdzie nie występuje w samym poleceniu DELETE Osoby, jest błędem (nieznana/niezłączona tabela).",
+  "options": [
+   { "key": "a", "text": "SELECT * FROM Osoby, Działy, Osoby, Działy;", "correct": false, "explain": "Niepoprawne - gwiazdka * odwołuje się do kolumn wszystkich wystąpień tabel, a te same tabele (Osoby, Działy) powtórzone dwukrotnie bez aliasów dają niejednoznaczne nazwy kolumn w wyniku." },
+   { "key": "b", "text": "SELECT Imie, Nazwisko, o.Zarobki, d.Nazwa FROM Osoby o INNER JOIN Działy d ON o.id_działu = d.id_działu;", "correct": true, "explain": "Poprawne - jawne INNER JOIN z aliasami (o, d) i poprawnie zakwalifikowanymi kolumnami zapytania." },
+   { "key": "c", "text": "SELECT * FROM Osoby LEFT OUTER JOIN Działy ON Osoby.id_działu = Działy.id_działu WHERE Imie || Nazwisko || Zarobki || Nazwa = '';", "correct": true, "explain": "Poprawne składniowo - operator || (konkatenacja) na kolumnach różnych typów jest dopuszczalny; warunek praktycznie nigdy nie będzie spełniony (konkatenacja z NULL-em, np. z niedopasowanego LEFT JOIN, daje NULL, nie pusty string), ale to nie jest błąd składniowy." },
+   { "key": "d", "text": "DELETE Osoby WHERE Działy.id_działu = 30;", "correct": false, "explain": "Niepoprawne - polecenie DELETE odwołuje się w WHERE do tabeli Działy, która nie występuje nigdzie w samym poleceniu DELETE Osoby (brak złączenia); Oracle zgłosi błąd nieznanej tabeli/kolumny." }
+  ]
+ },
+ {
+  "id": "Q188",
+  "chapter": "G10",
+  "chapterName": "Dodatkowa pula pytań (RBD/SBD)",
+  "question": "Dana jest tabela Atrakcja(ID int, Nazwa varchar2(32), Cena number(6,2), LiczbaMiejsc number(4)). Które instrukcje są składniowo poprawne w Oracle?",
+  "topicTitle": "HAVING bez GROUP BY działa tylko przy czysto agregowanym SELECT",
+  "topicSummary": "HAVING bez GROUP BY jest dopuszczalne wyłącznie wtedy, gdy lista SELECT zawiera SAME funkcje agregujące (bez żadnej „gołej” kolumny) - wtedy cała tabela jest traktowana jako jedna grupa. Mieszanie niezagregowanej kolumny (LiczbaMiejsc) z agregatem bez GROUP BY jest błędem, podobnie jak użycie w ORDER BY kolumny (Nazwa), która nie jest ani zagregowana, ani obecna w GROUP BY, przy zapytaniu zwracającym tylko zagregowane wartości.",
+  "options": [
+   { "key": "a", "text": "SELECT LiczbaMiejsc, AVG(Cena) FROM Atrakcja HAVING AVG(Cena) > 1000;", "correct": false, "explain": "Niepoprawne - brak GROUP BY, a SELECT zawiera niezagregowaną kolumnę LiczbaMiejsc obok agregatu AVG, co bez grupowania jest błędem." },
+   { "key": "b", "text": "SELECT LiczbaMiejsc, AVG(Cena) FROM Atrakcja WHERE LiczbaMiejsc < 50 GROUP BY LiczbaMiejsc;", "correct": true, "explain": "Poprawne - filtrowanie pojedynczych wierszy w WHERE przed grupowaniem, a jedyna niezagregowana kolumna (LiczbaMiejsc) występuje w GROUP BY." },
+   { "key": "c", "text": "SELECT MAX(Cena), MIN(Cena), COUNT(Cena) FROM Atrakcja ORDER BY Nazwa ASC;", "correct": false, "explain": "Niepoprawne - zapytanie zwraca jeden, zagregowany wiersz (bez GROUP BY), a ORDER BY próbuje sortować po niezagregowanej kolumnie Nazwa, która nie występuje w SELECT ani w GROUP BY - Oracle zgłosi błąd." },
+   { "key": "d", "text": "SELECT AVG(Cena) FROM Atrakcja HAVING COUNT(*) > 100;", "correct": true, "explain": "Poprawne - SELECT zawiera wyłącznie funkcję agregującą (AVG), więc HAVING bez GROUP BY jest tu dopuszczalne - traktuje całą tabelę jako jedną grupę." }
+  ]
+ },
+ {
+  "id": "Q189",
+  "chapter": "G10",
+  "chapterName": "Dodatkowa pula pytań (RBD/SBD)",
+  "question": "Dane są tabele Lekarz(ID, Nazwisko, Specjalizacja) oraz Wizyta(ID, DataWizyty, CenaWizyty, Lekarz_ID). Wskaż poprawne zapytanie znajdujące łączną kwotę wizyt dla każdego lekarza.",
+  "topicTitle": "\"Dla każdego lekarza\" wymaga GROUP BY Lekarz_ID i SUM",
+  "topicSummary": "„Łączna kwota wizyt DLA KAŻDEGO lekarza” oznacza jeden wynikowy wiersz na lekarza z sumą jego wizyt - to wymaga zarówno funkcji SUM(CenaWizyty), jak i GROUP BY Lekarz_ID. Zapytanie bez agregacji zwróci pojedyncze wizyty, samo SUM bez GROUP BY da jedną łączną kwotę dla wszystkich lekarzy razem, a SELECT z niezagregowaną kolumną obok GROUP BY po innej kolumnie jest błędem składniowym.",
+  "options": [
+   { "key": "a", "text": "SELECT Lekarz_ID, CenaWizyty FROM Wizyta w JOIN Lekarz l ON l.ID = w.Lekarz_ID;", "correct": false, "explain": "Niepoprawne względem treści - zapytanie wypisuje pojedyncze wizyty, bez żadnego sumowania w obrębie lekarza." },
+   { "key": "b", "text": "SELECT Lekarz_ID, SUM(CenaWizyty) FROM Wizyta w JOIN Lekarz l ON l.ID = w.Lekarz_ID GROUP BY Lekarz_ID;", "correct": true, "explain": "Poprawne - grupowanie po Lekarz_ID i SUM(CenaWizyty) dają dokładnie łączną kwotę wizyt każdego lekarza." },
+   { "key": "c", "text": "SELECT SUM(CenaWizyty) FROM Wizyta w JOIN Lekarz l ON l.ID = w.Lekarz_ID;", "correct": false, "explain": "Niepoprawne względem treści - brak GROUP BY oznacza jedną, łączną sumę dla wszystkich lekarzy razem, bez podziału na poszczególnych lekarzy." },
+   { "key": "d", "text": "SELECT CenaWizyty FROM Wizyta w JOIN Lekarz l ON l.ID = w.Lekarz_ID GROUP BY Lekarz_ID;", "correct": false, "explain": "Niepoprawne - kolumna CenaWizyty jest wypisana bez agregacji, a nie występuje w GROUP BY (grupowanie jest po Lekarz_ID), co jest błędem „not a GROUP BY expression”." }
+  ]
+ },
+ {
+  "id": "Q190",
+  "chapter": "G10",
+  "chapterName": "Dodatkowa pula pytań (RBD/SBD)",
+  "question": "Dane są tabele Rezerwacja(ID, DataRez, Spektakl_ID) i Spektakl(ID, Tytul, Teatr_ID). Wskaż poprawne zapytania wypisujące spektakle bez żadnej rezerwacji w 2024 roku.",
+  "topicTitle": "Anty-złączenie: NOT IN, skorelowany NOT EXISTS albo COUNT=0",
+  "topicSummary": "„Spektakle bez żadnej rezerwacji w 2024” to klasyczne zadanie na anty-złączenie (antijoin) - można je zapisać operatorem NOT IN na podzapytaniu z filtrem na rok, skorelowanym NOT EXISTS (sprawdzającym, że nie istnieje pasująca rezerwacja z 2024), albo poprzez policzenie takich rezerwacji (COUNT) i sprawdzenie, czy wynosi 0. Zapis „WHERE NOT IN (...)” bez podania KOLUMNY po lewej stronie jest błędem składniowym - NOT IN jest operatorem binarnym, wymagającym wartości do porównania.",
+  "options": [
+   { "key": "a", "text": "SELECT * FROM Spektakl WHERE ID NOT IN (SELECT Spektakl_ID FROM Rezerwacja WHERE EXTRACT(YEAR FROM DataRez) = 2024);", "correct": true, "explain": "Poprawne - NOT IN wyklucza spektakle, których ID pojawia się wśród Spektakl_ID rezerwacji z 2024 roku." },
+   { "key": "b", "text": "SELECT * FROM Spektakl WHERE NOT EXISTS (SELECT 1 FROM Rezerwacja WHERE Spektakl.ID = Rezerwacja.Spektakl_ID AND EXTRACT(YEAR FROM DataRez) = 2024);", "correct": true, "explain": "Poprawne - skorelowane NOT EXISTS sprawdza, że dla danego spektaklu nie istnieje żadna pasująca rezerwacja z 2024 roku." },
+   { "key": "c", "text": "SELECT * FROM Spektakl WHERE NOT IN (SELECT Spektakl_ID FROM Rezerwacja);", "correct": false, "explain": "Niepoprawne składniowo - operator NOT IN wymaga podania wartości/kolumny po lewej stronie (np. ID NOT IN (...)); sam „WHERE NOT IN (...)” bez tego jest błędem." },
+   { "key": "d", "text": "SELECT * FROM Spektakl WHERE (SELECT COUNT(*) FROM Rezerwacja WHERE Spektakl.ID = Rezerwacja.Spektakl_ID AND EXTRACT(YEAR FROM DataRez) = 2024) = 0;", "correct": true, "explain": "Poprawne - skorelowane podzapytanie liczy rezerwacje danego spektaklu z 2024 roku; warunek = 0 wybiera te bez żadnej takiej rezerwacji." }
+  ]
+ }
+,
+ {
+  "id": "Q191",
+  "chapter": "G10",
+  "chapterName": "Dodatkowa pula pytań (RBD/SBD)",
+  "question": "W bazie danych chcemy przechowywać informacje o fryzjerach, klientach i strzyżeniach. O strzyżeniu musimy wiedzieć, kto był strzyżony (klient) i kto przeprowadzał strzyżenie (fryzjer). Fryzjer może przeprowadzać wiele strzyżeń, tak samo klient może mieć wiele strzyżeń. Klient może strzyc się wielokrotnie u tego samego fryzjera. Wybierz najlepszy diagram spełniający wymienione wymagania.",
+  "topicTitle": "Osoba jako baza dla dwóch ról: Fryzjer (podtyp) i Klient (zwykłe FK)",
+  "topicSummary": "Fryzjer i Klient to obaj \"ludzie\", więc ich wspólne dane (Imię, Nazwisko) najlepiej trzymać raz, w jednej tabeli Osoba. Fryzjer ma dodatkowy atrybut (Pensja), więc zasługuje na osobną tabelę podtypu, dzielącą klucz główny z Osobą (PK+FK). Klient nie ma żadnych dodatkowych atrybutów ponad te z Osoby, więc nie potrzebuje własnej tabeli - w Strzyzenie wystarczy zwykła kolumna Klient jako FK wprost do Osoba.Id. Strzyzenie jako osobna tabela z własnym Id pozwala temu samemu klientowi strzyc się wielokrotnie u tego samego fryzjera (wiele wierszy o tej samej parze Fryzjer+Klient).",
+  "options": [
+   { "key": "a", "text": "Wariant A: Osoba(Id PK, Imie, Nazwisko, Strzyzenia FK do Strzyzenie); Fryzjer(Id PK+FK do Osoba, Pensja); Strzyzenie(Id PK, Czas, Fryzjer FK) - bez tabeli/kolumny dla klienta", "image": "images/q191-wariant-a.png", "imageAlt": "Diagram A: Wariant A: Osoba(Id PK, Imie, Nazwisko, Strzyzenia FK do Strzyzenie); Fryzjer(Id PK+FK do Osoba, Pensja); Strzyzenie(Id PK, Czas, Fryzjer FK)", "correct": false, "explain": "Niepoprawne - w tym diagramie w ogóle nie ma sposobu zapisania, KTO był klientem danego strzyżenia (Strzyzenie ma FK tylko do Fryzjer). Dodatkowo kolumna Strzyzenia w Osoba wskazuje na jedno, pojedyncze strzyżenie, co uniemożliwiłoby osobie posiadanie wielu strzyżeń." },
+   { "key": "b", "text": "Wariant B: Osoba(Id PK, Imie, Nazwisko); Fryzjer(Id PK+FK do Osoba, Pensja); Strzyzenie(Id PK, Czas, Fryzjer FK, Klient FK do Osoba)", "image": "images/q191-wariant-b.png", "imageAlt": "Diagram B: Wariant B: Osoba(Id PK, Imie, Nazwisko); Fryzjer(Id PK+FK do Osoba, Pensja); Strzyzenie(Id PK, Czas, Fryzjer FK, Klient FK do Osoba)", "correct": true, "explain": "Poprawne - Fryzjer jest podtypem Osoby (dodatkowy atrybut Pensja), a Klient nie potrzebuje osobnej tabeli i jest po prostu zwykłym kluczem obcym do Osoba w tabeli Strzyzenie. Strzyzenie ma własny klucz Id, więc ten sam klient może strzyc się wielokrotnie u tego samego fryzjera (wiele wierszy z tą samą parą Fryzjer+Klient)." },
+   { "key": "c", "text": "Wariant C: Fryzjer(Id PK, Imie, Nazwisko, Pensja) - bez wspólnej tabeli Osoba; Klient(Id PK+FK) - bez Imie/Nazwiska i bez jasnego celu FK; Strzyzenie(Id PK, Czas, Fryzjer FK, Klient FK)", "image": "images/q191-wariant-c.png", "imageAlt": "Diagram C: Wariant C: Fryzjer(Id PK, Imie, Nazwisko, Pensja)", "correct": false, "explain": "Niepoprawne - Klient nie ma żadnych własnych atrybutów (nawet Imienia/Nazwiska), a jego kolumna FK nie wskazuje na żadną sensowną, wspólną tabelę osób (nie ma tu w ogóle encji Osoba) - klient pozostaje właściwie niezdefiniowaną, pustą encją." },
+   { "key": "d", "text": "Wariant D: Fryzjer(Id PK, Imie, Nazwisko, Pensja) i Klient(Id PK, Imie, Nazwisko) jako niezależne tabele (bez wspólnej Osoby); Strzyzenie(Id PK, Czas) bez żadnych FK; ListaStrzyzen(Klient PK+FK, Fryzjer PK+FK, Strzyzenie PK+FK) jako trójskładnikowa tabela łącząca", "image": "images/q191-wariant-d.png", "imageAlt": "Diagram D: Wariant D: Fryzjer(Id PK, Imie, Nazwisko, Pensja) i Klient(Id PK, Imie, Nazwisko) jako niezależne tabele (bez wspólnej Osoby); Strzyzenie(Id PK, Czas) bez żadnych FK; ListaStrzyzen(Klient PK+FK, Fryzjer PK+FK, Strzyzenie PK+FK) jako trójskładnikowa tabela łącząca", "correct": false, "explain": "Niepoprawne - Fryzjer i Klient niepotrzebnie duplikują Imię/Nazwisko zamiast dzielić wspólną tabelę Osoba, a samo Strzyzenie w ogóle nie ma odniesienia do klienta ani fryzjera - te powiązania są wymuszone dopiero przez nadmiarowo skomplikowaną, trójskładnikową tabelę ListaStrzyzen, co jest niepotrzebnym przekombinowaniem prostego związku 1 strzyżenie = 1 klient + 1 fryzjer." }
+  ]
+ },
+ {
+  "id": "Q192",
+  "chapter": "G10",
+  "chapterName": "Dodatkowa pula pytań (RBD/SBD)",
+  "question": "W bazie danych chcemy przechowywać informacje o głosowaniach, głosujących, kandydatach i głosach. Chcemy wiedzieć, kto głosował (głosujący) na kogo (kandydat) w danym głosowaniu. Głosujący może brać udział w wielu głosowaniach, ale może głosować tylko na jednego kandydata w danym głosowaniu. Głosowanie może mieć wielu kandydatów i każdy kandydat może otrzymać wiele głosów. Kandydat może głosować w głosowaniu, w którym jest kandydatem, i jeśli chce, to może nawet głosować sam na siebie. Wybierz najlepszy diagram spełniający wymienione wymagania.",
+  "topicTitle": "Klucz główny (Głosowanie, Głosujący) wymusza jeden głos na osobę na głosowanie",
+  "topicSummary": "Warunek „głosujący może głosować tylko na jednego kandydata w danym głosowaniu” trzeba wymusić strukturą bazy, a nie tylko opisem - najlepiej złożonym kluczem głównym (Głosowanie, Głosujący) w tabeli Głos, który uniemożliwia istnienie dwóch wierszy o tej samej parze głosowanie+głosujący (a więc i dwóch różnych kandydatów wybranych przez tę samą osobę w tym samym głosowaniu). Kandydat jest przy tym zwykłym, osobnym kluczem obcym do Osoba (nie częścią klucza głównego), co pozwala kandydatowi być jednocześnie głosującym, a nawet zagłosować na samego siebie - bo kandydat i głosujący to po prostu dwa niezależne odwołania do tej samej tabeli Osoba.",
+  "options": [
+   { "key": "a", "text": "Wariant A: Osoba(Id PK, Imie, Nazwisko); Glos(Glosowanie PK+FK, Glosujacy PK+FK, Kandydat FK do Osoba); Glosowanie(Id PK, Data)", "image": "images/q192-wariant-a.png", "imageAlt": "Diagram A: Wariant A: Osoba(Id PK, Imie, Nazwisko); Glos(Glosowanie PK+FK, Glosujacy PK+FK, Kandydat FK do Osoba); Glosowanie(Id PK, Data)", "correct": true, "explain": "Poprawne - złożony klucz główny (Glosowanie, Glosujacy) w tabeli Glos wprost wymusza co najwyżej jeden głos danej osoby w danym głosowaniu. Kandydat jest zwykłym FK do Osoba (nie częścią klucza), więc może nim być dowolna osoba - także sam głosujący, co pozwala na głosowanie na samego siebie." },
+   { "key": "b", "text": "Wariant B: Osoba(Id PK, Imie, Nazwisko); Glos(Id PK, Glosowanie FK, Glosujacy FK, Kandydat FK); Glosowanie(Id PK, Data)", "image": "images/q192-wariant-b.png", "imageAlt": "Diagram B: Wariant B: Osoba(Id PK, Imie, Nazwisko); Glos(Id PK, Glosowanie FK, Glosujacy FK, Kandydat FK); Glosowanie(Id PK, Data)", "correct": false, "explain": "Niepoprawne - Glos ma własny, niezależny klucz Id zamiast złożonego klucza (Glosowanie, Glosujacy), więc nic nie stoi na przeszkodzie, by ta sama osoba oddała wiele głosów (na różnych kandydatów) w tym samym głosowaniu - to wprost łamie wymóg „tylko jeden kandydat w danym głosowaniu”." },
+   { "key": "c", "text": "Wariant C: dodatkowa tabela ListaKandydatow(Id PK, Glosowanie FK, Osoba FK); Glos(Kandydat PK+FK, Glosujacy PK+FK, Glosowanie PK+FK) ze złożonym kluczem obejmującym też Kandydata", "image": "images/q192-wariant-c.png", "imageAlt": "Diagram C: Wariant C: dodatkowa tabela ListaKandydatow(Id PK, Glosowanie FK, Osoba FK); Glos(Kandydat PK+FK, Glosujacy PK+FK, Glosowanie PK+FK) ze złożonym kluczem obejmującym też Kandydata", "correct": false, "explain": "Niepoprawne - klucz główny tabeli Glos obejmuje aż trzy kolumny (Kandydat, Glosujacy, Glosowanie), więc wciąż dopuszcza wiele wierszy o tej samej parze Glosowanie+Glosujacy, różniących się tylko Kandydatem - to nie wymusza wymaganego „tylko jeden kandydat na głosującego w danym głosowaniu”." },
+   { "key": "d", "text": "Wariant D: ta sama dodatkowa tabela ListaKandydatow co w wariancie C; Glos(Id PK, Kandydat FK, Glosujacy FK, Glosowanie FK) z własnym, niezależnym kluczem Id", "image": "images/q192-wariant-d.png", "imageAlt": "Diagram D: Wariant D: ta sama dodatkowa tabela ListaKandydatow co w wariancie C; Glos(Id PK, Kandydat FK, Glosujacy FK, Glosowanie FK) z własnym, niezależnym kluczem Id", "correct": false, "explain": "Niepoprawne - podobnie jak w wariancie B, własny klucz Id (zamiast złożonego z Glosowanie+Glosujacy) nie wymusza jednego głosu na osobę w danym głosowaniu; dodatkowo niepotrzebnie komplikuje schemat zbędną tabelą ListaKandydatow." }
+  ]
+ },
+ {
+  "id": "Q193",
+  "chapter": "G10",
+  "chapterName": "Dodatkowa pula pytań (RBD/SBD)",
+  "question": "W bazie danych chcemy przechowywać informacje o meczach i kibicach. Dany mecz może oglądać wielu kibiców, a dany kibic może oglądać wiele meczy. Chcemy mieć możliwość sprawdzenia ilości kibiców w danym meczu. Wybierz najlepszy diagram spełniający wymienione wymagania.",
+  "topicTitle": "Związek wiele-do-wielu przez tabelę łączącą, liczba kibiców przez COUNT",
+  "topicSummary": "„Mecz - wielu kibiców” i „kibic - wiele meczy” to klasyczny związek wiele-do-wielu, wymagający osobnej tabeli łączącej ze złożonym kluczem głównym z dwóch kluczy obcych (Kibic, Mecz). Liczbę kibiców na danym meczu wylicza się wtedy zapytaniem COUNT(*) po tabeli łączącej pogrupowanym po meczu - nie trzeba (i nie warto) trzymać tej liczby jako osobnej, redundantnej kolumny, bo taka kolumna łatwo wpadnie w niespójność z rzeczywistą liczbą wierszy.",
+  "options": [
+   { "key": "a", "text": "Wariant A: Kibic(Id PK, Imie, Nazwisko); ListaKibicow(Kibic PK+FK, Mecz PK+FK); Mecz(Id PK, Nazwa)", "image": "images/q193-wariant-a.png", "imageAlt": "Diagram A: Wariant A: Kibic(Id PK, Imie, Nazwisko); ListaKibicow(Kibic PK+FK, Mecz PK+FK); Mecz(Id PK, Nazwa)", "correct": true, "explain": "Poprawne - ListaKibicow to czysta tabela asocjacyjna N:M ze złożonym kluczem głównym (Kibic, Mecz), oba pola jako klucze obce. Liczbę kibiców na meczu wylicza się przez COUNT(*) pogrupowane po Mecz, bez żadnej redundancji." },
+   { "key": "b", "text": "Wariant B: Kibic(Id PK, Imie, Nazwisko, Mecz FK - pojedynczy!); Mecz(Id PK, Nazwa); ListaKibicow(Id PK, Ilosc_kibicow, Mecz FK)", "image": "images/q193-wariant-b.png", "imageAlt": "Diagram B: Wariant B: Kibic(Id PK, Imie, Nazwisko, Mecz FK", "correct": false, "explain": "Niepoprawne - Kibic ma tylko JEDEN klucz obcy Mecz, więc może być powiązany z co najwyżej jednym meczem naraz, co łamie wymóg „kibic może oglądać wiele meczy”. Dodatkowo Ilosc_kibicow jest zbędnie przechowywaną, redundantną liczbą zamiast wyliczaną zapytaniem COUNT." },
+   { "key": "c", "text": "Wariant C: Kibic(Id PK, Imie, Nazwisko); ListaKibicow(Id PK, Kibic FK - bez FK do Mecz!); Mecz(Id PK, Nazwa, Ilosc_kibicow, ListaKibicow FK - pojedynczy!)", "image": "images/q193-wariant-c.png", "imageAlt": "Diagram C: Wariant C: Kibic(Id PK, Imie, Nazwisko); ListaKibicow(Id PK, Kibic FK", "correct": false, "explain": "Niepoprawne - ListaKibicow nie ma w ogóle odniesienia do konkretnego meczu, a Mecz ma tylko jeden FK do ListaKibicow (a nie odwrotnie, jeden-do-wielu), więc struktura nie pozwala poprawnie powiązać wielu kibiców z wieloma meczami. Dodatkowo Ilosc_kibicow jest zbędną, redundantną kolumną." },
+   { "key": "d", "text": "Wariant D: Kibic(Id PK, Imie, Nazwisko, Mecz FK - pojedynczy!); Mecz(Id PK, Nazwa, ListaKibicow FK - pojedynczy!); ListaKibicow(Id PK, Ilosc_kibicow)", "image": "images/q193-wariant-d.png", "imageAlt": "Diagram D: Wariant D: Kibic(Id PK, Imie, Nazwisko, Mecz FK", "correct": false, "explain": "Niepoprawne - Kibic ma tylko jeden FK do Mecz (nie może oglądać wielu meczy), a ListaKibicow w ogóle nie odwołuje się do konkretnych kibiców ani meczów - to po prostu osobna tabela z samą redundantną liczbą, oderwana od reszty modelu." }
+  ]
+ },
+ {
+  "id": "Q194",
+  "chapter": "G10",
+  "chapterName": "Dodatkowa pula pytań (RBD/SBD)",
+  "question": "W bazie danych chcemy przechowywać informacje o szczepionkach, pacjentach i szczepieniach. Dana szczepionka może być wykorzystana w wielu szczepieniach, ale dane szczepienie dotyczy tylko jednej szczepionki. Pacjent może mieć wiele szczepień i może być szczepiony tą samą szczepionką wielokrotnie. Wybierz najlepszy diagram spełniający wymienione wymagania.",
+  "topicTitle": "Szczepienie jako zdarzenie: klucze obce do Szczepionki i Pacjenta, powtórzenia przez datę",
+  "topicSummary": "Szczepienie jest zdarzeniem (jeden fakt: ten pacjent, tą szczepionką, tego dnia), więc powinno mieć własną tabelę z kluczami obcymi WPROST do Szczepionka i do Pacjent - nigdy odwrotnie (Szczepionka czy Pacjent wskazujący na pojedyncze Szczepienie), bo to uniemożliwiłoby wielokrotne użycie tej samej szczepionki czy wielokrotne szczepienie tego samego pacjenta. Żeby ten sam pacjent mógł przyjąć tę samą szczepionkę więcej niż raz, klucz Szczepienia musi dopuszczać powtórzenie pary (Szczepionka, Pacjent) - najprościej przez włączenie Daty do klucza głównego (różne daty = różne, odrębne szczepienia).",
+  "options": [
+   { "key": "a", "text": "Wariant A: Szczepionka(Id PK, Nazwa); Szczepienie(Szczepionka PK+FK, Pacjent PK+FK, Data PK); Pacjent(Id PK, Imie, Nazwisko)", "image": "images/q194-wariant-a.png", "imageAlt": "Diagram A: Wariant A: Szczepionka(Id PK, Nazwa); Szczepienie(Szczepionka PK+FK, Pacjent PK+FK, Data PK); Pacjent(Id PK, Imie, Nazwisko)", "correct": true, "explain": "Poprawne - Szczepienie ma klucze obce wprost do Szczepionka i Pacjent, więc jedna szczepionka może wystąpić w wielu szczepieniach, a pacjent może mieć wiele szczepień. Data jako część klucza głównego pozwala temu samemu pacjentowi przyjąć tę samą szczepionkę wielokrotnie (w różnych terminach), bez naruszania unikalności klucza." },
+   { "key": "b", "text": "Wariant B: Szczepionka(Id PK, Nazwa); Szczepienie(Id PK, Data, Szczepionka FK); Pacjent(Id PK, Imie, Nazwisko, Szczepienie FK - pojedynczy!)", "image": "images/q194-wariant-b.png", "imageAlt": "Diagram B: Wariant B: Szczepionka(Id PK, Nazwa); Szczepienie(Id PK, Data, Szczepionka FK); Pacjent(Id PK, Imie, Nazwisko, Szczepienie FK", "correct": false, "explain": "Niepoprawne - Pacjent ma tylko JEDEN klucz obcy do Szczepienie, co pozwala mu być powiązanym z co najwyżej jednym szczepieniem naraz, łamiąc wymóg „pacjent może mieć wiele szczepień”." },
+   { "key": "c", "text": "Wariant C: Szczepienie(Id PK, Data) - bez żadnych FK; Szczepionka(Id PK, Nazwa, Szczepienie FK - pojedynczy!); Pacjent(Id PK, Imie, Nazwisko, Szczepionka FK - pojedynczy!)", "image": "images/q194-wariant-c.png", "imageAlt": "Diagram C: Wariant C: Szczepienie(Id PK, Data)", "correct": false, "explain": "Niepoprawne - kierunki kluczy obcych są odwrócone: Szczepionka wskazuje na jedno konkretne Szczepienie (a powinna móc występować w wielu), a Pacjent wskazuje wprost na jedną Szczepionkę z pominięciem Szczepienia, więc pacjent mógłby mieć zapisaną tylko jedną szczepionkę w ogóle, a samo Szczepienie w ogóle nie jest z niczym powiązane." },
+   { "key": "d", "text": "Wariant D: Szczepienie(Id PK, Data, Szczepionka FK); Szczepionka(Id PK, Nazwa, Pacjent FK - pojedynczy!); Pacjent(Id PK, Imie, Nazwisko) - bez żadnego FK do Szczepienia", "image": "images/q194-wariant-d.png", "imageAlt": "Diagram D: Wariant D: Szczepienie(Id PK, Data, Szczepionka FK); Szczepionka(Id PK, Nazwa, Pacjent FK", "correct": false, "explain": "Niepoprawne - Szczepionka ma FK do Pacjent, co błędnie przypisywałoby każdy rodzaj szczepionki do jednego, konkretnego pacjenta, zamiast pozwalać jej być używaną u wielu różnych pacjentów; Pacjent nie ma też żadnego bezpośredniego powiązania ze Szczepieniem." }
   ]
  }
 ];
