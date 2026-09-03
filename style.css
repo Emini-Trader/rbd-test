@@ -108,6 +108,72 @@ h1 {
 }
 .count-note { color: var(--muted); font-size: 0.85rem; margin-top: -12px; margin-bottom: 20px; }
 
+/* ---- Wybór grup tematycznych ---- */
+.chapters-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 6px 16px;
+  margin-bottom: 12px;
+}
+.chapters-title { font-weight: 600; font-size: 0.95rem; }
+.chapters-header-actions { display: flex; gap: 16px; }
+
+.chapter-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.chapter-toggle {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  background: var(--panel-2);
+  border: 1px solid var(--border);
+  color: var(--text);
+  padding: 10px 14px;
+  border-radius: 10px;
+  cursor: pointer;
+  text-align: left;
+  font-size: 0.88rem;
+  transition: border-color 0.12s ease, background 0.12s ease;
+}
+.chapter-toggle:hover { border-color: var(--accent); }
+.chapter-toggle.selected { border-color: var(--accent); background: rgba(79, 140, 255, 0.12); }
+
+.chapter-toggle-check {
+  flex: 0 0 18px;
+  height: 18px;
+  width: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--border);
+  border-radius: 5px;
+  color: white;
+  font-size: 0.75rem;
+  background: var(--panel);
+}
+.chapter-toggle.selected .chapter-toggle-check { background: var(--accent); border-color: var(--accent); }
+
+.chapter-toggle-label {
+  flex: 1 1 auto;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.chapter-toggle-count {
+  flex: 0 0 auto;
+  color: var(--muted);
+  font-size: 0.8rem;
+  font-variant-numeric: tabular-nums;
+}
+
 .btn {
   display: inline-block;
   background: var(--accent);
