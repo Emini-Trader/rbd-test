@@ -1153,11 +1153,11 @@ const QUESTIONS = [
   "id": "Q083",
   "chapter": "G8",
   "chapterName": "Zdjęcia egzaminu",
-  "question": "Dany jest schemat relacyjny R = {Ulica, Kod, Sklep}, F = {Ulica→Kod; Sklep→Ulica}. W której postaci normalnej jest ten schemat?",
+  "question": "Dany jest schemat relacyjny R = {Ulica, Kod, Sklep}, F = {Ulica→Kod; Sklep→Ulica}. W której postaci normalnej jest ten schemat (zaznacz wszystkie spełnione)?",
   "topicTitle": "Klucz jednoatrybutowy a zależności częściowe",
-  "topicSummary": "Jedynym kluczem kandydującym jest tu {Sklep} (Sklep→Ulica→Kod, więc {Sklep}+ = R). Skoro klucz jest jednoatrybutowy, nie mogą wystąpić zależności częściowe (wymagają klucza złożonego), więc warunek II postaci normalnej jest spełniony automatycznie. Jednak Ulica→Kod jest zależnością przechodnią (Sklep→Ulica→Kod, gdzie Ulica nie jest kluczem), co łamie III postać normalną i BCNF.",
+  "topicSummary": "Postacie normalne są zagnieżdżone (2NF ⊂ 1NF, 3NF ⊂ 2NF itd.), więc spełnienie wyższej postaci automatycznie oznacza spełnienie wszystkich niższych - trzeba zaznaczyć je wszystkie, nie tylko najwyższą. Jedynym kluczem kandydującym jest tu {Sklep} (Sklep→Ulica→Kod, więc {Sklep}+ = R). Skoro klucz jest jednoatrybutowy, nie mogą wystąpić zależności częściowe (wymagają klucza złożonego), więc warunek II postaci normalnej (a więc i I) jest spełniony automatycznie. Jednak Ulica→Kod jest zależnością przechodnią (Sklep→Ulica→Kod, gdzie Ulica nie jest kluczem), co łamie III postać normalną i BCNF.",
   "options": [
-   { "key": "a", "text": "w I postaci normalnej", "correct": false, "explain": "Nie - to zbyt słabe określenie; schemat spełnia też warunki II postaci normalnej (klucz jest jednoatrybutowy, więc nie ma zależności częściowych)." },
+   { "key": "a", "text": "w I postaci normalnej", "correct": true, "explain": "Tak - I postać normalna (wartości atomowe) jest warunkiem koniecznym każdej wyższej postaci, a schemat spełnia nawet II postać normalną, więc tym bardziej spełnia I." },
    { "key": "b", "text": "w II postaci normalnej", "correct": true, "explain": "Tak - klucz {Sklep} jest jednoatrybutowy, więc nie ma zależności częściowych (2NF spełnione), ale Ulica→Kod jest zależnością przechodnią, która łamie już 3NF - II postać normalna to najwyższa spełniona tu postać." },
    { "key": "c", "text": "w III postaci normalnej", "correct": false, "explain": "Nie - zależność przechodnia Ulica→Kod (Sklep→Ulica→Kod) narusza definicję 3NF." },
    { "key": "d", "text": "w postaci normalnej Boyce'a-Codda", "correct": false, "explain": "Nie - BCNF jest jeszcze silniejsze niż 3NF, którego schemat już nie spełnia." }
