@@ -1318,9 +1318,219 @@ const QUESTIONS = [
   ]
  },
  {
+  "id": "Q097",
+  "chapter": "G9",
+  "chapterName": "Pytania egzaminacyjne z odpowiedziami",
+  "question": "Jaka jest wartość logiczna wyrażenia TRUE OR NULL OR FALSE:",
+  "topicTitle": "Logika trójwartościowa - OR z wartością NULL",
+  "topicSummary": "W logice trójwartościowej SQL alternatywa (OR) jest prawdziwa, gdy choć jeden z argumentów ma wartość TRUE - i to niezależnie od tego, czy pozostałe są FALSE, czy NULL (UNKNOWN). Wartość NULL „psuje” wynik alternatywy tylko wtedy, gdy bez niej nie da się rozstrzygnąć prawdziwości wyrażenia (np. FALSE OR NULL daje NULL). Tu pierwszy człon to TRUE, więc całe wyrażenie jest prawdziwe.",
+  "options": [
+   { "key": "a", "text": "0", "correct": false, "explain": "Nie - wynikiem wyrażenia logicznego w SQL jest wartość logiczna (TRUE/FALSE/UNKNOWN), a nie liczba 0." },
+   { "key": "b", "text": "True", "correct": true, "explain": "Tak - w alternatywie wystarczy jeden człon o wartości TRUE, aby całe wyrażenie było prawdziwe; TRUE OR NULL daje TRUE, a TRUE OR FALSE również TRUE." },
+   { "key": "c", "text": "False", "correct": false, "explain": "Nie - obecność członu TRUE wyklucza wynik FALSE; alternatywa jest fałszywa dopiero wtedy, gdy wszystkie jej człony są fałszywe." },
+   { "key": "d", "text": "Null", "correct": false, "explain": "Nie - NULL w alternatywie „zaraża” wynik tylko wtedy, gdy bez niego nie da się rozstrzygnąć wyniku (np. FALSE OR NULL); tutaj TRUE przesądza o wartości całego wyrażenia." }
+  ]
+ },
+ {
+  "id": "Q098",
+  "chapter": "G9",
+  "chapterName": "Pytania egzaminacyjne z odpowiedziami",
+  "question": "Co będzie wynikiem realizacji poniższej instrukcji na niepustej relacji OSOBA(IdOsoba, Imie, Nazwisko, NrKonta): SELECT * FROM Osoba WHERE NrKonta = NrKonta OR NrKonta IS NULL;",
+  "topicTitle": "Porównanie kolumny z samą sobą a wartości NULL",
+  "topicSummary": "Warunek NrKonta = NrKonta jest prawdziwy dla każdego wiersza, w którym NrKonta ma jakąkolwiek wartość, ale dla wierszy z NULL daje UNKNOWN (bo NULL nie jest równy niczemu, nawet samemu sobie) - takie wiersze zostałyby odrzucone. Dopisanie alternatywy OR NrKonta IS NULL domyka lukę: wiersze z wartością wpadają przez pierwszy człon, a wiersze z NULL przez drugi. W efekcie warunek jest spełniony przez wszystkie wiersze tabeli.",
+  "options": [
+   { "key": "a", "text": "relacja Osoba (wszystkie rekordy)", "correct": true, "explain": "Tak - pierwszy człon warunku przepuszcza wszystkie wiersze z niepustym NrKonta, a drugi (IS NULL) dokładnie te, które pierwszy odrzucił; razem dają całą tabelę." },
+   { "key": "b", "text": "relacja pusta", "correct": false, "explain": "Nie - wynik jest pusty tylko dla pustej tabeli, a z założenia relacja Osoba jest niepusta." },
+   { "key": "c", "text": "instrukcja jest niepoprawna składniowo", "correct": false, "explain": "Nie - porównanie kolumny z samą sobą oraz operator IS NULL są w pełni poprawną składnią SQL." },
+   { "key": "d", "text": "zawsze podzbiór relacji z rekordów, gdzie NrKonta ma wartość nie będącą NULL", "correct": false, "explain": "Nie - to opis wyniku samego warunku NrKonta = NrKonta; dodany człon OR NrKonta IS NULL dołącza właśnie wiersze z wartością NULL." }
+  ]
+ },
+ {
+  "id": "Q099",
+  "chapter": "G9",
+  "chapterName": "Pytania egzaminacyjne z odpowiedziami",
+  "question": "Co będzie wynikiem realizacji poniższej instrukcji na niepustej relacji OSOBA(IdOsoba, Imie, Nazwisko, NrKonta): SELECT * FROM Osoba WHERE NrKonta = NrKonta OR NrKonta = NULL;",
+  "topicTitle": "Dlaczego „= NULL” nigdy nie działa",
+  "topicSummary": "Porównanie „= NULL” nigdy nie zwraca TRUE - daje zawsze UNKNOWN, dlatego do sprawdzania pustych wartości służy wyłącznie operator IS NULL. Drugi człon alternatywy jest więc bezużyteczny i cały warunek sprowadza się do NrKonta = NrKonta, czyli do wierszy, w których NrKonta nie jest NULL. Uwaga na słowo „zawsze”: wynik zależy od danych (jeśli żaden NrKonta nie jest NULL, będzie to cała tabela, jeśli wszystkie są NULL - relacja pusta), ale zawsze mieści się w zbiorze rekordów o niepustym NrKonta.",
+  "options": [
+   { "key": "a", "text": "relacja Osoba (wszystkie rekordy)", "correct": false, "explain": "Nie - wiersze z NrKonta o wartości NULL nie spełniają żadnego z dwóch członów warunku, więc nie zawsze otrzymamy całą tabelę." },
+   { "key": "b", "text": "zawsze relacja pusta", "correct": false, "explain": "Nie - wiersze z niepustym NrKonta spełniają warunek NrKonta = NrKonta, więc wynik jest pusty tylko wtedy, gdy wszystkie wartości NrKonta są NULL." },
+   { "key": "c", "text": "instrukcja jest niepoprawna składniowo", "correct": false, "explain": "Nie - zapis „= NULL” jest składniowo dopuszczalny (choć logicznie bezużyteczny), więc zapytanie się wykona." },
+   { "key": "d", "text": "zawsze podzbiór relacji z rekordów, gdzie NrKonta ma wartość nie będącą NULL", "correct": true, "explain": "Tak - człon NrKonta = NULL zawsze daje UNKNOWN, więc realnie działa tylko NrKonta = NrKonta, a ten warunek przepuszcza dokładnie (a więc w szczególności co najwyżej) wiersze o niepustym NrKonta." }
+  ]
+ },
+ {
+  "id": "Q100",
+  "chapter": "G9",
+  "chapterName": "Pytania egzaminacyjne z odpowiedziami",
+  "question": "Instrukcja DROP VIEW służy do:",
+  "topicTitle": "DROP VIEW jako polecenie DDL",
+  "topicSummary": "DROP VIEW to polecenie DDL usuwające definicję perspektywy (widoku) ze słownika bazy danych - same dane w tabelach źródłowych pozostają nietknięte, bo widok jest tylko zapamiętanym zapytaniem. Nie należy go mylić z poleceniami sterowania transakcją (COMMIT, ROLLBACK - TCL) ani z zarządzaniem uprawnieniami (GRANT, REVOKE - DCL).",
+  "options": [
+   { "key": "a", "text": "usuwania perspektywy (widoku)", "correct": true, "explain": "Tak - DROP VIEW usuwa definicję widoku; dane w tabelach, na których widok był zbudowany, pozostają nienaruszone." },
+   { "key": "b", "text": "zakończenia transakcji", "correct": false, "explain": "Nie - do zatwierdzenia transakcji służy COMMIT (a do jej przerwania ROLLBACK)." },
+   { "key": "c", "text": "wycofywania zmian w bazie danych", "correct": false, "explain": "Nie - zmiany wycofuje ROLLBACK; DROP VIEW sam jest poleceniem DDL, które w Oracle dodatkowo powoduje niejawne zatwierdzenie transakcji." },
+   { "key": "d", "text": "odbierania uprawnień w bazie danych", "correct": false, "explain": "Nie - uprawnienia odbiera REVOKE, a nadaje GRANT." }
+  ]
+ },
+ {
+  "id": "Q101",
+  "chapter": "G9",
+  "chapterName": "Pytania egzaminacyjne z odpowiedziami",
+  "question": "Dany jest schemat relacyjny R = (Ulica, Kod, Sklep, Numer), F = {Ulica → Kod; Ulica, Numer → Sklep}. W której postaci normalnej jest ten schemat?",
+  "topicTitle": "Zależność częściowa od klucza łamie II postać normalną",
+  "topicSummary": "Kluczem tego schematu jest para (Ulica, Numer) - jej domknięcie daje wszystkie atrybuty (Ulica → Kod, a Ulica,Numer → Sklep). Atrybuty nieklucza to Kod i Sklep. Zależność Ulica → Kod oznacza, że Kod zależy tylko od części klucza, czyli jest zależnością częściową - a to wprost łamie II postać normalną. Schemat pozostaje więc jedynie w I postaci normalnej (wartości atomowe), nie spełniając już 2NF, a tym bardziej 3NF ani BCNF.",
+  "options": [
+   { "key": "a", "text": "w I postaci normalnej", "correct": true, "explain": "Tak - wartości są atomowe, ale zależność częściowa Ulica → Kod (Kod zależy tylko od części klucza (Ulica, Numer)) uniemożliwia zaliczenie schematu do II postaci normalnej." },
+   { "key": "b", "text": "w II postaci normalnej", "correct": false, "explain": "Nie - II postać normalna wymaga braku zależności atrybutów nieklucza od części klucza, a Kod zależy od samej Ulicy, czyli od części klucza (Ulica, Numer)." },
+   { "key": "c", "text": "w III postaci normalnej", "correct": false, "explain": "Nie - skoro schemat nie spełnia nawet II postaci normalnej, nie może być w III postaci normalnej (postacie normalne są zagnieżdżone)." },
+   { "key": "d", "text": "w postaci normalnej Boyce'a-Codda", "correct": false, "explain": "Nie - BCNF jest jeszcze silniejsza od 3NF; tu wyznacznik Ulica nie jest nadkluczem, więc warunek BCNF również jest złamany." }
+  ]
+ },
+ {
+  "id": "Q102",
+  "chapter": "G9",
+  "chapterName": "Pytania egzaminacyjne z odpowiedziami",
+  "question": "Dany jest schemat relacyjny R = (Ulica, Kod, Sklep, Numer), F = {Ulica → Kod; Ulica, Numer → Sklep}. Schemat ten:",
+  "topicTitle": "Relacja 3NF i BCNF przy zależności częściowej",
+  "topicSummary": "Postacie normalne tworzą hierarchię: 1NF ⊃ 2NF ⊃ 3NF ⊃ BCNF. Jeśli schemat nie spełnia już II postaci normalnej (bo atrybut nieklucza Kod zależy od części klucza (Ulica, Numer)), to automatycznie nie spełnia też żadnej z mocniejszych postaci - ani III postaci normalnej, ani postaci normalnej Boyce'a-Codda. Aby to naprawić, wydziela się osobną relację (Ulica, Kod) i zostawia (Ulica, Numer, Sklep).",
+  "options": [
+   { "key": "a", "text": "jest w postaci normalnej Boyce'a-Codda", "correct": false, "explain": "Nie - w BCNF każdy nietrywialny wyznacznik musi być nadkluczem, a Ulica (wyznacznik dla Kod) nadkluczem nie jest." },
+   { "key": "b", "text": "jest w III postaci normalnej, ale nie jest w postaci normalnej Boyce'a-Codda", "correct": false, "explain": "Nie - schemat nie jest nawet w II postaci normalnej, więc tym bardziej nie jest w III." },
+   { "key": "c", "text": "jest w III postaci normalnej", "correct": false, "explain": "Nie - zależność częściowa Ulica → Kod wyklucza już II postać normalną, a więc i III." },
+   { "key": "d", "text": "nie jest ani w III postaci normalnej, ani w postaci normalnej Boyce'a-Codda", "correct": true, "explain": "Tak - zależność częściowa Ulica → Kod łamie II postać normalną, a skoro tak, to schemat nie spełnia również żadnej z mocniejszych postaci (3NF, BCNF)." }
+  ]
+ },
+ {
+  "id": "Q103",
+  "chapter": "G9",
+  "chapterName": "Pytania egzaminacyjne z odpowiedziami",
+  "question": "Wskazać poprawne zapytanie SQL (dialekt ORACLE) znajdujące departamenty zatrudniające powyżej trzech pracowników.",
+  "topicTitle": "Kolejność GROUP BY i HAVING w dialekcie Oracle",
+  "topicSummary": "Warunek na wynik funkcji agregującej zapisuje się w klauzuli HAVING - w klauzuli WHERE agregaty są niedozwolone, bo WHERE działa przed grupowaniem. Sama składnia Oracle dopuszcza przy tym obie kolejności: GROUP BY ... HAVING ... oraz HAVING ... GROUP BY ... (choć dokumentacja zaleca pierwszą, bardziej czytelną wersję i taka też jest wymagana w standardzie SQL). Niezależnie od kolejności obowiązuje zasada, że każda niezagregowana kolumna z listy SELECT musi wystąpić w GROUP BY.",
+  "options": [
+   { "key": "a", "text": "SELECT deptno, COUNT(*) FROM emp GROUP BY deptno HAVING COUNT(*) > 3;", "correct": true, "explain": "Poprawne - klasyczny, zalecany wzorzec: grupowanie po deptno i filtrowanie grup warunkiem HAVING COUNT(*) > 3." },
+   { "key": "b", "text": "SELECT deptno, COUNT(*) FROM emp HAVING COUNT(*) > 3 GROUP BY deptno;", "correct": true, "explain": "Poprawne w Oracle - ten dialekt dopuszcza zapisanie klauzuli HAVING przed GROUP BY (kolejność nie zmienia wyniku), choć jest to zapis niezalecany i niezgodny ze standardem SQL." },
+   { "key": "c", "text": "SELECT deptno, COUNT(*) FROM emp GROUP BY deptno WHERE COUNT(*) > 3;", "correct": false, "explain": "Niepoprawne - klauzula WHERE nie może wystąpić po GROUP BY, a dodatkowo nie wolno w niej używać funkcji agregujących." },
+   { "key": "d", "text": "SELECT deptno, job, COUNT(*) FROM emp HAVING COUNT(*) > 3 GROUP BY deptno;", "correct": false, "explain": "Niepoprawne - kolumna job jest wypisana w SELECT bez agregacji, a nie występuje w GROUP BY (grupowanie jest tylko po deptno), co daje błąd „not a GROUP BY expression”." }
+  ]
+ },
+ {
+  "id": "Q104",
+  "chapter": "G9",
+  "chapterName": "Pytania egzaminacyjne z odpowiedziami",
+  "question": "Pojęcie akcji referencyjnych dotyczy:",
+  "topicTitle": "Akcje referencyjne (ON DELETE / ON UPDATE)",
+  "topicSummary": "Akcje referencyjne to zdefiniowane przy kluczu obcym reguły typu ON DELETE / ON UPDATE (CASCADE, SET NULL, SET DEFAULT, RESTRICT, NO ACTION), które określają, co ma się stać z rekordami powiązanymi, gdy usuwany lub zmieniany jest rekord nadrzędny. W praktyce sprowadza się to do automatycznego wykonania operacji DELETE lub UPDATE na rekordach powiązanych (albo zablokowania operacji). Nie mają one nic wspólnego z zależnościami funkcyjnymi ani z więzami sprawdzanymi w czasie kompilacji.",
+  "options": [
+   { "key": "a", "text": "reakcji SZBD na próbę usunięcia lub aktualizacji rekordów, do których odwołują się rekordy w tabelach powiązanych", "correct": false, "explain": "Uwaga - opis bardzo bliski definicji akcji referencyjnych (i w wielu materiałach uznawany za poprawny), ale w kluczu odpowiedzi do tego zestawu jako właściwe wskazano ujęcie z odpowiedzi C, mówiące wprost o wykonywanych operacjach DELETE i UPDATE na rekordach powiązanych." },
+   { "key": "b", "text": "zależności wartości atrybutu od klucza", "correct": false, "explain": "Nie - to opis zależności funkcyjnej, czyli pojęcia z teorii normalizacji, a nie akcji referencyjnych." },
+   { "key": "c", "text": "wykonywania operacji DELETE i UPDATE na powiązanych rekordach", "correct": true, "explain": "Tak - akcje referencyjne (ON DELETE / ON UPDATE: CASCADE, SET NULL, RESTRICT...) definiują, jakie operacje DELETE i UPDATE zostaną wykonane na rekordach powiązanych kluczem obcym." },
+   { "key": "d", "text": "więzów wartości zmiennej w czasie kompilacji", "correct": false, "explain": "Nie - akcje referencyjne działają w czasie wykonania operacji na danych, a nie na etapie kompilacji, i dotyczą powiązań między tabelami, a nie zmiennych." }
+  ]
+ },
+ {
+  "id": "Q105",
+  "chapter": "G9",
+  "chapterName": "Pytania egzaminacyjne z odpowiedziami",
+  "question": "Dana jest tabela OSOBY(imie, nazwisko, zarobki). Które z następujących instrukcji są składniowo poprawnymi instrukcjami SQL w Oracle?",
+  "topicTitle": "Apostrofy a cudzysłowy w Oracle",
+  "topicSummary": "W Oracle apostrofy ('...') ograniczają literały tekstowe, natomiast cudzysłowy (\"...\") służą do zapisu identyfikatorów (nazw tabel i kolumn) z zachowaniem wielkości liter - dlatego \"Jan\" nie jest tekstem, tylko odwołaniem do nieistniejącej kolumny. Poza tym operator INTERSECT wymaga jedynie zgodnej liczby i typów kolumn (nazwy nie muszą się pokrywać), a funkcji agregujących nie wolno używać w klauzuli WHERE.",
+  "options": [
+   { "key": "a", "text": "INSERT INTO Osoby VALUES (\"Jan\",\"Kowalski\",2000);", "correct": false, "explain": "Niepoprawne - w Oracle cudzysłowy oznaczają identyfikatory, więc \"Jan\" i \"Kowalski\" są traktowane jako nazwy kolumn (które nie istnieją), a nie jako literały tekstowe; do tekstu służą apostrofy." },
+   { "key": "b", "text": "SELECT imie, zarobki FROM Osoby INTERSECT SELECT nazwisko, zarobki FROM osoby;", "correct": true, "explain": "Poprawne - obie strony INTERSECT zwracają po dwie kolumny zgodnych typów (tekst i liczba); nazwy kolumn nie muszą być identyczne." },
+   { "key": "c", "text": "INSERT INTO Osoby VALUES ('Jan','Kowalski',2000);", "correct": true, "explain": "Poprawne - literały tekstowe w apostrofach i liczba bez cudzysłowów, w kolejności zgodnej z definicją tabeli." },
+   { "key": "d", "text": "SELECT imie, AVG(zarobki) FROM osoby WHERE AVG(zarobki) > 1000;", "correct": false, "explain": "Niepoprawne - funkcji agregującej nie wolno użyć w klauzuli WHERE (służy do tego HAVING), a dodatkowo brakuje klauzuli GROUP BY dla niezagregowanej kolumny imie." }
+  ]
+ },
+ {
+  "id": "Q106",
+  "chapter": "G9",
+  "chapterName": "Pytania egzaminacyjne z odpowiedziami",
+  "question": "Zaznacz wszystkie zapytania, które będą się kompilować w dialekcie ORACLE (tabela emp).",
+  "topicTitle": "Agregaty w HAVING i WHERE oraz zagnieżdżanie funkcji grupowych",
+  "topicSummary": "W klauzuli HAVING wolno używać funkcji agregujących (także porównywać dwa różne agregaty tej samej grupy, np. MAX(sal) > AVG(sal)), natomiast w klauzuli WHERE - nigdy, bo WHERE filtruje wiersze przed grupowaniem. Osobną pułapką jest zagnieżdżanie funkcji grupowych: konstrukcja typu COUNT(*) > MAX(COUNT(*)) miesza poziomy agregacji (wartość dla pojedynczej grupy z wartością liczoną po wszystkich grupach) i nie jest dopuszczalna w HAVING.",
+  "options": [
+   { "key": "a", "text": "SELECT job, MAX(sal) FROM emp GROUP BY job HAVING MAX(sal) > AVG(sal);", "correct": true, "explain": "Poprawne - oba agregaty (MAX i AVG) są liczone w obrębie tej samej grupy job, a HAVING jest właściwym miejscem na warunek dotyczący agregatów." },
+   { "key": "b", "text": "SELECT job, COUNT(*) FROM emp GROUP BY job HAVING COUNT(*) > MAX(COUNT(*));", "correct": false, "explain": "Niepoprawne - zagnieżdżenie MAX(COUNT(*)) daje wartość liczoną po wszystkich grupach i nie może być porównywane w HAVING z agregatem pojedynczej grupy (Oracle zgłasza błąd)." },
+   { "key": "c", "text": "SELECT job, COUNT(*) FROM emp WHERE COUNT(*) > 2 GROUP BY job;", "correct": false, "explain": "Niepoprawne - w klauzuli WHERE nie wolno używać funkcji agregujących; warunek na COUNT(*) należy przenieść do HAVING." },
+   { "key": "d", "text": "SELECT job, MAX(sal) FROM emp WHERE sal > 2000 GROUP BY job;", "correct": true, "explain": "Poprawne - WHERE filtruje pojedyncze wiersze (po zwykłej kolumnie sal) przed grupowaniem, a jedyna niezagregowana kolumna job występuje w GROUP BY." }
+  ]
+ },
+ {
+  "id": "Q107",
+  "chapter": "G9",
+  "chapterName": "Pytania egzaminacyjne z odpowiedziami",
+  "question": "Które stwierdzenia dotyczące operatora MINUS w Oracle są prawdziwe?",
+  "topicTitle": "Operator MINUS - różnica zbiorów i zgodność kolumn",
+  "topicSummary": "MINUS zwraca wiersze występujące w wyniku pierwszego zapytania, a nieobecne w wyniku drugiego (różnica zbiorów), przy okazji usuwając duplikaty. Jak każdy operator zbiorowy (UNION, INTERSECT, MINUS) wymaga, aby oba zapytania zwracały tę samą liczbę kolumn o zgodnych typach danych - nazwy kolumn mogą się natomiast różnić, a nazwę wyniku wyznacza pierwsze zapytanie.",
+  "options": [
+   { "key": "a", "text": "MINUS zwraca wiersze z pierwszego zapytania, których nie ma w drugim", "correct": true, "explain": "Tak - to definicja różnicy zbiorów realizowanej przez MINUS (dodatkowo z usunięciem powtórzeń)." },
+   { "key": "b", "text": "MINUS zwraca wiersze wspólne dla obu zapytań", "correct": false, "explain": "Nie - część wspólną zwraca INTERSECT, a MINUS jest wręcz jego przeciwieństwem." },
+   { "key": "c", "text": "typy danych kolumn muszą być zgodne w obu zapytaniach", "correct": true, "explain": "Tak - operatory zbiorowe porównują wiersze kolumna po kolumnie, więc odpowiadające sobie kolumny muszą mieć zgodne typy danych." },
+   { "key": "d", "text": "liczba kolumn w obu zapytaniach może się różnić", "correct": false, "explain": "Nie - liczba kolumn musi być identyczna w obu zapytaniach, inaczej Oracle zgłosi błąd niezgodności listy SELECT." }
+  ]
+ },
+ {
+  "id": "Q108",
+  "chapter": "G9",
+  "chapterName": "Pytania egzaminacyjne z odpowiedziami",
+  "question": "Zapytanie SELECT * FROM Ksiazki WHERE LiczbaStron >= ANY (SELECT LiczbaStron FROM Ksiazki); zwraca w wyniku:",
+  "topicTitle": "Operator >= ANY jako porównanie z minimum",
+  "topicSummary": "Warunek z operatorem >= ANY jest spełniony, gdy badana wartość jest większa lub równa co najmniej jednej wartości zwróconej przez podzapytanie - czyli w praktyce sprowadza się do porównania z wartością minimalną (>= MIN(...)). Dla odróżnienia: >= ALL wymagałby, aby wartość była nie mniejsza od wszystkich, czyli od maksimum.",
+  "options": [
+   { "key": "a", "text": "książki, które mają więcej stron niż suma wszystkich stron w tabeli", "correct": false, "explain": "Nie - operator ANY porównuje z pojedynczymi wartościami z podzapytania, a nie z ich sumą (do tego trzeba by użyć SUM w podzapytaniu)." },
+   { "key": "b", "text": "książki, które mają liczbę stron większą lub równą minimum liczby stron w tabeli", "correct": true, "explain": "Tak - to dokładny opis semantyki >= ANY: wystarczy, że wartość jest >= co najmniej jednej wartości ze zbioru, czyli >= wartości minimalnej." },
+   { "key": "c", "text": "wszystkie rekordy z tabeli Książka", "correct": false, "explain": "Nie - choć przy braku wartości NULL każdy wiersz faktycznie spełni ten warunek (bo każda wartość jest >= minimum), nie jest to formalny opis działania operatora ANY, a przy wartościach NULL taki wiersz w ogóle nie trafi do wyniku." },
+   { "key": "d", "text": "nie zwróci żadnych rekordów", "correct": false, "explain": "Nie - dla niepustej tabeli warunek spełni co najmniej wiersz o minimalnej liczbie stron (jest równy sam sobie)." }
+  ]
+ },
+ {
+  "id": "Q109",
+  "chapter": "G9",
+  "chapterName": "Pytania egzaminacyjne z odpowiedziami",
+  "question": "Wskazać poprawne (w Oracle) zapytanie SQL znajdujące łączną kwotę przelewów w każdym dniu. Schematy: Konto(ID, Numer, Waluta), Przelew(ID, DataPrzelewu, Kwota, Konto_ID).",
+  "topicTitle": "Agregacja „w każdym dniu” - SUM z GROUP BY",
+  "topicSummary": "Sformułowanie „w każdym dniu” oznacza, że wynik ma zawierać po jednym wierszu na każdą datę - potrzebne jest więc grupowanie GROUP BY DataPrzelewu i agregat SUM(Kwota). Zapytanie bez GROUP BY i bez agregatu zwróci pojedyncze przelewy, a sam SUM bez GROUP BY - jedną łączną kwotę dla całej tabeli. Każda niezagregowana kolumna z listy SELECT musi przy tym wystąpić w GROUP BY.",
+  "options": [
+   { "key": "a", "text": "SELECT DataPrzelewu, Kwota FROM Przelew p JOIN Konto k ON k.ID = p.Konto_ID;", "correct": false, "explain": "Niepoprawne względem treści - zapytanie wypisuje pojedyncze przelewy, nie sumując ich w obrębie dnia." },
+   { "key": "b", "text": "SELECT DataPrzelewu, SUM(kwota) FROM Przelew p JOIN Konto k ON k.ID = p.Konto_ID GROUP BY DataPrzelewu;", "correct": true, "explain": "Poprawne - grupowanie po dacie i SUM(Kwota) dają dokładnie łączną kwotę przelewów w każdym dniu, a jedyna niezagregowana kolumna występuje w GROUP BY." },
+   { "key": "c", "text": "SELECT SUM(kwota) FROM Przelew p JOIN Konto k ON k.ID = p.Konto_ID;", "correct": false, "explain": "Niepoprawne względem treści - brak GROUP BY oznacza jedną sumę dla wszystkich przelewów łącznie, bez rozbicia na dni." },
+   { "key": "d", "text": "SELECT Kwota FROM Przelew p JOIN Konto k ON k.ID = p.Konto_ID GROUP BY DataPrzelewu;", "correct": false, "explain": "Niepoprawne - kolumna Kwota jest wypisana bez agregacji, a nie występuje w GROUP BY, więc Oracle zgłosi błąd „not a GROUP BY expression”." }
+  ]
+ },
+ {
+  "id": "Q110",
+  "chapter": "G9",
+  "chapterName": "Pytania egzaminacyjne z odpowiedziami",
+  "question": "Dana jest tabela Przelew(ID, DataPrzelewu, Kwota). Które z następujących instrukcji są poprawnymi instrukcjami SQL w Oracle?",
+  "topicTitle": "HAVING bez GROUP BY a niezagregowane kolumny",
+  "topicSummary": "Klauzula HAVING może wystąpić bez GROUP BY, ale wtedy całe zapytanie traktowane jest jako jedna grupa - w liście SELECT nie może się więc pojawić żadna niezagregowana kolumna. Sama kolejność klauzul GROUP BY i HAVING jest w Oracle dowolna (obie wersje się kompilują, choć zalecana jest kolejność GROUP BY ... HAVING ...). Zapytania bez agregacji, z aliasem tabeli i zwykłym warunkiem WHERE, są oczywiście poprawne.",
+  "options": [
+   { "key": "a", "text": "SELECT DataPrzelewu, SUM(Kwota) FROM Przelew HAVING SUM(Kwota) > 1000;", "correct": false, "explain": "Niepoprawne - bez GROUP BY całe zapytanie jest jedną grupą, więc niezagregowana kolumna DataPrzelewu nie może wystąpić na liście SELECT." },
+   { "key": "b", "text": "SELECT DataPrzelewu, COUNT(*) FROM Przelew GROUP BY DataPrzelewu HAVING COUNT(*) > 3;", "correct": true, "explain": "Poprawne - wzorcowe grupowanie po dacie z filtrowaniem grup w HAVING; kolumna DataPrzelewu występuje w GROUP BY." },
+   { "key": "c", "text": "SELECT DataPrzelewu, COUNT(*) FROM Przelew HAVING COUNT(*) > 3 GROUP BY DataPrzelewu;", "correct": true, "explain": "Poprawne w Oracle - dialekt ten dopuszcza zapis klauzuli HAVING przed GROUP BY; wynik jest identyczny jak w odpowiedzi B (choć taka kolejność jest niezalecana i niezgodna ze standardem SQL)." },
+   { "key": "d", "text": "SELECT ID, DataPrzelewu, Kwota FROM Przelew p WHERE p.Kwota > 500;", "correct": true, "explain": "Poprawne - zwykłe zapytanie bez agregacji, z aliasem tabeli i warunkiem na kolumnie Kwota." }
+  ]
+ },
+ {
+  "id": "Q111",
+  "chapter": "G9",
+  "chapterName": "Pytania egzaminacyjne z odpowiedziami",
+  "question": "Dane są dwie tabele Wizyta(ID, DataWizyty, CenaWizyty, Lekarz_ID) oraz Lekarz(ID, Nazwisko, Specjalizacja). Które z następujących instrukcji są poprawnymi instrukcjami SQL w Oracle?",
+  "topicTitle": "Złączenia i niejednoznaczne nazwy kolumn",
+  "topicSummary": "Złączenie można zapisać zarówno składnią „przecinkową” z warunkiem w WHERE, jak i jawnym JOIN ... ON - obie formy są poprawne. Kolumnę o nazwie występującej w obu tabelach (tu: ID) trzeba jednak zawsze kwalifikować nazwą lub aliasem tabeli, inaczej odwołanie jest niejednoznaczne. Trzeba też pamiętać, że funkcja SUM przyjmuje dokładnie jeden argument - do sumowania kilku kolumn używa się wyrażenia, np. SUM(a + b).",
+  "options": [
+   { "key": "a", "text": "SELECT w.ID, DataWizyty, CenaWizyty FROM Wizyta w, Lekarz l WHERE w.Lekarz_ID = l.ID;", "correct": true, "explain": "Poprawne - klasyczne złączenie w składni przecinkowej; kolumna ID jest zakwalifikowana aliasem (w.ID), a DataWizyty i CenaWizyty występują tylko w jednej tabeli." },
+   { "key": "b", "text": "SELECT DataWizyty, Nazwisko AS NazwiskoLekarza FROM Wizyta JOIN Lekarz ON Wizyta.Lekarz_ID = Lekarz.ID;", "correct": true, "explain": "Poprawne - jawne złączenie JOIN ... ON z poprawnie zakwalifikowanymi kolumnami warunku oraz aliasem kolumny wynikowej." },
+   { "key": "c", "text": "SELECT w.ID, SUM(CenaWizyty, Lekarz_ID) FROM Wizyta w, Lekarz l WHERE w.Lekarz_ID = l.ID;", "correct": false, "explain": "Niepoprawne - funkcja SUM przyjmuje tylko jeden argument (do zsumowania kolumn należałoby napisać SUM(CenaWizyty + Lekarz_ID)), a dodatkowo niezagregowana kolumna w.ID wymagałaby klauzuli GROUP BY." },
+   { "key": "d", "text": "SELECT ID, DataWizyty, Nazwisko FROM Wizyta JOIN Lekarz ON ID = ID;", "correct": false, "explain": "Niepoprawne - kolumna ID występuje w obu tabelach, więc zarówno warunek ON ID = ID, jak i ID na liście SELECT są niejednoznaczne (błąd „column ambiguously defined”)." }
+  ]
+ },
+ {
   "id": "Q095",
-  "chapter": "G8",
-  "chapterName": "Zdjęcia egzaminu",
+  "chapter": "G9",
+  "chapterName": "Pytania egzaminacyjne z odpowiedziami",
   "question": "W bazie danych chcemy przechowywać informacje o statkach i ich rejsach. Musimy znać port, z którego statek wypłynął oraz jego destynację (inny port). Statek może mieć wiele rejsów, różne rejsy mogą odwiedzać te same porty. Dany port może być jednocześnie portem startowym dla jednego rejsu i portem destynacją dla innego rejsu. Wybierz najlepszy diagram spełniający wymienione wymagania.",
   "topicTitle": "Jedna encja Port odwoływana dwoma różnymi kluczami obcymi",
   "topicSummary": "Skoro ten sam port może raz pełnić rolę portu startowego, a innym razem portu destynacji (dla różnych rejsów), port jest tylko jedną encją, a jego dwie role są jedynie różnymi związkami do tej samej tabeli Port. Poprawny schemat ma więc pojedynczą tabelę Port(Id PK, Nazwa) oraz tabelę Rejs z dwoma osobnymi kluczami obcymi (Port_startowy, Port_destynacja), oba wskazujące na tę samą tabelę Port. Rozbijanie portu na dwie odrębne tabele (Port_startowy i Port_destynacja) zmusza do duplikowania tego samego portu w obu tabelach, gdy ma on pełnić obie role, co łamie zasadę unikania niekontrolowanej redundancji.",
@@ -1333,8 +1543,8 @@ const QUESTIONS = [
  },
  {
   "id": "Q096",
-  "chapter": "G8",
-  "chapterName": "Zdjęcia egzaminu",
+  "chapter": "G9",
+  "chapterName": "Pytania egzaminacyjne z odpowiedziami",
   "question": "W bazie danych chcemy przechowywać informacje o historii stanowisk pracowników, czyli na jakim stanowisku dany człowiek pracował w danym okresie czasu. Pracownik może pracować na wielu stanowiskach w swojej karierze, a na danym stanowisku może pracować wielu pracowników jednocześnie. Wybierz najlepszy diagram spełniający wymienione wymagania.",
   "topicTitle": "Tabela historii jako asocjacja wiele-do-wielu z atrybutami czasu",
   "topicSummary": "Zależność \"pracownik - wiele stanowisk w karierze\" i \"stanowisko - wielu pracowników naraz\" to klasyczny związek wiele-do-wielu, tylko dodatkowo opisany okresem czasu (Od_kiedy, Do_kiedy). Wymaga to osobnej tabeli asocjacyjnej HistoriaStanowisk z kluczami obcymi zarówno do Pracownik, jak i do Stanowisko (Stanowisko jako osobna encja, a nie tylko tekst), gdzie klucz główny obejmuje pracownika, stanowisko oraz datę rozpoczęcia - dzięki temu jeden pracownik może mieć wiele wierszy historii (wiele stanowisk w karierze), a jedno stanowisko może wystąpić w wielu wierszach dla różnych pracowników jednocześnie.",
