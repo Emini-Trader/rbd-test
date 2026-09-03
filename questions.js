@@ -1909,20 +1909,6 @@ const QUESTIONS = [
   ]
  },
  {
-  "id": "Q137",
-  "chapter": "G10",
-  "chapterName": "Dodatkowa pula pytań (RBD/SBD)",
-  "question": "Wskaż poprawne zapytania SQL w Oracle znajdujące stanowiska, na których średni zarobek wynosi 3000 lub więcej.",
-  "topicTitle": "HAVING AVG(sal) >= 3000 - w dowolnej kolejności z GROUP BY",
-  "topicSummary": "Warunek na średnią w obrębie grupy (AVG(sal) >= 3000) musi trafić do HAVING, a nie do WHERE. Oracle dopuszcza przy tym zapisanie HAVING zarówno po, jak i przed GROUP BY, z identycznym wynikiem - podobnie jak w analogicznych zapytaniach z COUNT(*) w tej bazie pytań.",
-  "options": [
-   { "key": "a", "text": "SELECT job, AVG(sal) FROM emp GROUP BY job HAVING AVG(sal) >= 3000;", "correct": true, "explain": "Poprawne i zalecane - klasyczny wzorzec GROUP BY ... HAVING z warunkiem na średnią zarobków w grupie." },
-   { "key": "b", "text": "SELECT job, AVG(sal) FROM emp HAVING AVG(sal) >= 3000 GROUP BY job;", "correct": true, "explain": "Poprawne w Oracle - dialekt ten dopuszcza zapisanie HAVING przed GROUP BY, z tym samym wynikiem co w odpowiedzi A." },
-   { "key": "c", "text": "SELECT job, AVG(sal) FROM emp WHERE AVG(sal) >= 3000 GROUP BY job;", "correct": false, "explain": "Niepoprawne - funkcji agregującej AVG nie wolno używać w klauzuli WHERE." },
-   { "key": "d", "text": "SELECT job, AVG(sal) FROM emp GROUP BY job WHERE AVG(sal) >= 3000;", "correct": false, "explain": "Niepoprawne - WHERE musi poprzedzać GROUP BY, a nie występować po nim, a dodatkowo agregat w WHERE jest niedozwolony." }
-  ]
- },
- {
   "id": "Q138",
   "chapter": "G10",
   "chapterName": "Dodatkowa pula pytań (RBD/SBD)",
