@@ -65,11 +65,11 @@ const QUESTIONS = [
   "chapter": "G1",
   "chapterName": "Najnowszy zjazd",
   "question": "Encje PRACOWNIK i DZIAŁ (z zależnością „zatrudniony w”; wiadomo, że pracownik może być zatrudniony tylko w jednym dziale) połączone są związkiem:",
-  "topicTitle": "Typ związku 1:N między działem a pracownikami",
-  "topicSummary": "Jeden dział zatrudnia wielu pracowników, ale każdy pracownik należy do co najwyżej jednego działu - to definicja związku jeden-do-wielu (1:N) między DZIAŁ (strona „jeden”) a PRACOWNIK (strona „wiele”), realizowanego kluczem obcym do działu w tabeli pracowników.",
+  "topicTitle": "Typ związku 1:N między pracownikami a działem",
+  "topicSummary": "Jeden dział zatrudnia wielu pracowników, ale każdy pracownik należy do co najwyżej jednego działu - to definicja związku jeden-do-wielu (1:N) między DZIAŁ (strona „jeden”) a PRACOWNIK (strona „wiele”), realizowanego kluczem obcym do działu w tabeli pracowników. Encje w pytaniu wymieniono w kolejności PRACOWNIK, DZIAŁ, więc zgodnie z przyjętą w tej bazie konwencją (pierwsze słowo odpowiedzi opisuje pierwszą wymienioną encję) poprawną odpowiedzią jest „wiele — jeden” (PRACOWNIK - strona „wiele”, DZIAŁ - strona „jeden”), a nie „jeden — wiele”.",
   "options": [
-   { "key": "a", "text": "jeden — wiele", "correct": true, "explain": "Tak - jeden dział może zatrudniać wielu pracowników, a każdy pracownik należy do najwyżej jednego działu." },
-   { "key": "b", "text": "wiele — jeden", "correct": false, "explain": "Nie - to ta sama krotność wyrażona z przeciwnej strony niż przyjęta w zadaniu konwencja (DZIAŁ jako strona „jeden”)." },
+   { "key": "a", "text": "jeden — wiele", "correct": false, "explain": "Nie - przy encjach wymienionych w kolejności PRACOWNIK, DZIAŁ to zapis sugerowałby, że PRACOWNIK jest stroną „jeden”, a DZIAŁ stroną „wiele” - czyli odwrotnie niż w rzeczywistości (to dział zatrudnia wielu pracowników, a nie pracownik ma wiele działów)." },
+   { "key": "b", "text": "wiele — jeden", "correct": true, "explain": "Tak - PRACOWNIK (wymieniony jako pierwsza encja) jest stroną „wiele” (wielu pracowników na dział), a DZIAŁ (druga encja) stroną „jeden” (każdy pracownik należy do najwyżej jednego działu)." },
    { "key": "c", "text": "wiele — wiele", "correct": false, "explain": "Nie - treść zadania wprost wyklucza tę możliwość: pracownik może być zatrudniony tylko w jednym dziale." },
    { "key": "d", "text": "wymagającym dodatkowej encji łączącej", "correct": false, "explain": "Nie - encja łącząca jest potrzebna dla związków wiele-do-wielu; tu wystarczy zwykły klucz obcy w tabeli PRACOWNIK." }
   ]
