@@ -402,12 +402,12 @@ const QUESTIONS = [
   "chapterName": "Ogólne RBD, spójność i postacie normalne",
   "question": "Zależność złączeniowa jest uogólnieniem zależności wielowartościowej w następującym sensie:",
   "topicTitle": "Zależność złączeniowa (5NF)",
-  "topicSummary": "Zależność wielowartościowa dotyczy bezstratnego rozbicia tabeli na dokładnie dwie projekcje. Zależność złączeniowa (join dependency), będąca podstawą V postaci normalnej, jest jej uogólnieniem: dopuszcza bezstratny rozkład tabeli na dowolną liczbę (co najmniej dwóch) projekcji, których naturalne złączenie odtwarza oryginalną relację.",
+  "topicSummary": "Zależność wielowartościowa (MVD) dotyczy zawsze bezstratnego rozbicia tabeli na dokładnie dwie projekcje - to jej definicja, nie szczególny przypadek czegoś ogólniejszego. Zależność złączeniowa (join dependency), będąca podstawą V postaci normalnej, jest jej uogólnieniem właśnie w tym sensie, że dopuszcza bezstratny rozkład tabeli na więcej niż dwie projekcje naraz, których dopiero łączne (a nie parami) naturalne złączenie odtwarza oryginalną relację - MVD jest wtedy jej szczególnym, dwuelementowym przypadkiem.",
   "options": [
-   { "key": "a", "text": "dotyczy rozbicia tabeli na dokładnie dwie tabele", "correct": false, "explain": "Nie - to opisuje zależność wielowartościową, a nie ogólniejszą zależność złączeniową." },
-   { "key": "b", "text": "dotyczy rozbicia tabeli na dokładnie trzy tabele", "correct": false, "explain": "Nie - liczba tabel w zależności złączeniowej nie jest ograniczona do trzech." },
-   { "key": "c", "text": "dotyczy rozbicia tabeli na więcej niż dwie tabele", "correct": false, "explain": "Nie - zależność złączeniowa obejmuje też przypadek szczególny rozbicia na dokładnie dwie tabele (czyli zależność wielowartościową), a nie tylko przypadki z więcej niż dwiema." },
-   { "key": "d", "text": "dotyczy rozbicia tabeli na co najmniej dwie tabele", "correct": true, "explain": "Tak - zależność złączeniowa uogólnia zależność wielowartościową, dopuszczając bezstratny rozkład na dowolną liczbę (co najmniej dwóch) tabel/projekcji." }
+   { "key": "a", "text": "dotyczy rozbicia tabeli na dokładnie dwie tabele", "correct": false, "explain": "Nie - to opisuje samą zależność wielowartościową (jej definicję), a nie to, w czym zależność złączeniowa ją uogólnia." },
+   { "key": "b", "text": "dotyczy rozbicia tabeli na dokładnie trzy tabele", "correct": false, "explain": "Nie - liczba tabel w zależności złączeniowej nie jest ograniczona akurat do trzech." },
+   { "key": "c", "text": "dotyczy rozbicia tabeli na więcej niż dwie tabele", "correct": true, "explain": "Tak - MVD z definicji dotyczy rozbicia na dokładnie dwie projekcje; uogólnienie, jakim jest zależność złączeniowa, polega właśnie na dopuszczeniu rozkładu na więcej niż dwie projekcje, których dopiero łączne (nie parami) złączenie odtwarza relację." },
+   { "key": "d", "text": "dotyczy rozbicia tabeli na co najmniej dwie tabele", "correct": false, "explain": "Nie - to sformułowanie obejmuje też przypadek dokładnie dwóch tabel, czyli samą zależność wielowartościową, więc nie opisuje tego, w czym zależność złączeniowa jest jej uogólnieniem." }
   ]
  },
  {
@@ -472,12 +472,12 @@ const QUESTIONS = [
   "chapterName": "Schematy baz danych",
   "question": "Studenci lubią się, są sobie obojętni lub nie znoszą się (nie ma innej możliwości). Który ze schematów jest najodpowiedniejszy z punktu widzenia zasad projektowania baz danych?",
   "topicTitle": "Kategoryczna relacja między encjami tego samego typu",
-  "topicSummary": "Gdy związek jest samoodwołujący (student-student) i ma kilka rozłącznych wariantów, można je modelować przez osobne tabele asocjacyjne dla każdego wariantu, pod warunkiem że druga strona relacji odwołuje się wprost do klucza głównego Studenci, a nie duplikuje jego atrybuty (imię, nazwisko) w osobnej, pomocniczej encji.",
+  "topicSummary": "Gdy związek jest samoodwołujący (student-student) i ma kilka rozłącznych wariantów, można je modelować przez osobne tabele asocjacyjne dla każdego wariantu, pod warunkiem że druga strona relacji odwołuje się wprost do klucza głównego Studenci, a nie duplikuje jego atrybuty (imię, nazwisko) w osobnej, pomocniczej encji. Skoro „nie ma innej możliwości” niż lubi/nie znosi/obojętny, stan „obojętny” jest w pełni wyznaczony przez brak wpisu w obu pozostałych tabelach - jego jawne przechowywanie w osobnej tabeli jest więc zbędną redundancją.",
   "options": [
    { "key": "a", "text": "Studenci(id_studenta, imię, nazwisko); Koledzy(id_kolegi, imię, nazwisko, id_studenta, id_stosunku_do); Stosunek(id_stosunku_do, stosunek_do)", "correct": false, "explain": "Nie - Koledzy niepotrzebnie duplikuje imię i nazwisko, mimo że \"kolega\" to po prostu inny student już opisany w Studenci; wystarczyłoby odwołanie do id_studenta." },
    { "key": "b", "text": "Studenci(id_studenta, imię, nazwisko); Koledzy(id_kolegi, imię, nazwisko, id_studenta, stosunek_do)", "correct": false, "explain": "Nie - podobny problem jak w a) (zduplikowane imię/nazwisko), a dodatkowo stosunek_do jako dowolny tekst zamiast ustandaryzowanej wartości/klucza jest mniej bezpieczny (podatny na literówki, niespójne wartości)." },
-   { "key": "c", "text": "Studenci(id_studenta, imię, nazwisko); Lubi(id_studenta, id_kolegi); Nie_znosi(id_studenta, id_kolegi); Obojętny(id_studenta, id_kolegi)", "correct": true, "explain": "Tak - trzy proste tabele łączące, każda odwołująca się wprost do Studenci bez duplikowania jego atrybutów, kompletnie pokrywają wszystkie trzy możliwe stany relacji." },
-   { "key": "d", "text": "Studenci(id_studenta, imię, nazwisko); Lubi(id_studenta, id_kolegi); Nie_znosi(id_studenta, id_kolegi)", "correct": false, "explain": "Nie - brakuje tabeli dla trzeciego, dopuszczalnego stanu \"obojętny\", więc schemat nie pozwala zapisać wszystkich możliwości opisanych w treści zadania." }
+   { "key": "c", "text": "Studenci(id_studenta, imię, nazwisko); Lubi(id_studenta, id_kolegi); Nie_znosi(id_studenta, id_kolegi); Obojętny(id_studenta, id_kolegi)", "correct": false, "explain": "Nie - trzy tabele odwołują się wprost do Studenci bez duplikowania jego atrybutów, ale skoro innej możliwości niż te trzy stany nie ma, tabela Obojętny jest zbędna: ten stan i tak wynika z samej nieobecności pary w Lubi i w Nie_znosi. Wariant d) bez tej tabeli jest równie kompletny i ma mniej redundancji." },
+   { "key": "d", "text": "Studenci(id_studenta, imię, nazwisko); Lubi(id_studenta, id_kolegi); Nie_znosi(id_studenta, id_kolegi)", "correct": true, "explain": "Tak - dwie tabele łączące, odwołujące się wprost do Studenci, w pełni pokrywają wszystkie trzy możliwe stany: „lubi” i „nie znosi” to wpisy w odpowiednich tabelach, a „obojętny” to po prostu brak wpisu w obu - bez zbędnej, redundantnej trzeciej tabeli." }
   ]
  },
  {
@@ -877,11 +877,11 @@ const QUESTIONS = [
   "chapter": "G6",
   "chapterName": "SQL2 (schemat EMP/DEPT)",
   "question": "Wskazać poprawne zapytanie SQL znajdujące średnie zarobki tylko tych departamentów, które zatrudniają więcej niż trzech pracowników.",
-  "topicTitle": "HAVING po GROUP BY",
-  "topicSummary": "Warunek dotyczący wyniku funkcji agregującej (tu: COUNT(*) > 3, czyli po zgrupowaniu) musi być umieszczony w klauzuli HAVING, występującej zawsze po GROUP BY - nie w WHERE (które działa na pojedynczych, jeszcze niepogrupowanych wierszach) i nie w złej kolejności klauzul.",
+  "topicTitle": "HAVING i GROUP BY - dowolna kolejność klauzul w Oracle",
+  "topicSummary": "Warunek dotyczący wyniku funkcji agregującej (tu: COUNT(*) > 3, czyli po zgrupowaniu) musi trafić do klauzuli HAVING, nie do WHERE (które działa na pojedynczych, jeszcze niepogrupowanych wierszach i nie dopuszcza agregatów). Składnia Oracle dopuszcza przy tym obie kolejności zapisu - GROUP BY ... HAVING ... oraz HAVING ... GROUP BY ... - dając identyczny wynik; standard SQL i większa czytelność przemawiają za pierwszą, zalecaną formą.",
   "options": [
-   { "key": "a", "text": "SELECT deptno, AVG(sal) FROM emp GROUP BY deptno HAVING COUNT(*) > 3;", "correct": true, "explain": "Poprawne - GROUP BY deptno grupuje pracowników według działu, a HAVING COUNT(*) > 3 odfiltrowuje tylko działy z więcej niż trzema pracownikami." },
-   { "key": "b", "text": "SELECT deptno, AVG(sal) FROM emp HAVING COUNT(*) > 3 GROUP BY deptno;", "correct": false, "explain": "Niepoprawne - HAVING musi występować po GROUP BY, a nie przed nim; to błąd składniowy." },
+   { "key": "a", "text": "SELECT deptno, AVG(sal) FROM emp GROUP BY deptno HAVING COUNT(*) > 3;", "correct": true, "explain": "Poprawne i zalecane - GROUP BY deptno grupuje pracowników według działu, a HAVING COUNT(*) > 3 odfiltrowuje tylko działy z więcej niż trzema pracownikami." },
+   { "key": "b", "text": "SELECT deptno, AVG(sal) FROM emp HAVING COUNT(*) > 3 GROUP BY deptno;", "correct": true, "explain": "Poprawne w Oracle - ten dialekt dopuszcza zapisanie HAVING przed GROUP BY; wynik jest identyczny jak w odpowiedzi A, choć taki zapis jest niezalecany i niezgodny ze standardem SQL." },
    { "key": "c", "text": "SELECT deptno, AVG(sal) FROM emp GROUP BY deptno WHERE COUNT(*) > 3;", "correct": false, "explain": "Niepoprawne - WHERE musi poprzedzać GROUP BY, a nie po nim występować, a dodatkowo funkcji agregującej nie wolno używać w WHERE." },
    { "key": "d", "text": "SELECT deptno, AVG(sal) FROM emp WHERE COUNT(*) > 3 GROUP BY deptno;", "correct": false, "explain": "Niepoprawne - COUNT(*) w klauzuli WHERE jest niedozwolone, bo agregacja nie jest jeszcze policzona na etapie filtrowania pojedynczych wierszy." }
   ]
@@ -905,11 +905,11 @@ const QUESTIONS = [
   "chapter": "G6",
   "chapterName": "SQL2 (schemat EMP/DEPT)",
   "question": "Wskazać poprawne zapytanie SQL znajdujące departamenty zatrudniające powyżej trzech pracowników.",
-  "topicTitle": "HAVING z COUNT(*)",
-  "topicSummary": "Kolejny przykład tego samego wzorca: warunek na liczbę pracowników w grupie (COUNT(*) > 3) musi trafić do HAVING po GROUP BY deptno, nigdy do WHERE.",
+  "topicTitle": "HAVING z COUNT(*) - dowolna kolejność klauzul w Oracle",
+  "topicSummary": "Kolejny przykład tego samego wzorca: warunek na liczbę pracowników w grupie (COUNT(*) > 3) musi trafić do HAVING, nigdy do WHERE. Oracle dopuszcza przy tym zapisanie klauzuli HAVING zarówno po, jak i przed GROUP BY - obie kolejności dają identyczny wynik, choć standardowa i zalecana jest kolejność GROUP BY ... HAVING ...",
   "options": [
-   { "key": "a", "text": "SELECT deptno, COUNT(*) FROM emp GROUP BY deptno HAVING COUNT(*) > 3;", "correct": true, "explain": "Poprawne - klasyczny, prawidłowy wzorzec GROUP BY ... HAVING COUNT(*) > 3." },
-   { "key": "b", "text": "SELECT deptno, COUNT(*) FROM emp HAVING COUNT(*) > 3 GROUP BY deptno;", "correct": false, "explain": "Niepoprawne - HAVING przed GROUP BY to błąd kolejności klauzul." },
+   { "key": "a", "text": "SELECT deptno, COUNT(*) FROM emp GROUP BY deptno HAVING COUNT(*) > 3;", "correct": true, "explain": "Poprawne i zalecane - klasyczny wzorzec GROUP BY ... HAVING COUNT(*) > 3." },
+   { "key": "b", "text": "SELECT deptno, COUNT(*) FROM emp HAVING COUNT(*) > 3 GROUP BY deptno;", "correct": true, "explain": "Poprawne w Oracle - dialekt ten dopuszcza zapisanie HAVING przed GROUP BY, z identycznym wynikiem jak w odpowiedzi A, choć taki zapis jest niezalecany i niezgodny ze standardem SQL." },
    { "key": "c", "text": "SELECT deptno, COUNT(*) FROM emp GROUP BY deptno WHERE COUNT(*) > 3;", "correct": false, "explain": "Niepoprawne - WHERE po GROUP BY to błąd kolejności, a agregat w WHERE jest niedozwolony." },
    { "key": "d", "text": "SELECT deptno, COUNT(*) FROM emp WHERE COUNT(*) > 3 GROUP BY deptno;", "correct": false, "explain": "Niepoprawne - COUNT(*) w WHERE jest niedozwolone." }
   ]
@@ -1183,10 +1183,10 @@ const QUESTIONS = [
   "chapterName": "Zdjęcia egzaminu",
   "question": "Studenci lubią się, są sobie obojętni lub nie znoszą się (nie ma innej możliwości). Wskaż, które z poniższych schematów (wielkimi literami oznaczono atrybuty klucza głównego) prawidłowo (i bez redundancji) modelują zagadnienie:",
   "topicTitle": "Jedna tabela z typem relacji zamiast wielu równoległych tabel",
-  "topicSummary": "W przeciwieństwie do wcześniejszego, prostszego ujęcia tego problemu, tu kluczowe jest słowo „bez redundancji”: rozwiązanie z trzema osobnymi tabelami (Lubi/Nie_znosi/Obojętny) nie ma żadnego mechanizmu, który zapobiegałby wpisaniu tej samej pary studentów jednocześnie do więcej niż jednej z nich - nic nie gwarantuje spójności/wyłączności stanu. Rozwiązanie z jedną tabelą Nastawienie_do i kluczem głównym (ID_STUDENTA, ID_KOLEGI) wymusza istnienie co najwyżej jednego wiersza (czyli jednego nastawienia) dla danej pary, co jest zgodne z założeniem „nie ma innej możliwości”.",
+  "topicSummary": "W przeciwieństwie do wcześniejszego, prostszego ujęcia tego problemu, tu kluczowe jest słowo „bez redundancji”: każde rozwiązanie rozbijające nastawienie na kilka równoległych tabel (Lubi/Nie_znosi, ewentualnie jeszcze Obojętny) nie ma żadnego mechanizmu, który zapobiegałby wpisaniu tej samej pary studentów jednocześnie do więcej niż jednej z nich - nic nie gwarantuje wyłączności stanu, a ten sam fakt daje się wtedy zapisać na więcej niż jeden sposób. Rozwiązanie z jedną tabelą Nastawienie_do i kluczem głównym (ID_STUDENTA, ID_KOLEGI) wymusza istnienie co najwyżej jednego wiersza (czyli jednego nastawienia) dla danej pary, co jest zgodne z założeniem „nie ma innej możliwości”.",
   "options": [
    { "key": "a", "text": "Studenci(ID_STUDENTA, imię, nazwisko); Nastawienie(ID_NASTAWIENIA, nastawienie); Nastawienie_do(ID_STUDENTA, ID_KOLEGI, id_nastawienia)", "correct": true, "explain": "Tak - klucz główny (ID_STUDENTA, ID_KOLEGI) w Nastawienie_do gwarantuje dokładnie jeden wiersz (czyli jedno nastawienie) na parę studentów, bez możliwości sprzecznych wpisów w kilku miejscach naraz." },
-   { "key": "b", "text": "Studenci(ID_STUDENTA, imię, nazwisko); Lubi(ID_STUDENTA, ID_KOLEGI); Nie_znosi(ID_STUDENTA, ID_KOLEGI)", "correct": false, "explain": "Nie - brakuje możliwości zapisania stanu „obojętny”, opisanego wprost w treści zadania jako jedna z trzech możliwości." },
+   { "key": "b", "text": "Studenci(ID_STUDENTA, imię, nazwisko); Lubi(ID_STUDENTA, ID_KOLEGI); Nie_znosi(ID_STUDENTA, ID_KOLEGI)", "correct": false, "explain": "Nie - samo pominięcie tabeli „Obojętny” jest do obrony (obojętność to po prostu brak wiersza w obu tabelach), ale dwie równoległe tabele nie wymuszają wyłączności stanu: ta sama para studentów może trafić jednocześnie do Lubi i do Nie_znosi, więc schemat dopuszcza sprzeczne, nadmiarowe zapisy. Wariant a) z kluczem głównym (ID_STUDENTA, ID_KOLEGI) takiej możliwości nie daje i to on spełnia warunek „bez redundancji”." },
    { "key": "c", "text": "Studenci(ID_STUDENTA, imię, nazwisko); Lubi(ID_STUDENTA, ID_KOLEGI); Nie_znosi(ID_STUDENTA, ID_KOLEGI); Obojętny(ID_STUDENTA, ID_KOLEGI)", "correct": false, "explain": "Nie - mimo że pokrywa wszystkie trzy stany, nic nie stoi na przeszkodzie, by ta sama para studentów trafiła jednocześnie do dwóch lub trzech tabel naraz, co jest niespójne (redundancja/brak wymuszonej wyłączności), w przeciwieństwie do wariantu a)." },
    { "key": "d", "text": "Studenci(ID_STUDENTA, imię, nazwisko); Koledzy(ID_KOLEGI, imię, nazwisko, id_studenta, nastawienie_do)", "correct": false, "explain": "Nie - Koledzy niepotrzebnie duplikuje imię i nazwisko, mimo że „kolega” to po prostu inny student już opisany w Studenci." }
   ]
@@ -1315,6 +1315,1034 @@ const QUESTIONS = [
    { "key": "b", "text": "SELECT ename FROM emp WHERE job IN (SELECT job FROM emp WHERE deptno = 10);", "correct": true, "explain": "Poprawne - IN poprawnie obsługuje podzapytanie zwracające dowolną liczbę wierszy z listą stanowisk występujących w dziale 10." },
    { "key": "c", "text": "SELECT ename FROM emp e1 WHERE EXISTS (SELECT 1 FROM emp e2 WHERE e1.job = e2.job AND e2.deptno = 10);", "correct": true, "explain": "Poprawne - skorelowane podzapytanie EXISTS sprawdza, czy istnieje jakiś pracownik e2 w dziale 10 o tym samym stanowisku co e1, co jest równoważne podejściu z IN." },
    { "key": "d", "text": "SELECT ename FROM emp e1 WHERE EXISTS (SELECT 1 FROM emp e2 WHERE e1.job = e2.job) AND e1.deptno = 10;", "correct": false, "explain": "Niepoprawne logicznie - EXISTS bez warunku e2.deptno = 10 jest niemal zawsze prawdziwe (e1 zawsze pasuje samo do siebie), a osobny warunek e1.deptno = 10 filtruje po prostu pracowników z działu 10, zwracając zupełnie inny wynik niż żądany." }
+  ]
+ },
+ {
+  "id": "Q097",
+  "chapter": "G9",
+  "chapterName": "Pytania egzaminacyjne z odpowiedziami",
+  "question": "Jaka jest wartość logiczna wyrażenia TRUE OR NULL OR FALSE:",
+  "topicTitle": "Logika trójwartościowa - OR z wartością NULL",
+  "topicSummary": "W logice trójwartościowej SQL alternatywa (OR) jest prawdziwa, gdy choć jeden z argumentów ma wartość TRUE - i to niezależnie od tego, czy pozostałe są FALSE, czy NULL (UNKNOWN). Wartość NULL „psuje” wynik alternatywy tylko wtedy, gdy bez niej nie da się rozstrzygnąć prawdziwości wyrażenia (np. FALSE OR NULL daje NULL). Tu pierwszy człon to TRUE, więc całe wyrażenie jest prawdziwe.",
+  "options": [
+   { "key": "a", "text": "0", "correct": false, "explain": "Nie - wynikiem wyrażenia logicznego w SQL jest wartość logiczna (TRUE/FALSE/UNKNOWN), a nie liczba 0." },
+   { "key": "b", "text": "True", "correct": true, "explain": "Tak - w alternatywie wystarczy jeden człon o wartości TRUE, aby całe wyrażenie było prawdziwe; TRUE OR NULL daje TRUE, a TRUE OR FALSE również TRUE." },
+   { "key": "c", "text": "False", "correct": false, "explain": "Nie - obecność członu TRUE wyklucza wynik FALSE; alternatywa jest fałszywa dopiero wtedy, gdy wszystkie jej człony są fałszywe." },
+   { "key": "d", "text": "Null", "correct": false, "explain": "Nie - NULL w alternatywie „zaraża” wynik tylko wtedy, gdy bez niego nie da się rozstrzygnąć wyniku (np. FALSE OR NULL); tutaj TRUE przesądza o wartości całego wyrażenia." }
+  ]
+ },
+ {
+  "id": "Q098",
+  "chapter": "G9",
+  "chapterName": "Pytania egzaminacyjne z odpowiedziami",
+  "question": "Co będzie wynikiem realizacji poniższej instrukcji na niepustej relacji OSOBA(IdOsoba, Imie, Nazwisko, NrKonta): SELECT * FROM Osoba WHERE NrKonta = NrKonta OR NrKonta IS NULL;",
+  "topicTitle": "Porównanie kolumny z samą sobą a wartości NULL",
+  "topicSummary": "Warunek NrKonta = NrKonta jest prawdziwy dla każdego wiersza, w którym NrKonta ma jakąkolwiek wartość, ale dla wierszy z NULL daje UNKNOWN (bo NULL nie jest równy niczemu, nawet samemu sobie) - takie wiersze zostałyby odrzucone. Dopisanie alternatywy OR NrKonta IS NULL domyka lukę: wiersze z wartością wpadają przez pierwszy człon, a wiersze z NULL przez drugi. W efekcie warunek jest spełniony przez wszystkie wiersze tabeli.",
+  "options": [
+   { "key": "a", "text": "relacja Osoba (wszystkie rekordy)", "correct": true, "explain": "Tak - pierwszy człon warunku przepuszcza wszystkie wiersze z niepustym NrKonta, a drugi (IS NULL) dokładnie te, które pierwszy odrzucił; razem dają całą tabelę." },
+   { "key": "b", "text": "relacja pusta", "correct": false, "explain": "Nie - wynik jest pusty tylko dla pustej tabeli, a z założenia relacja Osoba jest niepusta." },
+   { "key": "c", "text": "instrukcja jest niepoprawna składniowo", "correct": false, "explain": "Nie - porównanie kolumny z samą sobą oraz operator IS NULL są w pełni poprawną składnią SQL." },
+   { "key": "d", "text": "zawsze podzbiór relacji z rekordów, gdzie NrKonta ma wartość nie będącą NULL", "correct": false, "explain": "Nie - to opis wyniku samego warunku NrKonta = NrKonta; dodany człon OR NrKonta IS NULL dołącza właśnie wiersze z wartością NULL." }
+  ]
+ },
+ {
+  "id": "Q099",
+  "chapter": "G9",
+  "chapterName": "Pytania egzaminacyjne z odpowiedziami",
+  "question": "Co będzie wynikiem realizacji poniższej instrukcji na niepustej relacji OSOBA(IdOsoba, Imie, Nazwisko, NrKonta): SELECT * FROM Osoba WHERE NrKonta = NrKonta OR NrKonta = NULL;",
+  "topicTitle": "Dlaczego „= NULL” nigdy nie działa",
+  "topicSummary": "Porównanie „= NULL” nigdy nie zwraca TRUE - daje zawsze UNKNOWN, dlatego do sprawdzania pustych wartości służy wyłącznie operator IS NULL. Drugi człon alternatywy jest więc bezużyteczny i cały warunek sprowadza się do NrKonta = NrKonta, czyli do wierszy, w których NrKonta nie jest NULL. Uwaga na słowo „zawsze”: wynik zależy od danych (jeśli żaden NrKonta nie jest NULL, będzie to cała tabela, jeśli wszystkie są NULL - relacja pusta), ale zawsze mieści się w zbiorze rekordów o niepustym NrKonta.",
+  "options": [
+   { "key": "a", "text": "relacja Osoba (wszystkie rekordy)", "correct": false, "explain": "Nie - wiersze z NrKonta o wartości NULL nie spełniają żadnego z dwóch członów warunku, więc nie zawsze otrzymamy całą tabelę." },
+   { "key": "b", "text": "zawsze relacja pusta", "correct": false, "explain": "Nie - wiersze z niepustym NrKonta spełniają warunek NrKonta = NrKonta, więc wynik jest pusty tylko wtedy, gdy wszystkie wartości NrKonta są NULL." },
+   { "key": "c", "text": "instrukcja jest niepoprawna składniowo", "correct": false, "explain": "Nie - zapis „= NULL” jest składniowo dopuszczalny (choć logicznie bezużyteczny), więc zapytanie się wykona." },
+   { "key": "d", "text": "zawsze podzbiór relacji z rekordów, gdzie NrKonta ma wartość nie będącą NULL", "correct": true, "explain": "Tak - człon NrKonta = NULL zawsze daje UNKNOWN, więc realnie działa tylko NrKonta = NrKonta, a ten warunek przepuszcza dokładnie (a więc w szczególności co najwyżej) wiersze o niepustym NrKonta." }
+  ]
+ },
+ {
+  "id": "Q100",
+  "chapter": "G9",
+  "chapterName": "Pytania egzaminacyjne z odpowiedziami",
+  "question": "Instrukcja DROP VIEW służy do:",
+  "topicTitle": "DROP VIEW jako polecenie DDL",
+  "topicSummary": "DROP VIEW to polecenie DDL usuwające definicję perspektywy (widoku) ze słownika bazy danych - same dane w tabelach źródłowych pozostają nietknięte, bo widok jest tylko zapamiętanym zapytaniem. Nie należy go mylić z poleceniami sterowania transakcją (COMMIT, ROLLBACK - TCL) ani z zarządzaniem uprawnieniami (GRANT, REVOKE - DCL).",
+  "options": [
+   { "key": "a", "text": "usuwania perspektywy (widoku)", "correct": true, "explain": "Tak - DROP VIEW usuwa definicję widoku; dane w tabelach, na których widok był zbudowany, pozostają nienaruszone." },
+   { "key": "b", "text": "zakończenia transakcji", "correct": false, "explain": "Nie - do zatwierdzenia transakcji służy COMMIT (a do jej przerwania ROLLBACK)." },
+   { "key": "c", "text": "wycofywania zmian w bazie danych", "correct": false, "explain": "Nie - zmiany wycofuje ROLLBACK; DROP VIEW sam jest poleceniem DDL, które w Oracle dodatkowo powoduje niejawne zatwierdzenie transakcji." },
+   { "key": "d", "text": "odbierania uprawnień w bazie danych", "correct": false, "explain": "Nie - uprawnienia odbiera REVOKE, a nadaje GRANT." }
+  ]
+ },
+ {
+  "id": "Q101",
+  "chapter": "G9",
+  "chapterName": "Pytania egzaminacyjne z odpowiedziami",
+  "question": "Dany jest schemat relacyjny R = (Ulica, Kod, Sklep, Numer), F = {Ulica → Kod; Ulica, Numer → Sklep}. W której postaci normalnej jest ten schemat?",
+  "topicTitle": "Zależność częściowa od klucza łamie II postać normalną",
+  "topicSummary": "Kluczem tego schematu jest para (Ulica, Numer) - jej domknięcie daje wszystkie atrybuty (Ulica → Kod, a Ulica,Numer → Sklep). Atrybuty nieklucza to Kod i Sklep. Zależność Ulica → Kod oznacza, że Kod zależy tylko od części klucza, czyli jest zależnością częściową - a to wprost łamie II postać normalną. Schemat pozostaje więc jedynie w I postaci normalnej (wartości atomowe), nie spełniając już 2NF, a tym bardziej 3NF ani BCNF.",
+  "options": [
+   { "key": "a", "text": "w I postaci normalnej", "correct": true, "explain": "Tak - wartości są atomowe, ale zależność częściowa Ulica → Kod (Kod zależy tylko od części klucza (Ulica, Numer)) uniemożliwia zaliczenie schematu do II postaci normalnej." },
+   { "key": "b", "text": "w II postaci normalnej", "correct": false, "explain": "Nie - II postać normalna wymaga braku zależności atrybutów nieklucza od części klucza, a Kod zależy od samej Ulicy, czyli od części klucza (Ulica, Numer)." },
+   { "key": "c", "text": "w III postaci normalnej", "correct": false, "explain": "Nie - skoro schemat nie spełnia nawet II postaci normalnej, nie może być w III postaci normalnej (postacie normalne są zagnieżdżone)." },
+   { "key": "d", "text": "w postaci normalnej Boyce'a-Codda", "correct": false, "explain": "Nie - BCNF jest jeszcze silniejsza od 3NF; tu wyznacznik Ulica nie jest nadkluczem, więc warunek BCNF również jest złamany." }
+  ]
+ },
+ {
+  "id": "Q102",
+  "chapter": "G9",
+  "chapterName": "Pytania egzaminacyjne z odpowiedziami",
+  "question": "Dany jest schemat relacyjny R = (Ulica, Kod, Sklep, Numer), F = {Ulica → Kod; Ulica, Numer → Sklep}. Schemat ten:",
+  "topicTitle": "Relacja 3NF i BCNF przy zależności częściowej",
+  "topicSummary": "Postacie normalne tworzą hierarchię: 1NF ⊃ 2NF ⊃ 3NF ⊃ BCNF. Jeśli schemat nie spełnia już II postaci normalnej (bo atrybut nieklucza Kod zależy od części klucza (Ulica, Numer)), to automatycznie nie spełnia też żadnej z mocniejszych postaci - ani III postaci normalnej, ani postaci normalnej Boyce'a-Codda. Aby to naprawić, wydziela się osobną relację (Ulica, Kod) i zostawia (Ulica, Numer, Sklep).",
+  "options": [
+   { "key": "a", "text": "jest w postaci normalnej Boyce'a-Codda", "correct": false, "explain": "Nie - w BCNF każdy nietrywialny wyznacznik musi być nadkluczem, a Ulica (wyznacznik dla Kod) nadkluczem nie jest." },
+   { "key": "b", "text": "jest w III postaci normalnej, ale nie jest w postaci normalnej Boyce'a-Codda", "correct": false, "explain": "Nie - schemat nie jest nawet w II postaci normalnej, więc tym bardziej nie jest w III." },
+   { "key": "c", "text": "jest w III postaci normalnej", "correct": false, "explain": "Nie - zależność częściowa Ulica → Kod wyklucza już II postać normalną, a więc i III." },
+   { "key": "d", "text": "nie jest ani w III postaci normalnej, ani w postaci normalnej Boyce'a-Codda", "correct": true, "explain": "Tak - zależność częściowa Ulica → Kod łamie II postać normalną, a skoro tak, to schemat nie spełnia również żadnej z mocniejszych postaci (3NF, BCNF)." }
+  ]
+ },
+ {
+  "id": "Q103",
+  "chapter": "G9",
+  "chapterName": "Pytania egzaminacyjne z odpowiedziami",
+  "question": "Wskazać poprawne zapytanie SQL (dialekt ORACLE) znajdujące departamenty zatrudniające powyżej trzech pracowników.",
+  "topicTitle": "Kolejność GROUP BY i HAVING w dialekcie Oracle",
+  "topicSummary": "Warunek na wynik funkcji agregującej zapisuje się w klauzuli HAVING - w klauzuli WHERE agregaty są niedozwolone, bo WHERE działa przed grupowaniem. Sama składnia Oracle dopuszcza przy tym obie kolejności: GROUP BY ... HAVING ... oraz HAVING ... GROUP BY ... (choć dokumentacja zaleca pierwszą, bardziej czytelną wersję i taka też jest wymagana w standardzie SQL). Niezależnie od kolejności obowiązuje zasada, że każda niezagregowana kolumna z listy SELECT musi wystąpić w GROUP BY.",
+  "options": [
+   { "key": "a", "text": "SELECT deptno, COUNT(*) FROM emp GROUP BY deptno HAVING COUNT(*) > 3;", "correct": true, "explain": "Poprawne - klasyczny, zalecany wzorzec: grupowanie po deptno i filtrowanie grup warunkiem HAVING COUNT(*) > 3." },
+   { "key": "b", "text": "SELECT deptno, COUNT(*) FROM emp HAVING COUNT(*) > 3 GROUP BY deptno;", "correct": true, "explain": "Poprawne w Oracle - ten dialekt dopuszcza zapisanie klauzuli HAVING przed GROUP BY (kolejność nie zmienia wyniku), choć jest to zapis niezalecany i niezgodny ze standardem SQL." },
+   { "key": "c", "text": "SELECT deptno, COUNT(*) FROM emp GROUP BY deptno WHERE COUNT(*) > 3;", "correct": false, "explain": "Niepoprawne - klauzula WHERE nie może wystąpić po GROUP BY, a dodatkowo nie wolno w niej używać funkcji agregujących." },
+   { "key": "d", "text": "SELECT deptno, job, COUNT(*) FROM emp HAVING COUNT(*) > 3 GROUP BY deptno;", "correct": false, "explain": "Niepoprawne - kolumna job jest wypisana w SELECT bez agregacji, a nie występuje w GROUP BY (grupowanie jest tylko po deptno), co daje błąd „not a GROUP BY expression”." }
+  ]
+ },
+ {
+  "id": "Q104",
+  "chapter": "G9",
+  "chapterName": "Pytania egzaminacyjne z odpowiedziami",
+  "question": "Pojęcie akcji referencyjnych dotyczy:",
+  "topicTitle": "Akcje referencyjne (ON DELETE / ON UPDATE)",
+  "topicSummary": "Akcje referencyjne to zdefiniowane przy kluczu obcym reguły ON DELETE / ON UPDATE (CASCADE, SET NULL, SET DEFAULT, RESTRICT, NO ACTION), które określają, jak SZBD ma zareagować na próbę usunięcia lub zmiany rekordu nadrzędnego, do którego odwołują się rekordy z tabeli powiązanej. Istotą pojęcia jest właśnie ta reakcja - a jednym z jej wariantów jest zablokowanie operacji (RESTRICT / NO ACTION), przy którym na rekordach powiązanych nie wykonuje się nic. Akcje referencyjne nie mają nic wspólnego z zależnościami funkcyjnymi ani z więzami sprawdzanymi w czasie kompilacji.",
+  "options": [
+   { "key": "a", "text": "reakcji SZBD na próbę usunięcia lub aktualizacji rekordów, do których odwołują się rekordy w tabelach powiązanych", "correct": true, "explain": "Tak - to podręcznikowa definicja akcji referencyjnych: opisują one reakcję systemu na próbę usunięcia lub zmiany rekordu nadrzędnego, do którego istnieją odwołania (kaskada, ustawienie NULL/wartości domyślnej albo zablokowanie operacji)." },
+   { "key": "b", "text": "zależności wartości atrybutu od klucza", "correct": false, "explain": "Nie - to opis zależności funkcyjnej, czyli pojęcia z teorii normalizacji, a nie akcji referencyjnych." },
+   { "key": "c", "text": "wykonywania operacji DELETE i UPDATE na powiązanych rekordach", "correct": false, "explain": "Nie jako definicja - wykonanie DELETE lub UPDATE na rekordach powiązanych to tylko część możliwych zachowań (ON DELETE CASCADE, ON DELETE SET NULL); równie dobrą akcją referencyjną jest RESTRICT / NO ACTION, które po prostu blokuje operację i niczego na rekordach powiązanych nie wykonuje. Uwaga: w oryginalnym kluczu egzaminacyjnym wskazano właśnie tę odpowiedź - warto znać oba ujęcia." },
+   { "key": "d", "text": "więzów wartości zmiennej w czasie kompilacji", "correct": false, "explain": "Nie - akcje referencyjne działają w czasie wykonania operacji na danych, a nie na etapie kompilacji, i dotyczą powiązań między tabelami, a nie zmiennych." }
+  ]
+ },
+ {
+  "id": "Q105",
+  "chapter": "G9",
+  "chapterName": "Pytania egzaminacyjne z odpowiedziami",
+  "question": "Dana jest tabela OSOBY(imie, nazwisko, zarobki). Które z następujących instrukcji są składniowo poprawnymi instrukcjami SQL w Oracle?",
+  "topicTitle": "Apostrofy a cudzysłowy w Oracle",
+  "topicSummary": "W Oracle apostrofy ('...') ograniczają literały tekstowe, natomiast cudzysłowy (\"...\") służą do zapisu identyfikatorów (nazw tabel i kolumn) z zachowaniem wielkości liter - dlatego \"Jan\" nie jest tekstem, tylko odwołaniem do nieistniejącej kolumny. Poza tym operator INTERSECT wymaga jedynie zgodnej liczby i typów kolumn (nazwy nie muszą się pokrywać), a funkcji agregujących nie wolno używać w klauzuli WHERE.",
+  "options": [
+   { "key": "a", "text": "INSERT INTO Osoby VALUES (\"Jan\",\"Kowalski\",2000);", "correct": false, "explain": "Niepoprawne - w Oracle cudzysłowy oznaczają identyfikatory, więc \"Jan\" i \"Kowalski\" są traktowane jako nazwy kolumn (które nie istnieją), a nie jako literały tekstowe; do tekstu służą apostrofy." },
+   { "key": "b", "text": "SELECT imie, zarobki FROM Osoby INTERSECT SELECT nazwisko, zarobki FROM osoby;", "correct": true, "explain": "Poprawne - obie strony INTERSECT zwracają po dwie kolumny zgodnych typów (tekst i liczba); nazwy kolumn nie muszą być identyczne." },
+   { "key": "c", "text": "INSERT INTO Osoby VALUES ('Jan','Kowalski',2000);", "correct": true, "explain": "Poprawne - literały tekstowe w apostrofach i liczba bez cudzysłowów, w kolejności zgodnej z definicją tabeli." },
+   { "key": "d", "text": "SELECT imie, AVG(zarobki) FROM osoby WHERE AVG(zarobki) > 1000;", "correct": false, "explain": "Niepoprawne - funkcji agregującej nie wolno użyć w klauzuli WHERE (służy do tego HAVING), a dodatkowo brakuje klauzuli GROUP BY dla niezagregowanej kolumny imie." }
+  ]
+ },
+ {
+  "id": "Q106",
+  "chapter": "G9",
+  "chapterName": "Pytania egzaminacyjne z odpowiedziami",
+  "question": "Zaznacz wszystkie zapytania, które będą się kompilować w dialekcie ORACLE (tabela emp).",
+  "topicTitle": "Agregaty w HAVING i WHERE oraz zagnieżdżanie funkcji grupowych",
+  "topicSummary": "W klauzuli HAVING wolno używać funkcji agregujących (także porównywać dwa różne agregaty tej samej grupy, np. MAX(sal) > AVG(sal)), natomiast w klauzuli WHERE - nigdy, bo WHERE filtruje wiersze przed grupowaniem. Osobną pułapką jest zagnieżdżanie funkcji grupowych: konstrukcja typu COUNT(*) > MAX(COUNT(*)) miesza poziomy agregacji (wartość dla pojedynczej grupy z wartością liczoną po wszystkich grupach) i nie jest dopuszczalna w HAVING.",
+  "options": [
+   { "key": "a", "text": "SELECT job, MAX(sal) FROM emp GROUP BY job HAVING MAX(sal) > AVG(sal);", "correct": true, "explain": "Poprawne - oba agregaty (MAX i AVG) są liczone w obrębie tej samej grupy job, a HAVING jest właściwym miejscem na warunek dotyczący agregatów." },
+   { "key": "b", "text": "SELECT job, COUNT(*) FROM emp GROUP BY job HAVING COUNT(*) > MAX(COUNT(*));", "correct": false, "explain": "Niepoprawne - zagnieżdżenie MAX(COUNT(*)) daje wartość liczoną po wszystkich grupach i nie może być porównywane w HAVING z agregatem pojedynczej grupy (Oracle zgłasza błąd)." },
+   { "key": "c", "text": "SELECT job, COUNT(*) FROM emp WHERE COUNT(*) > 2 GROUP BY job;", "correct": false, "explain": "Niepoprawne - w klauzuli WHERE nie wolno używać funkcji agregujących; warunek na COUNT(*) należy przenieść do HAVING." },
+   { "key": "d", "text": "SELECT job, MAX(sal) FROM emp WHERE sal > 2000 GROUP BY job;", "correct": true, "explain": "Poprawne - WHERE filtruje pojedyncze wiersze (po zwykłej kolumnie sal) przed grupowaniem, a jedyna niezagregowana kolumna job występuje w GROUP BY." }
+  ]
+ },
+ {
+  "id": "Q107",
+  "chapter": "G9",
+  "chapterName": "Pytania egzaminacyjne z odpowiedziami",
+  "question": "Które stwierdzenia dotyczące operatora MINUS w Oracle są prawdziwe?",
+  "topicTitle": "Operator MINUS - różnica zbiorów i zgodność kolumn",
+  "topicSummary": "MINUS zwraca wiersze występujące w wyniku pierwszego zapytania, a nieobecne w wyniku drugiego (różnica zbiorów), przy okazji usuwając duplikaty. Jak każdy operator zbiorowy (UNION, INTERSECT, MINUS) wymaga, aby oba zapytania zwracały tę samą liczbę kolumn o zgodnych typach danych - nazwy kolumn mogą się natomiast różnić, a nazwę wyniku wyznacza pierwsze zapytanie.",
+  "options": [
+   { "key": "a", "text": "MINUS zwraca wiersze z pierwszego zapytania, których nie ma w drugim", "correct": true, "explain": "Tak - to definicja różnicy zbiorów realizowanej przez MINUS (dodatkowo z usunięciem powtórzeń)." },
+   { "key": "b", "text": "MINUS zwraca wiersze wspólne dla obu zapytań", "correct": false, "explain": "Nie - część wspólną zwraca INTERSECT, a MINUS jest wręcz jego przeciwieństwem." },
+   { "key": "c", "text": "typy danych kolumn muszą być zgodne w obu zapytaniach", "correct": true, "explain": "Tak - operatory zbiorowe porównują wiersze kolumna po kolumnie, więc odpowiadające sobie kolumny muszą mieć zgodne typy danych." },
+   { "key": "d", "text": "liczba kolumn w obu zapytaniach może się różnić", "correct": false, "explain": "Nie - liczba kolumn musi być identyczna w obu zapytaniach, inaczej Oracle zgłosi błąd niezgodności listy SELECT." }
+  ]
+ },
+ {
+  "id": "Q108",
+  "chapter": "G9",
+  "chapterName": "Pytania egzaminacyjne z odpowiedziami",
+  "question": "Zapytanie SELECT * FROM Ksiazki WHERE LiczbaStron >= ANY (SELECT LiczbaStron FROM Ksiazki); zwraca w wyniku:",
+  "topicTitle": "Operator >= ANY jako porównanie z minimum",
+  "topicSummary": "Warunek z operatorem >= ANY jest spełniony, gdy badana wartość jest większa lub równa co najmniej jednej wartości zwróconej przez podzapytanie - czyli w praktyce sprowadza się do porównania z wartością minimalną (>= MIN(...)). Dla odróżnienia: >= ALL wymagałby, aby wartość była nie mniejsza od wszystkich, czyli od maksimum.",
+  "options": [
+   { "key": "a", "text": "książki, które mają więcej stron niż suma wszystkich stron w tabeli", "correct": false, "explain": "Nie - operator ANY porównuje z pojedynczymi wartościami z podzapytania, a nie z ich sumą (do tego trzeba by użyć SUM w podzapytaniu)." },
+   { "key": "b", "text": "książki, które mają liczbę stron większą lub równą minimum liczby stron w tabeli", "correct": true, "explain": "Tak - to dokładny opis semantyki >= ANY: wystarczy, że wartość jest >= co najmniej jednej wartości ze zbioru, czyli >= wartości minimalnej." },
+   { "key": "c", "text": "wszystkie rekordy z tabeli Książka", "correct": false, "explain": "Nie - choć przy braku wartości NULL każdy wiersz faktycznie spełni ten warunek (bo każda wartość jest >= minimum), nie jest to formalny opis działania operatora ANY, a przy wartościach NULL taki wiersz w ogóle nie trafi do wyniku." },
+   { "key": "d", "text": "nie zwróci żadnych rekordów", "correct": false, "explain": "Nie - dla niepustej tabeli warunek spełni co najmniej wiersz o minimalnej liczbie stron (jest równy sam sobie)." }
+  ]
+ },
+ {
+  "id": "Q109",
+  "chapter": "G9",
+  "chapterName": "Pytania egzaminacyjne z odpowiedziami",
+  "question": "Wskazać poprawne (w Oracle) zapytanie SQL znajdujące łączną kwotę przelewów w każdym dniu. Schematy: Konto(ID, Numer, Waluta), Przelew(ID, DataPrzelewu, Kwota, Konto_ID).",
+  "topicTitle": "Agregacja „w każdym dniu” - SUM z GROUP BY",
+  "topicSummary": "Sformułowanie „w każdym dniu” oznacza, że wynik ma zawierać po jednym wierszu na każdą datę - potrzebne jest więc grupowanie GROUP BY DataPrzelewu i agregat SUM(Kwota). Zapytanie bez GROUP BY i bez agregatu zwróci pojedyncze przelewy, a sam SUM bez GROUP BY - jedną łączną kwotę dla całej tabeli. Każda niezagregowana kolumna z listy SELECT musi przy tym wystąpić w GROUP BY.",
+  "options": [
+   { "key": "a", "text": "SELECT DataPrzelewu, Kwota FROM Przelew p JOIN Konto k ON k.ID = p.Konto_ID;", "correct": false, "explain": "Niepoprawne względem treści - zapytanie wypisuje pojedyncze przelewy, nie sumując ich w obrębie dnia." },
+   { "key": "b", "text": "SELECT DataPrzelewu, SUM(kwota) FROM Przelew p JOIN Konto k ON k.ID = p.Konto_ID GROUP BY DataPrzelewu;", "correct": true, "explain": "Poprawne - grupowanie po dacie i SUM(Kwota) dają dokładnie łączną kwotę przelewów w każdym dniu, a jedyna niezagregowana kolumna występuje w GROUP BY." },
+   { "key": "c", "text": "SELECT SUM(kwota) FROM Przelew p JOIN Konto k ON k.ID = p.Konto_ID;", "correct": false, "explain": "Niepoprawne względem treści - brak GROUP BY oznacza jedną sumę dla wszystkich przelewów łącznie, bez rozbicia na dni." },
+   { "key": "d", "text": "SELECT Kwota FROM Przelew p JOIN Konto k ON k.ID = p.Konto_ID GROUP BY DataPrzelewu;", "correct": false, "explain": "Niepoprawne - kolumna Kwota jest wypisana bez agregacji, a nie występuje w GROUP BY, więc Oracle zgłosi błąd „not a GROUP BY expression”." }
+  ]
+ },
+ {
+  "id": "Q110",
+  "chapter": "G9",
+  "chapterName": "Pytania egzaminacyjne z odpowiedziami",
+  "question": "Dana jest tabela Przelew(ID, DataPrzelewu, Kwota). Które z następujących instrukcji są poprawnymi instrukcjami SQL w Oracle?",
+  "topicTitle": "HAVING bez GROUP BY a niezagregowane kolumny",
+  "topicSummary": "Klauzula HAVING może wystąpić bez GROUP BY, ale wtedy całe zapytanie traktowane jest jako jedna grupa - w liście SELECT nie może się więc pojawić żadna niezagregowana kolumna. Sama kolejność klauzul GROUP BY i HAVING jest w Oracle dowolna (obie wersje się kompilują, choć zalecana jest kolejność GROUP BY ... HAVING ...). Zapytania bez agregacji, z aliasem tabeli i zwykłym warunkiem WHERE, są oczywiście poprawne.",
+  "options": [
+   { "key": "a", "text": "SELECT DataPrzelewu, SUM(Kwota) FROM Przelew HAVING SUM(Kwota) > 1000;", "correct": false, "explain": "Niepoprawne - bez GROUP BY całe zapytanie jest jedną grupą, więc niezagregowana kolumna DataPrzelewu nie może wystąpić na liście SELECT." },
+   { "key": "b", "text": "SELECT DataPrzelewu, COUNT(*) FROM Przelew GROUP BY DataPrzelewu HAVING COUNT(*) > 3;", "correct": true, "explain": "Poprawne - wzorcowe grupowanie po dacie z filtrowaniem grup w HAVING; kolumna DataPrzelewu występuje w GROUP BY." },
+   { "key": "c", "text": "SELECT DataPrzelewu, COUNT(*) FROM Przelew HAVING COUNT(*) > 3 GROUP BY DataPrzelewu;", "correct": true, "explain": "Poprawne w Oracle - dialekt ten dopuszcza zapis klauzuli HAVING przed GROUP BY; wynik jest identyczny jak w odpowiedzi B (choć taka kolejność jest niezalecana i niezgodna ze standardem SQL)." },
+   { "key": "d", "text": "SELECT ID, DataPrzelewu, Kwota FROM Przelew p WHERE p.Kwota > 500;", "correct": true, "explain": "Poprawne - zwykłe zapytanie bez agregacji, z aliasem tabeli i warunkiem na kolumnie Kwota." }
+  ]
+ },
+ {
+  "id": "Q111",
+  "chapter": "G9",
+  "chapterName": "Pytania egzaminacyjne z odpowiedziami",
+  "question": "Dane są dwie tabele Wizyta(ID, DataWizyty, CenaWizyty, Lekarz_ID) oraz Lekarz(ID, Nazwisko, Specjalizacja). Które z następujących instrukcji są poprawnymi instrukcjami SQL w Oracle?",
+  "topicTitle": "Złączenia i niejednoznaczne nazwy kolumn",
+  "topicSummary": "Złączenie można zapisać zarówno składnią „przecinkową” z warunkiem w WHERE, jak i jawnym JOIN ... ON - obie formy są poprawne. Kolumnę o nazwie występującej w obu tabelach (tu: ID) trzeba jednak zawsze kwalifikować nazwą lub aliasem tabeli, inaczej odwołanie jest niejednoznaczne. Trzeba też pamiętać, że funkcja SUM przyjmuje dokładnie jeden argument - do sumowania kilku kolumn używa się wyrażenia, np. SUM(a + b).",
+  "options": [
+   { "key": "a", "text": "SELECT w.ID, DataWizyty, CenaWizyty FROM Wizyta w, Lekarz l WHERE w.Lekarz_ID = l.ID;", "correct": true, "explain": "Poprawne - klasyczne złączenie w składni przecinkowej; kolumna ID jest zakwalifikowana aliasem (w.ID), a DataWizyty i CenaWizyty występują tylko w jednej tabeli." },
+   { "key": "b", "text": "SELECT DataWizyty, Nazwisko AS NazwiskoLekarza FROM Wizyta JOIN Lekarz ON Wizyta.Lekarz_ID = Lekarz.ID;", "correct": true, "explain": "Poprawne - jawne złączenie JOIN ... ON z poprawnie zakwalifikowanymi kolumnami warunku oraz aliasem kolumny wynikowej." },
+   { "key": "c", "text": "SELECT w.ID, SUM(CenaWizyty, Lekarz_ID) FROM Wizyta w, Lekarz l WHERE w.Lekarz_ID = l.ID;", "correct": false, "explain": "Niepoprawne - funkcja SUM przyjmuje tylko jeden argument (do zsumowania kolumn należałoby napisać SUM(CenaWizyty + Lekarz_ID)), a dodatkowo niezagregowana kolumna w.ID wymagałaby klauzuli GROUP BY." },
+   { "key": "d", "text": "SELECT ID, DataWizyty, Nazwisko FROM Wizyta JOIN Lekarz ON ID = ID;", "correct": false, "explain": "Niepoprawne - kolumna ID występuje w obu tabelach, więc zarówno warunek ON ID = ID, jak i ID na liście SELECT są niejednoznaczne (błąd „column ambiguously defined”)." }
+  ]
+ },
+ {
+  "id": "Q095",
+  "chapter": "G9",
+  "chapterName": "Pytania egzaminacyjne z odpowiedziami",
+  "question": "W bazie danych chcemy przechowywać informacje o statkach i ich rejsach. Musimy znać port, z którego statek wypłynął oraz jego destynację (inny port). Statek może mieć wiele rejsów, różne rejsy mogą odwiedzać te same porty. Dany port może być jednocześnie portem startowym dla jednego rejsu i portem destynacją dla innego rejsu. Wybierz najlepszy diagram spełniający wymienione wymagania.",
+  "topicTitle": "Jedna encja Port odwoływana dwoma różnymi kluczami obcymi",
+  "topicSummary": "Skoro ten sam port może raz pełnić rolę portu startowego, a innym razem portu destynacji (dla różnych rejsów), port jest tylko jedną encją, a jego dwie role są jedynie różnymi związkami do tej samej tabeli Port. Poprawny schemat ma więc pojedynczą tabelę Port(Id PK, Nazwa) oraz tabelę Rejs z dwoma osobnymi kluczami obcymi (Port_startowy, Port_destynacja), oba wskazujące na tę samą tabelę Port. Rozbijanie portu na dwie odrębne tabele (Port_startowy i Port_destynacja) zmusza do duplikowania tego samego portu w obu tabelach, gdy ma on pełnić obie role, co łamie zasadę unikania niekontrolowanej redundancji.",
+  "options": [
+   { "key": "a", "text": "Wariant a: Statek(Id PK, Nazwa); Rejs(Id PK, Statek FK, Port_startowy FK, Port_destynacja FK); Port_startowy(Id PK, Nazwa, Rejs FK); Port_destynacja(Id PK, Nazwa, Rejs FK)", "image": "images/q095-wariant-a.png", "imageAlt": "Diagram wariantu a: Statek, Rejs oraz osobne tabele Port_startowy i Port_destynacja, każda z dodatkowym kluczem obcym Rejs", "correct": false, "explain": "Niepoprawne - port startowy i port destynacja są tu dwiema zupełnie odrębnymi tabelami, więc ten sam fizyczny port pełniący raz rolę startową, a raz docelową musiałby być duplikowany w obu tabelach. Dodatkowo obie tabele portów mają jeszcze własny klucz obcy Rejs, co tworzy zbędne, podwójne (i sprzeczne z już istniejącymi kluczami w Rejs) powiązanie zwrotne do rejsu." },
+   { "key": "b", "text": "Wariant b: Statek(Id PK, Nazwa); Port_startowy(Id PK, Nazwa, Rejs FK); Rejs(Id PK, Statek FK); Port_destynacja(Id PK, Nazwa, Rejs FK)", "image": "images/q095-wariant-b.png", "imageAlt": "Diagram wariantu b: Statek, Rejs bez odniesień do portów oraz osobne tabele Port_startowy i Port_destynacja z kluczem obcym do Rejs", "correct": false, "explain": "Niepoprawne - tu sam Rejs w ogóle nie przechowuje odwołań do portów; to Port_startowy i Port_destynacja mają klucz obcy do Rejs, co wiąże dany wiersz portu z dokładnie jednym rejsem. Ten sam port używany jako startowy dla wielu różnych rejsów (a tym bardziej ten sam fizyczny port raz jako startowy, raz jako docelowy) musiałby więc być duplikowany, a poza tym dwie osobne tabele portów uniemożliwiają jednoznaczne stwierdzenie, że chodzi o ten sam port." },
+   { "key": "c", "text": "Wariant c: Statek(Id PK, Nazwa); Rejs(Id PK, Statek FK, Port_startowy FK, Port_destynacja FK); Port_startowy(Id PK, Nazwa); Port_destynacja(Id PK, Nazwa)", "image": "images/q095-wariant-c.png", "imageAlt": "Diagram wariantu c: Statek, Rejs z kluczami obcymi Port_startowy i Port_destynacja oraz dwie niezależne tabele Port_startowy i Port_destynacja", "correct": false, "explain": "Niepoprawne - mimo poprawnych kluczy obcych w Rejs, porty startowe i docelowe są modelowane jako dwie niezależne tabele z osobnymi kluczami głównymi. Ten sam port pełniący rolę startową dla jednego rejsu i docelową dla innego musiałby zostać wpisany osobno do obu tabel (z odrębnymi, niepowiązanymi identyfikatorami), co jest redundancją i nie gwarantuje, że to rzeczywiście ten sam port." },
+   { "key": "d", "text": "Wariant d: Statek(Id PK, Nazwa); Rejs(Id PK, Statek FK, Port_startowy FK, Port_destynacja FK); Port(Id PK, Nazwa)", "image": "images/q095-wariant-d.png", "imageAlt": "Diagram wariantu d: Statek, Rejs z dwoma kluczami obcymi Port_startowy i Port_destynacja wskazującymi na jedną wspólną tabelę Port", "correct": true, "explain": "Poprawne - istnieje tylko jedna tabela Port, a Rejs odwołuje się do niej dwoma niezależnymi kluczami obcymi: Port_startowy i Port_destynacja. Dzięki temu ten sam wiersz Portu może być wskazywany jako port startowy jednego rejsu i jako port destynacji innego rejsu bez żadnej duplikacji danych o porcie." }
+  ]
+ },
+ {
+  "id": "Q096",
+  "chapter": "G9",
+  "chapterName": "Pytania egzaminacyjne z odpowiedziami",
+  "question": "W bazie danych chcemy przechowywać informacje o historii stanowisk pracowników, czyli na jakim stanowisku dany człowiek pracował w danym okresie czasu. Pracownik może pracować na wielu stanowiskach w swojej karierze, a na danym stanowisku może pracować wielu pracowników jednocześnie. Wybierz najlepszy diagram spełniający wymienione wymagania.",
+  "topicTitle": "Tabela historii jako asocjacja wiele-do-wielu z atrybutami czasu",
+  "topicSummary": "Zależność \"pracownik - wiele stanowisk w karierze\" i \"stanowisko - wielu pracowników naraz\" to klasyczny związek wiele-do-wielu, tylko dodatkowo opisany okresem czasu (Od_kiedy, Do_kiedy). Wymaga to osobnej tabeli asocjacyjnej HistoriaStanowisk z kluczami obcymi zarówno do Pracownik, jak i do Stanowisko (Stanowisko jako osobna encja, a nie tylko tekst), gdzie klucz główny obejmuje pracownika, stanowisko oraz datę rozpoczęcia - dzięki temu jeden pracownik może mieć wiele wierszy historii (wiele stanowisk w karierze), a jedno stanowisko może wystąpić w wielu wierszach dla różnych pracowników jednocześnie.",
+  "options": [
+   { "key": "a", "text": "Wariant a: Pracownik(Id PK, Imie, Nazwisko); HistoriaStanowisk(Id PK, Stanowisko varchar2(50), Od_kiedy date, Do_kiedy date [null], Pracownik FK)", "image": "images/q096-wariant-a.png", "imageAlt": "Diagram wariantu a: Pracownik oraz HistoriaStanowisk z kolumną tekstową Stanowisko i kluczem obcym do Pracownik", "correct": false, "explain": "Niepoprawne (nie najlepsze) - stanowisko jest tu jedynie zwykłym polem tekstowym (varchar2) wewnątrz HistoriaStanowisk, a nie osobną encją powiązaną kluczem obcym. Ta sama nazwa stanowiska musiałaby być powtarzana jako tekst w każdym wierszu historii każdego pracownika, co jest niekontrolowaną redundancją i nie daje jednego, spójnego źródła prawdy o istniejących stanowiskach." },
+   { "key": "b", "text": "Wariant b: Pracownik(Id PK, Imie, Nazwisko); HistoriaStanowisk(Pracownik PK+FK, Stanowisko PK+FK, Od_kiedy PK date, Do_kiedy date [null]); Stanowisko(Id PK, Nazwa)", "image": "images/q096-wariant-b.png", "imageAlt": "Diagram wariantu b: Pracownik, tabela asocjacyjna HistoriaStanowisk ze złożonym kluczem głównym (Pracownik, Stanowisko, Od_kiedy) oraz osobna tabela Stanowisko", "correct": true, "explain": "Poprawne - HistoriaStanowisk jest tabelą asocjacyjną wiele-do-wielu między Pracownik a osobną encją Stanowisko, ze złożonym kluczem głównym obejmującym pracownika, stanowisko i datę rozpoczęcia. Jeden pracownik może mieć dowolnie wiele wierszy historii (wiele stanowisk w karierze), a to samo stanowisko może wystąpić w wielu wierszach różnych pracowników jednocześnie, bez żadnej redundancji nazw stanowisk." },
+   { "key": "c", "text": "Wariant c: Pracownik(Id PK, Imie, Nazwisko, HistoriaStanowisk FK); HistoriaStanowisk(Id PK, Od_kiedy, Do_kiedy, Stanowisko FK); Stanowisko(Id PK, Nazwa)", "image": "images/q096-wariant-c.png", "imageAlt": "Diagram wariantu c: Pracownik z pojedynczym kluczem obcym do HistoriaStanowisk, HistoriaStanowisk z kluczem obcym do Stanowisko", "correct": false, "explain": "Niepoprawne - klucz obcy HistoriaStanowisk znajduje się w tabeli Pracownik, więc każdy pracownik może wskazywać tylko na jeden wiersz HistoriaStanowisk naraz. Uniemożliwia to zapisanie wielu stanowisk zajmowanych przez tego samego pracownika w różnych okresach kariery, co wprost narusza wymaganie zadania." },
+   { "key": "d", "text": "Wariant d: Stanowisko(Id PK, Nazwa); Pracownik(Id PK, Imie, Nazwisko, Od_kiedy, Do_kiedy, Stanowisko FK); HistoriaStanowisk(Id PK, Pracownik FK)", "image": "images/q096-wariant-d.png", "imageAlt": "Diagram wariantu d: Stanowisko, Pracownik z bieżącym stanowiskiem i datami oraz osobna tabela HistoriaStanowisk z kluczem obcym do Pracownik", "correct": false, "explain": "Niepoprawne - bieżące stanowisko wraz z datami (Od_kiedy, Do_kiedy) jest przechowywane bezpośrednio w tabeli Pracownik jako pojedyncza wartość, więc pracownik może mieć zapisane tylko jedno stanowisko naraz. Tabela HistoriaStanowisk zawiera jedynie klucz obcy do Pracownik, bez żadnych danych o stanowisku czy okresie, więc w rzeczywistości nie przechowuje historii wielu stanowisk w karierze." }
+  ]
+ }
+,
+ {
+  "id": "Q112",
+  "chapter": "G10",
+  "chapterName": "Dodatkowa pula pytań (RBD/SBD)",
+  "question": "Instrukcja REVOKE służy do:",
+  "topicTitle": "REVOKE jako przeciwieństwo GRANT",
+  "topicSummary": "GRANT nadaje uprawnienia w bazie danych, a REVOKE jest jego przeciwieństwem - odbiera wcześniej nadane uprawnienia. Żadne z nich nie ma nic wspólnego z transakcjami (COMMIT/ROLLBACK) ani z modyfikacją danych.",
+  "options": [
+   { "key": "a", "text": "przyznawania uprawnień w bazie danych", "correct": false, "explain": "Nie - to zadanie GRANT, a nie REVOKE." },
+   { "key": "b", "text": "zatwierdzania zmian w bazie danych", "correct": false, "explain": "Nie - zmiany zatwierdza COMMIT." },
+   { "key": "c", "text": "odbierania uprawnień w bazie danych", "correct": true, "explain": "Tak - REVOKE odbiera uprawnienia wcześniej nadane poleceniem GRANT." },
+   { "key": "d", "text": "wycofywania zmian w bazie danych", "correct": false, "explain": "Nie - zmiany wycofuje ROLLBACK." }
+  ]
+ },
+ {
+  "id": "Q113",
+  "chapter": "G10",
+  "chapterName": "Dodatkowa pula pytań (RBD/SBD)",
+  "question": "Cykl na diagramie związków encji oznacza, że:",
+  "topicTitle": "Cykl na diagramie E-R",
+  "topicSummary": "Cykl na diagramie E-R (np. A wiąże się z B, B z C, a C z powrotem z A) sam w sobie nie jest błędem ani niemożliwością do zrealizowania w relacyjnej bazie danych - jest to po prostu sygnał, że w modelu może występować związek rekurencyjny albo nadmiarowa ścieżka dotarcia z jednej encji do drugiej, co warto świadomie zweryfikować z użytkownikiem, ale nie trzeba automatycznie uznawać za błąd projektowy.",
+  "options": [
+   { "key": "a", "text": "mamy do czynienia ze związkiem rekurencyjnym", "correct": false, "explain": "Nie - cykl nie oznacza automatycznie związku rekurencyjnego (który wiąże encję samą ze sobą), a jedynie dopuszcza taką możliwość." },
+   { "key": "b", "text": "wymagania użytkownika zostały niepoprawnie określone", "correct": false, "explain": "Nie - cykl na diagramie nie jest sam w sobie dowodem błędu w wymaganiach." },
+   { "key": "c", "text": "nie da się utworzyć relacyjnej bazy danych", "correct": false, "explain": "Nie - cykl na diagramie E-R nie uniemożliwia zbudowania relacyjnej bazy danych." },
+   { "key": "d", "text": "może istnieć związek rekurencyjny", "correct": true, "explain": "Tak - cykl sygnalizuje możliwość istnienia związku rekurencyjnego (lub nadmiarowej ścieżki między encjami), co warto zweryfikować, ale nie jest to błąd sam w sobie." }
+  ]
+ },
+ {
+  "id": "Q114",
+  "chapter": "G10",
+  "chapterName": "Dodatkowa pula pytań (RBD/SBD)",
+  "question": "W notacji modelowania Chena związek jest reprezentowany przez:",
+  "topicTitle": "Notacja Chena - podstawowe symbole",
+  "topicSummary": "W klasycznej notacji Chena diagramów E-R każdy typ elementu ma własny kształt: prostokąt oznacza encję, romb - związek między encjami, a koło (owal) - atrybut, połączone liniami pokazującymi, co z czym się wiąże.",
+  "options": [
+   { "key": "a", "text": "linię", "correct": false, "explain": "Nie - linia jedynie łączy symbole ze sobą, nie reprezentuje sama w sobie związku." },
+   { "key": "b", "text": "prostokąt", "correct": false, "explain": "Nie - prostokąt w notacji Chena oznacza encję." },
+   { "key": "c", "text": "koło", "correct": false, "explain": "Nie - koło (owal) w notacji Chena oznacza atrybut." },
+   { "key": "d", "text": "romb", "correct": true, "explain": "Tak - w notacji Chena związek między encjami jest reprezentowany przez romb." }
+  ]
+ },
+ {
+  "id": "Q115",
+  "chapter": "G10",
+  "chapterName": "Dodatkowa pula pytań (RBD/SBD)",
+  "question": "W notacji modelowania Chena encja jest reprezentowana przez:",
+  "topicTitle": "Notacja Chena - encja to prostokąt",
+  "topicSummary": "W notacji Chena encja (typ obiektu, np. Student, Faktura) jest rysowana jako prostokąt, w odróżnieniu od rombu (związek) i koła (atrybut).",
+  "options": [
+   { "key": "a", "text": "trójkąt", "correct": false, "explain": "Nie - trójkąt nie jest standardowym symbolem notacji Chena." },
+   { "key": "b", "text": "prostokąt", "correct": true, "explain": "Tak - encja w notacji Chena jest reprezentowana przez prostokąt." },
+   { "key": "c", "text": "koło", "correct": false, "explain": "Nie - koło w notacji Chena oznacza atrybut, nie encję." },
+   { "key": "d", "text": "romb", "correct": false, "explain": "Nie - romb w notacji Chena oznacza związek, nie encję." }
+  ]
+ },
+ {
+  "id": "Q116",
+  "chapter": "G10",
+  "chapterName": "Dodatkowa pula pytań (RBD/SBD)",
+  "question": "W notacji modelowania Chena atrybut jest reprezentowany przez:",
+  "topicTitle": "Notacja Chena - atrybut to koło",
+  "topicSummary": "W notacji Chena atrybut (cecha encji lub związku, np. Imię, Data) jest rysowany jako koło (owal) połączone linią z encją lub związkiem, do którego należy.",
+  "options": [
+   { "key": "a", "text": "trójkąt", "correct": false, "explain": "Nie - trójkąt nie jest standardowym symbolem notacji Chena." },
+   { "key": "b", "text": "prostokąt", "correct": false, "explain": "Nie - prostokąt w notacji Chena oznacza encję, nie atrybut." },
+   { "key": "c", "text": "koło", "correct": true, "explain": "Tak - atrybut w notacji Chena jest reprezentowany przez koło (owal)." },
+   { "key": "d", "text": "romb", "correct": false, "explain": "Nie - romb w notacji Chena oznacza związek, nie atrybut." }
+  ]
+ },
+ {
+  "id": "Q117",
+  "chapter": "G10",
+  "chapterName": "Dodatkowa pula pytań (RBD/SBD)",
+  "question": "W wyniku transformacji binarnego związku wieloznacznego (N:M) na schemat relacyjny liczba tworzonych encji (tabel dla samych encji, bez tabeli łączącej) wynosi:",
+  "topicTitle": "Transformacja związku N:M - liczba tabel encji się nie zmienia",
+  "topicSummary": "Sam związek wieloznaczny między dwiema encjami nie tworzy żadnej NOWEJ encji - obie encje biorące udział w związku dostają swoje własne tabele tak czy inaczej. To, co dodatkowo powstaje przy transformacji związku N:M, to tabela łącząca (asocjacyjna) reprezentująca sam związek, a nie kolejna encja.",
+  "options": [
+   { "key": "a", "text": "0", "correct": false, "explain": "Nie - obie encje uczestniczące w związku i tak otrzymują własne tabele; pytanie o „tworzenie” nowych encji przez sam związek dotyczy jednej dodatkowej tabeli reprezentującej ten związek." },
+   { "key": "b", "text": "1", "correct": true, "explain": "Tak - transformacja związku wieloznacznego (N:M) tworzy dokładnie jedną dodatkową tabelę - tabelę łączącą (asocjacyjną) reprezentującą sam związek." },
+   { "key": "c", "text": "2", "correct": false, "explain": "Nie - powstaje tylko jedna dodatkowa tabela reprezentująca związek, nie dwie." },
+   { "key": "d", "text": "mogą powstać więcej niż dwie", "correct": false, "explain": "Nie - dla związku binarnego (dwuargumentowego) powstaje dokładnie jedna dodatkowa tabela łącząca." }
+  ]
+ },
+ {
+  "id": "Q118",
+  "chapter": "G10",
+  "chapterName": "Dodatkowa pula pytań (RBD/SBD)",
+  "question": "W wyniku transformacji binarnego związku wieloznacznego (N:M) na schemat relacyjny liczba tworzonych związków (kluczy obcych łączących nową tabelę z encjami) wynosi:",
+  "topicTitle": "Transformacja związku N:M - dwa klucze obce",
+  "topicSummary": "Tabela łącząca (asocjacyjna) powstała z transformacji związku N:M potrzebuje po jednym kluczu obcym do KAŻDEJ z dwóch encji biorących udział w związku - stąd dokładnie dwa nowe związki (klucze obce), każdy typu 1:N między tabelą łączącą a jedną z encji.",
+  "options": [
+   { "key": "a", "text": "0", "correct": false, "explain": "Nie - tabela łącząca musi mieć klucze obce do obu encji, więc powstają związki, a nie ich brak." },
+   { "key": "b", "text": "1", "correct": false, "explain": "Nie - jeden klucz obcy wystarczyłby tylko do jednej z dwóch encji; potrzebne są oba." },
+   { "key": "c", "text": "2", "correct": true, "explain": "Tak - tabela łącząca dostaje po jednym kluczu obcym (związku 1:N) do każdej z dwóch encji biorących udział w związku wieloznacznym, czyli dokładnie dwa nowe związki." },
+   { "key": "d", "text": "mogą powstać więcej niż dwa", "correct": false, "explain": "Nie - dla związku binarnego (dwuargumentowego) powstają dokładnie dwa nowe związki (klucze obce)." }
+  ]
+ },
+ {
+  "id": "Q119",
+  "chapter": "G10",
+  "chapterName": "Dodatkowa pula pytań (RBD/SBD)",
+  "question": "W wyniku transformacji trójargumentowego związku wieloznacznego na schemat relacyjny liczba tworzonych encji (tabel dla samych encji, bez tabeli łączącej) wynosi:",
+  "topicTitle": "Transformacja związku trójargumentowego - jedna dodatkowa tabela",
+  "topicSummary": "Podobnie jak przy związku binarnym, sam związek nie tworzy nowych encji - te trzy encje uczestniczące w związku i tak mają własne tabele. Transformacja związku trójargumentowego (łączącego trzy encje naraz) tworzy jedną dodatkową tabelę reprezentującą ten związek, tyle że z trzema kluczami obcymi zamiast dwóch.",
+  "options": [
+   { "key": "a", "text": "0", "correct": false, "explain": "Nie - związek trójargumentowy, podobnie jak binarny, wymaga jednej dodatkowej tabeli reprezentującej sam związek." },
+   { "key": "b", "text": "1", "correct": true, "explain": "Tak - transformacja związku trójargumentowego, tak jak binarnego, tworzy dokładnie jedną dodatkową tabelę reprezentującą związek - różnica jest w liczbie kluczy obcych w tej tabeli (trzy zamiast dwóch), nie w liczbie tabel." },
+   { "key": "c", "text": "2", "correct": false, "explain": "Nie - powstaje tylko jedna dodatkowa tabela reprezentująca związek, niezależnie od tego, ile encji on łączy." },
+   { "key": "d", "text": "mogą powstać więcej niż dwie", "correct": false, "explain": "Nie - niezależnie od liczby argumentów związku wieloznacznego, powstaje dokładnie jedna dodatkowa tabela reprezentująca ten związek." }
+  ]
+ },
+ {
+  "id": "Q120",
+  "chapter": "G10",
+  "chapterName": "Dodatkowa pula pytań (RBD/SBD)",
+  "question": "W wyniku transformacji trójargumentowego związku wieloznacznego na schemat relacyjny liczba tworzonych związków (kluczy obcych łączących nową tabelę z encjami) wynosi:",
+  "topicTitle": "Transformacja związku trójargumentowego - trzy klucze obce",
+  "topicSummary": "Tabela reprezentująca związek trójargumentowy potrzebuje po jednym kluczu obcym do KAŻDEJ z trzech encji biorących w nim udział - stąd dokładnie trzy nowe związki (klucze obce). To uogólnienie sytuacji ze związkiem binarnym, gdzie powstawały dwa klucze obce - liczba nowych związków zawsze odpowiada liczbie argumentów (encji) związku wieloznacznego.",
+  "options": [
+   { "key": "a", "text": "1", "correct": false, "explain": "Nie - jeden klucz obcy wystarczyłby tylko do jednej z trzech encji." },
+   { "key": "b", "text": "2", "correct": false, "explain": "Nie - dwa klucze obce pokryłyby tylko dwie z trzech encji uczestniczących w związku." },
+   { "key": "c", "text": "3", "correct": true, "explain": "Tak - tabela reprezentująca związek trójargumentowy potrzebuje trzech kluczy obcych, po jednym do każdej z trzech encji biorących udział w związku." },
+   { "key": "d", "text": "mogą powstać więcej niż dwa", "correct": true, "explain": "Tak (poprawna obserwacja liczbowa) - dla związku trójargumentowego powstają trzy klucze obce, czyli rzeczywiście więcej niż dwa; dokładną liczbą jest jednak trzy (patrz odpowiedź C)." }
+  ]
+ },
+ {
+  "id": "Q121",
+  "chapter": "G10",
+  "chapterName": "Dodatkowa pula pytań (RBD/SBD)",
+  "question": "Instancją związku jednojednoznacznego (1:1) jest zawsze funkcja:",
+  "topicTitle": "Związek 1:1 jako funkcja różnowartościowa",
+  "topicSummary": "Związek jeden-do-jednego oznacza, że każdemu egzemplarzowi jednej encji odpowiada co najwyżej jeden egzemplarz drugiej encji, i na odwrót - to dokładnie definicja funkcji różnowartościowej (injekcji), przyporządkowującej pojedynczemu argumentowi pojedynczą wartość, bez powtórzeń wartości dla różnych argumentów. Nie musi to być funkcja „na” (surjekcja, pokrywająca cały zbiór docelowy) ani funkcja stała.",
+  "options": [
+   { "key": "a", "text": "różnowartościowa", "correct": true, "explain": "Tak - związek 1:1 wyklucza, by dwa różne egzemplarze jednej encji wskazywały na ten sam egzemplarz drugiej, co jest definicją różnowartościowości (injektywności)." },
+   { "key": "b", "text": "\"na\"", "correct": false, "explain": "Nie - związek 1:1 nie wymaga, aby każdy egzemplarz drugiej encji był z czymś powiązany (może być opcjonalny), więc funkcja nie musi być „na”." },
+   { "key": "c", "text": "jednoargumentowa", "correct": true, "explain": "Tak - instancja związku binarnego przyporządkowuje pojedynczemu egzemplarzowi jednej encji pojedynczy egzemplarz drugiej, czyli jest funkcją jednego argumentu (nie relacją wieloargumentową)." },
+   { "key": "d", "text": "stała", "correct": false, "explain": "Nie - „stała” oznaczałaby, że wszystkim argumentom odpowiada ta sama wartość, co nie wynika ze związku 1:1." }
+  ]
+ },
+ {
+  "id": "Q122",
+  "chapter": "G10",
+  "chapterName": "Dodatkowa pula pytań (RBD/SBD)",
+  "question": "Które metody dotyczą ochrony danych przed nieautoryzowanym dostępem:",
+  "topicTitle": "Ochrona przed nieautoryzowanym dostępem: konta i uprawnienia",
+  "topicSummary": "Ochrona przed nieautoryzowanym dostępem opiera się na uwierzytelnianiu (konta i hasła identyfikujące, kto się loguje) oraz autoryzacji (przyznawanie/odbieranie uprawnień do konkretnych operacji na obiektach, np. GRANT/REVOKE). Kopia zapasowa i słownik danych (metadane) służą zupełnie innym celom - odtwarzaniu danych po awarii i opisowi struktury bazy, a nie kontroli dostępu.",
+  "options": [
+   { "key": "a", "text": "kopia zapasowa", "correct": false, "explain": "Nie - kopia zapasowa chroni przed utratą danych (np. awarią), a nie przed nieautoryzowanym dostępem do nich." },
+   { "key": "b", "text": "wprowadzenie kont i haseł", "correct": true, "explain": "Tak - konta i hasła to podstawowy mechanizm uwierzytelniania, czyli sprawdzania, kto próbuje uzyskać dostęp do bazy." },
+   { "key": "c", "text": "słownik danych (metadane)", "correct": false, "explain": "Nie - słownik danych opisuje strukturę bazy (tabele, kolumny, ograniczenia), nie kontroluje dostępu do niej." },
+   { "key": "d", "text": "przyznawanie uprawnień do wykonywania operacji na obiektach", "correct": true, "explain": "Tak - mechanizm uprawnień (GRANT/REVOKE) decyduje, kto może wykonywać jakie operacje na których obiektach, co jest istotą autoryzacji dostępu." }
+  ]
+ },
+ {
+  "id": "Q123",
+  "chapter": "G10",
+  "chapterName": "Dodatkowa pula pytań (RBD/SBD)",
+  "question": "Relacja PAŃSTWO - RZEKA (\"przepływa przez\") jest relacją:",
+  "topicTitle": "Rzeka może przepływać przez wiele państw i odwrotnie",
+  "topicSummary": "Jedna rzeka (np. Dunaj) często przepływa przez wiele państw, a jedno państwo ma na swoim terytorium wiele rzek - to typowy związek wiele-do-wielu, który w modelu relacyjnym wymaga dodatkowej tabeli asocjacyjnej łączącej klucze obce do obu tabel (Państwo i Rzeka), bo żadna z tabel osobno nie pomieściłaby takiego związku bez redundancji.",
+  "options": [
+   { "key": "a", "text": "jeden - wiele", "correct": false, "explain": "Nie - jedno państwo może mieć wiele rzek, ale też jedna rzeka może przepływać przez wiele państw, więc związek nie jest jednokierunkowo „jeden-wiele”." },
+   { "key": "b", "text": "wiele - jeden", "correct": false, "explain": "Nie - z tych samych powodów związek nie jest jednokierunkowo „wiele-jeden”." },
+   { "key": "c", "text": "wiele - wiele", "correct": true, "explain": "Tak - jedna rzeka może przepływać przez wiele państw, a jedno państwo może mieć wiele rzek, co jest definicją związku wiele-do-wielu." },
+   { "key": "d", "text": "wymaga dodania encji asocjacyjnej", "correct": true, "explain": "Tak - związek wiele-do-wielu nie da się zapisać samym kluczem obcym w żadnej z dwóch tabel i wymaga dodatkowej tabeli łączącej (asocjacyjnej) z kluczami obcymi do obu encji." }
+  ]
+ },
+ {
+  "id": "Q124",
+  "chapter": "G10",
+  "chapterName": "Dodatkowa pula pytań (RBD/SBD)",
+  "question": "Z ilu tabel powinna się składać prosta znormalizowana baza zawierająca informacje o piętrach, pokojach i przynależności \"jeden do wielu\" między nimi:",
+  "topicTitle": "Związek 1:N wystarczy zapisać kluczem obcym - bez dodatkowej tabeli",
+  "topicSummary": "Związek jeden-do-wielu (jedno piętro ma wiele pokoi, ale każdy pokój należy do dokładnie jednego piętra) nie wymaga osobnej tabeli łączącej - wystarczy klucz obcy do piętra umieszczony bezpośrednio w tabeli Pokoje. Stąd cała, znormalizowana baza składa się z dokładnie dwóch tabel: Piętra i Pokoje.",
+  "options": [
+   { "key": "a", "text": "1", "correct": false, "explain": "Nie - jedna tabela nie rozdzieliłaby dwóch różnych encji (piętro i pokój) o różnych atrybutach." },
+   { "key": "b", "text": "2", "correct": true, "explain": "Tak - związek 1:N między piętrami a pokojami zapisuje się kluczem obcym w tabeli Pokoje wskazującym na Piętra, bez potrzeby dodatkowej tabeli łączącej - stąd dokładnie dwie tabele." },
+   { "key": "c", "text": "3", "correct": false, "explain": "Nie - trzecia, dodatkowa tabela łącząca byłaby potrzebna dopiero dla związku wiele-do-wielu, a nie jeden-do-wielu." },
+   { "key": "d", "text": "4", "correct": false, "explain": "Nie - to zdecydowanie więcej tabel, niż wymaga prosty związek 1:N między dwiema encjami." }
+  ]
+ },
+ {
+  "id": "Q125",
+  "chapter": "G10",
+  "chapterName": "Dodatkowa pula pytań (RBD/SBD)",
+  "question": "Encje PREZYDENT i PAŃSTWO (z zależnością \"kieruje\") połączone są związkiem:",
+  "topicTitle": "Prezydent i państwo - związek wiele-do-wielu w ujęciu historycznym",
+  "topicSummary": "Patrząc na dane historycznie (a nie tylko na chwilę obecną), jeden prezydent może w swojej karierze kierować więcej niż jednym państwem, a jedno państwo miało w swojej historii wielu różnych prezydentów - to czyni związek „kieruje” związkiem wiele-do-wielu, wymagającym tabeli asocjacyjnej (np. z okresem sprawowania urzędu), a nie prostego klucza obcego w jedną stronę.",
+  "options": [
+   { "key": "a", "text": "wymagającym dodatkowej encji asocjacyjnej", "correct": false, "explain": "Uwaga - to stwierdzenie samo w sobie jest prawdziwe dla związku wiele-do-wielu (i jest bezpośrednią konsekwencją odpowiedzi C), ale nie opisuje wprost typu/liczebności związku, o który pyta polecenie." },
+   { "key": "b", "text": "jeden - wiele", "correct": false, "explain": "Nie - to pomijałoby możliwość, że jeden prezydent w historii kierował więcej niż jednym państwem." },
+   { "key": "c", "text": "wiele - wiele", "correct": true, "explain": "Tak - w ujęciu historycznym jeden prezydent może kierować wieloma państwami (w różnych okresach), a jedno państwo ma wielu prezydentów na przestrzeni swojej historii, co jest związkiem wiele-do-wielu." },
+   { "key": "d", "text": "wiele - jeden", "correct": false, "explain": "Nie - to pomijałoby możliwość, że jedno państwo miało w swojej historii wielu różnych prezydentów." }
+  ]
+ },
+ {
+  "id": "Q126",
+  "chapter": "G10",
+  "chapterName": "Dodatkowa pula pytań (RBD/SBD)",
+  "question": "Które z instrukcji SQL wypiszą pracowników pracujących w dziale o nazwie \"DALLAS\" lub \"CHICAGO\", zarabiających ponad 1200:",
+  "topicTitle": "Priorytet AND przed OR w klauzuli WHERE",
+  "topicSummary": "W SQL, tak jak w logice, operator AND wiąże silniej niż OR - warunek `DEPT='DALLAS' AND SAL>1200 OR DEPT='CHICAGO' AND SAL>1200` jest więc czytany jako `(DEPT='DALLAS' AND SAL>1200) OR (DEPT='CHICAGO' AND SAL>1200)`, co poprawnie wymaga zarobków > 1200 w obu działach. To samo osiąga jawne nawiasowanie `(DEPT='DALLAS' OR DEPT='CHICAGO') AND SAL>1200`. Zapis bez takiego nawiasowania (lub powtórzenia warunku na zarobki) łatwo prowadzi do warunku, który dla jednego z działów w ogóle nie sprawdza zarobków.",
+  "options": [
+   { "key": "a", "text": "SELECT NAME,DEPT,SAL FROM EMP WHERE DEPT='DALLAS' AND SAL>1200 OR DEPT='CHICAGO' AND SAL>1200;", "correct": true, "explain": "Poprawne - dzięki priorytetowi AND nad OR warunek sprowadza się do (DEPT='DALLAS' AND SAL>1200) OR (DEPT='CHICAGO' AND SAL>1200), czyli dokładnie do żądanego wyniku." },
+   { "key": "b", "text": "SELECT NAME,DEPT,SAL FROM EMP WHERE DEPT='DALLAS' AND SAL>1200 OR DEPT='CHICAGO';", "correct": false, "explain": "Niepoprawne - AND wiąże silniej niż OR, więc warunek na zarobki (SAL>1200) dotyczy tylko działu DALLAS; dla CHICAGO zostaną zwrócone wszyscy pracownicy, niezależnie od zarobków." },
+   { "key": "c", "text": "SELECT NAME,DEPT,SAL FROM EMP WHERE (DEPT='DALLAS' OR DEPT='CHICAGO') AND SAL>1200;", "correct": true, "explain": "Poprawne - jawne nawiasy wymuszają najpierw sprawdzenie działu, a dopiero potem warunku na zarobki, dając ten sam, poprawny wynik co odpowiedź A." },
+   { "key": "d", "text": "SELECT NAME,DEPT,SAL FROM EMP WHERE DEPT='DALLAS' OR DEPT='CHICAGO' AND SAL>1200;", "correct": false, "explain": "Niepoprawne - z tego samego powodu co B: AND wiąże silniej, więc warunek na zarobki dotyczy tylko CHICAGO, a dla DALLAS zwrócą się wszyscy pracownicy bez względu na SAL." }
+  ]
+ },
+ {
+  "id": "Q127",
+  "chapter": "G10",
+  "chapterName": "Dodatkowa pula pytań (RBD/SBD)",
+  "question": "Wartością logiczną wyrażenia FALSE OR Null AND TRUE jest:",
+  "topicTitle": "Priorytet AND przed OR w logice trójwartościowej",
+  "topicSummary": "Podobnie jak w SQL, AND ma wyższy priorytet niż OR również w samej logice trójwartościowej - wyrażenie FALSE OR (Null AND TRUE) liczy się od środka: Null AND TRUE daje Null (bo wynik zależy od nieznanej wartości), a następnie FALSE OR Null daje Null (bo bez rozstrzygnięcia wartości Null nie da się ustalić wyniku alternatywy).",
+  "options": [
+   { "key": "a", "text": "TRUE", "correct": false, "explain": "Nie - wynikiem jest Null, a nie TRUE; żaden człon wyrażenia nie daje pewnego TRUE." },
+   { "key": "b", "text": "Null", "correct": true, "explain": "Tak - Null AND TRUE daje Null (priorytet AND), a następnie FALSE OR Null daje Null, bo FALSE nie rozstrzyga alternatywy z nieznaną wartością." },
+   { "key": "c", "text": "FALSE", "correct": false, "explain": "Nie - FALSE otrzymalibyśmy tylko, gdyby oba człony alternatywy były fałszywe, a Null nie jest fałszem." },
+   { "key": "d", "text": "0", "correct": false, "explain": "Nie - wynikiem wyrażenia logicznego jest wartość logiczna (Null), a nie liczba." }
+  ]
+ },
+ {
+  "id": "Q128",
+  "chapter": "G10",
+  "chapterName": "Dodatkowa pula pytań (RBD/SBD)",
+  "question": "Gdy schemat tabel nie jest w trzeciej postaci normalnej mamy do czynienia z:",
+  "topicTitle": "Skutki braku 3NF: redundancja i anomalie",
+  "topicSummary": "Brak trzeciej postaci normalnej oznacza istnienie zależności przechodnich (atrybut nieklucza zależy od innego atrybutu nieklucza) - to prowadzi do redundancji (ten sam fakt zapisany wielokrotnie) oraz do trzech klasycznych anomalii: przy wstawianiu (nie da się dodać pewnych danych bez dodania niepowiązanych innych), przy usuwaniu (usunięcie jednego wiersza usuwa przypadkiem też inny, niezależny fakt) i przy modyfikacji (trzeba zaktualizować wiele wierszy naraz, żeby zmiana pozostała spójna).",
+  "options": [
+   { "key": "a", "text": "redundancją", "correct": true, "explain": "Tak - zależność przechodnia łamiąca 3NF oznacza, że ten sam fakt bywa zapisany w wielu wierszach." },
+   { "key": "b", "text": "anomaliami przy wstawianiu", "correct": true, "explain": "Tak - redundancja utrudnia dodanie części danych bez wymuszania powiązania z innymi, niezwiązanymi faktami." },
+   { "key": "c", "text": "anomaliami przy usuwaniu", "correct": true, "explain": "Tak - usunięcie jednego wiersza może przypadkiem usunąć też informację, która logicznie nie powinna zniknąć." },
+   { "key": "d", "text": "anomaliami przy modyfikacji", "correct": true, "explain": "Tak - zmiana zredundantnie zapisanego faktu wymaga zaktualizowania go we wszystkich wierszach, w których występuje, inaczej dane stają się niespójne." }
+  ]
+ },
+ {
+  "id": "Q129",
+  "chapter": "G10",
+  "chapterName": "Dodatkowa pula pytań (RBD/SBD)",
+  "question": "Zależność funkcyjna dotyczy zależności między:",
+  "topicTitle": "Zależność funkcyjna jest relacją między atrybutami",
+  "topicSummary": "Zależność funkcyjna X → Y mówi, że wartość atrybutu (lub zbioru atrybutów) X jednoznacznie wyznacza wartość atrybutu Y - to relacja między atrybutami tej samej relacji, a nie między encjami, związkami czy konkretnie kluczem obcym a głównym (choć klucz główny sam jest szczególnym przypadkiem takiej zależności).",
+  "options": [
+   { "key": "a", "text": "atrybutami", "correct": true, "explain": "Tak - zależność funkcyjna X → Y opisuje, że wartość atrybutu (zbioru atrybutów) X jednoznacznie wyznacza wartość atrybutu Y." },
+   { "key": "b", "text": "encjami", "correct": false, "explain": "Nie - to nie encje, lecz ich atrybuty są ze sobą powiązane zależnością funkcyjną." },
+   { "key": "c", "text": "związkami", "correct": false, "explain": "Nie - zależność funkcyjna to pojęcie z teorii normalizacji dotyczące atrybutów, nie związków między encjami." },
+   { "key": "d", "text": "kluczem obcym a kluczem głównym", "correct": false, "explain": "Nie - to zbyt wąskie ujęcie; zależność funkcyjna dotyczy dowolnych atrybutów, nie tylko pary klucz obcy-klucz główny." }
+  ]
+ },
+ {
+  "id": "Q130",
+  "chapter": "G10",
+  "chapterName": "Dodatkowa pula pytań (RBD/SBD)",
+  "question": "Eliminacja zależności częściowych i przechodnich prowadzi do:",
+  "topicTitle": "Normalizacja rozbija tabelę na więcej mniejszych tabel",
+  "topicSummary": "Usunięcie zależności częściowych (2NF) i przechodnich (3NF) polega na wydzieleniu atrybutów, które od nich zależą, do osobnych tabel - stąd normalizacja do III postaci normalnej z reguły zwiększa liczbę tabel w schemacie (kosztem większej liczby złączeń przy odpytywaniu), eliminując za to redundancję.",
+  "options": [
+   { "key": "a", "text": "III postaci normalnej", "correct": true, "explain": "Tak - eliminacja zależności częściowych (2NF) i przechodnich (3NF) to dokładnie definicja doprowadzenia schematu do III postaci normalnej." },
+   { "key": "b", "text": "zwiększenia liczby tabel", "correct": true, "explain": "Tak - eliminacja tych zależności polega na wydzieleniu powiązanych atrybutów do osobnych tabel, co zwiększa ich łączną liczbę w schemacie." },
+   { "key": "c", "text": "zwiększenia liczby kolumn w istniejących tabelach", "correct": false, "explain": "Nie - przeciwnie, kolumny są wydzielane do NOWYCH tabel, a nie dokładane do istniejących." },
+   { "key": "d", "text": "nie ma wpływu na liczbę tabel", "correct": false, "explain": "Nie - wydzielenie atrybutów do osobnych tabel z definicji zwiększa ich liczbę." }
+  ]
+ },
+ {
+  "id": "Q131",
+  "chapter": "G10",
+  "chapterName": "Dodatkowa pula pytań (RBD/SBD)",
+  "question": "Które stwierdzenia są zgodne z dobrymi zasadami projektowania relacyjnej bazy danych?",
+  "topicTitle": "Dobre praktyki projektowania: brak redundancji i weryfikacja z użytkownikiem",
+  "topicSummary": "Dobre praktyki projektowania to przede wszystkim brak niekontrolowanych redundancji oraz przechowywanie każdego faktu w jeden, kontrolowany sposób - a poprawność modelu warto zawsze zweryfikować z użytkownikiem/dziedziną biznesową, bo to on najlepiej wie, czy model odzwierciedla rzeczywistość. Minimalizacja liczby tabel „za wszelką cenę” (kosztem normalizacji) oraz mechaniczne zastępowanie każdego związku jednoznacznego związkiem jeden-do-jednego to natomiast błędne, zbyt uproszczone zasady.",
+  "options": [
+   { "key": "a", "text": "W tabeli nie powinno być niekontrolowanych redundancji", "correct": true, "explain": "Tak - to jedna z podstawowych zasad dobrego projektowania relacyjnej bazy danych." },
+   { "key": "b", "text": "Każdy fakt powinien być przechowywany w bazie w jeden kontrolowany sposób", "correct": true, "explain": "Tak - unikanie wielu niezależnych miejsc zapisu tego samego faktu to istota normalizacji." },
+   { "key": "c", "text": "Poprawność modelu warto zweryfikować z użytkownikiem/dziedziną biznesową", "correct": true, "explain": "Tak - model danych powinien odzwierciedlać rzeczywiste reguły biznesowe, które najlepiej zna użytkownik/dziedzina, a nie tylko formalną poprawność techniczną." },
+   { "key": "d", "text": "Należy zawsze minimalizować liczbę tabel, niezależnie od normalizacji", "correct": false, "explain": "Nie - to błędna zasada; normalizacja często wymaga WIĘKSZEJ liczby tabel, żeby uniknąć redundancji, więc minimalizacja liczby tabel nie może być nadrzędna." },
+   { "key": "e", "text": "Wszystkie związki jednoznaczne należy zastąpić związkami jeden-do-jednego", "correct": false, "explain": "Nie - to mechaniczne, błędne uproszczenie; typ związku (1:N czy 1:1) musi wynikać z rzeczywistych reguł biznesowych, a nie z arbitralnej zasady zastępowania." }
+  ]
+ },
+ {
+  "id": "Q132",
+  "chapter": "G10",
+  "chapterName": "Dodatkowa pula pytań (RBD/SBD)",
+  "question": "Dany jest schemat relacyjny R={Miasto, Ulica, Kod}, F = {Miasto,Ulica→Kod; Kod→Miasto}. W której postaci normalnej jest ten schemat (zaznacz wszystkie spełnione)?",
+  "topicTitle": "Postacie normalne są zagnieżdżone - trzeba sprawdzić każdą z osobna",
+  "topicSummary": "Jedynym kluczem jest tu para (Miasto, Ulica) - Kod zależy od całego klucza (bez naruszenia 2NF), a jedyna \"podejrzana\" zależność Kod→Miasto ma po prawej stronie atrybut PRIME (Miasto należy do klucza), więc nie łamie 3NF (3NF dopuszcza zależności nie-klucza do atrybutu klucza). BCNF jest jednak surowsza i wymaga, by KAŻDY wyznacznik był nadkluczem - a Kod nadkluczem nie jest (nie determinuje Ulicy), więc BCNF zostaje złamana. Schemat jest więc w I, II i III postaci normalnej, ale nie w BCNF.",
+  "options": [
+   { "key": "a", "text": "I postać normalna", "correct": true, "explain": "Tak - wartości są atomowe, co jest warunkiem koniecznym każdej wyższej postaci normalnej." },
+   { "key": "b", "text": "II postać normalna", "correct": true, "explain": "Tak - jedyny atrybut nieklucza (Kod) zależy od całego klucza (Miasto,Ulica), bez zależności częściowej." },
+   { "key": "c", "text": "III postać normalna", "correct": true, "explain": "Tak - zależność Kod→Miasto nie łamie 3NF, bo Miasto jest atrybutem klucza (prime), co 3NF wyraźnie dopuszcza." },
+   { "key": "d", "text": "postać normalna Boyce'a-Codda", "correct": false, "explain": "Nie - BCNF wymaga, by każdy wyznacznik (tu również Kod) był nadkluczem, a Kod nie determinuje całego klucza (nie wyznacza Ulicy)." }
+  ]
+ },
+ {
+  "id": "Q133",
+  "chapter": "G10",
+  "chapterName": "Dodatkowa pula pytań (RBD/SBD)",
+  "question": "Dany jest schemat relacyjny R={Miasto, Ulica, Kod, Poczta}, F = {Miasto,Ulica→Kod; Kod→Miasto; Kod→Poczta}. W której postaci normalnej jest ten schemat (zaznacz wszystkie spełnione)?",
+  "topicTitle": "Zależność przechodnia łamie już III postać normalną",
+  "topicSummary": "Jedynym kluczem jest tu (Miasto, Ulica) - obie zależności częściowe od klucza (Miasto,Ulica→Kod) są w porządku (2NF trzyma się). Ale Kod→Poczta jest zależnością przechodnią: Kod nie jest nadkluczem, a Poczta nie jest atrybutem klucza (nie jest prime), więc ta zależność łamie już III postać normalną - a tym bardziej BCNF. Schemat jest więc tylko w I i II postaci normalnej.",
+  "options": [
+   { "key": "a", "text": "I postać normalna", "correct": true, "explain": "Tak - wartości są atomowe." },
+   { "key": "b", "text": "II postać normalna", "correct": true, "explain": "Tak - jedyny klucz (Miasto,Ulica) determinuje wprost pozostałe atrybuty nieklucza bez zależności częściowej na etapie samego klucza." },
+   { "key": "c", "text": "III postać normalna", "correct": false, "explain": "Nie - Kod→Poczta to zależność przechodnia (Kod nie jest nadkluczem, Poczta nie jest atrybutem klucza), co łamie 3NF." },
+   { "key": "d", "text": "postać normalna Boyce'a-Codda", "correct": false, "explain": "Nie - skoro schemat nie spełnia nawet III postaci normalnej, nie może spełniać silniejszej od niej BCNF." }
+  ]
+ },
+ {
+  "id": "Q134",
+  "chapter": "G10",
+  "chapterName": "Dodatkowa pula pytań (RBD/SBD)",
+  "question": "Dany jest schemat relacyjny R={Miasto, Ulica, Kod}, F = {Miasto,Ulica→Kod}. W której postaci normalnej jest ten schemat (zaznacz wszystkie spełnione)?",
+  "topicTitle": "Schemat z jedną, prostą zależnością funkcyjną spełnia wszystkie postacie normalne",
+  "topicSummary": "Jedyna zależność funkcyjna to Miasto,Ulica→Kod, a (Miasto,Ulica) jest jedynym kluczem. Jedyny atrybut nieklucza (Kod) zależy od całego klucza (2NF), nie istnieje żadna zależność przechodnia (3NF), a jedynym wyznacznikiem w ogóle jest sam klucz, więc jest on trywialnie nadkluczem (BCNF). Taki „prosty” schemat z jedną zależnością wprost od pełnego klucza spełnia więc wszystkie cztery postacie normalne naraz.",
+  "options": [
+   { "key": "a", "text": "I postać normalna", "correct": true, "explain": "Tak - wartości są atomowe." },
+   { "key": "b", "text": "II postać normalna", "correct": true, "explain": "Tak - jedyny atrybut nieklucza (Kod) zależy od całego klucza, bez zależności częściowej." },
+   { "key": "c", "text": "III postać normalna", "correct": true, "explain": "Tak - nie istnieje żadna zależność przechodnia, bo jest tylko jedna zależność funkcyjna, wprost od klucza." },
+   { "key": "d", "text": "postać normalna Boyce'a-Codda", "correct": true, "explain": "Tak - jedynym wyznacznikiem w schemacie jest sam klucz (Miasto,Ulica), który z definicji jest nadkluczem, więc warunek BCNF jest spełniony." }
+  ]
+ },
+ {
+  "id": "Q135",
+  "chapter": "G10",
+  "chapterName": "Dodatkowa pula pytań (RBD/SBD)",
+  "question": "Dane są tabele Osoby(Imie, Nazwisko, Zarobki, Id_działu) i Działy(Id_działu, Nazwa). Które instrukcje są poprawne składniowo w Oracle?",
+  "topicTitle": "GROUP BY z COUNT oraz podzapytanie skalarne w UPDATE",
+  "topicSummary": "Zapytanie z COUNT(Działy.Nazwa) po złączeniu i grupowaniu po Osoby.Nazwisko jest poprawne, bo jedyna niezagregowana kolumna z SELECT (Nazwisko) występuje w GROUP BY. UPDATE z podzapytaniem skalarnym w WHERE (np. porównanie liczby z wynikiem SELECT COUNT(*)) jest poprawną, częstą konstrukcją. Natomiast DELETE nie może jednocześnie kasować z dwóch tabel naraz (FROM Osoby, Działy), a bezpośrednie użycie COUNT(*) w WHERE (bez podzapytania) jest niedozwolone, bo agregaty nie działają na poziomie pojedynczego wiersza.",
+  "options": [
+   { "key": "a", "text": "SELECT Osoby.Nazwisko, COUNT(Działy.Nazwa) FROM Osoby, Działy WHERE Osoby.Id_działu = Działy.Id_działu GROUP BY Osoby.Nazwisko;", "correct": true, "explain": "Poprawne - COUNT(Działy.Nazwa) jest agregatem, a jedyna niezagregowana kolumna (Osoby.Nazwisko) występuje w GROUP BY." },
+   { "key": "b", "text": "UPDATE Osoby SET Id_działu = NULL WHERE 5 > (SELECT COUNT(*) FROM Działy);", "correct": true, "explain": "Poprawne - podzapytanie skalarne (SELECT COUNT(*) FROM Działy) zwraca dokładnie jedną wartość, więc porównanie 5 > (...) jest prawidłowe." },
+   { "key": "c", "text": "DELETE FROM Osoby, Działy WHERE Osoby.Nazwisko = 'KOWALSKI';", "correct": false, "explain": "Niepoprawne - w standardowym Oracle DELETE nie można usuwać jednocześnie z dwóch tabel wymienionych po przecinku w jednym poleceniu." },
+   { "key": "d", "text": "UPDATE Osoby SET Id_działu = NULL WHERE COUNT(*) < 5;", "correct": false, "explain": "Niepoprawne - COUNT(*) użyte bezpośrednio w WHERE (bez podzapytania) jest niedozwolone, bo funkcje agregujące nie mają sensu na poziomie pojedynczego, jeszcze niepogrupowanego wiersza." }
+  ]
+ },
+ {
+  "id": "Q136",
+  "chapter": "G10",
+  "chapterName": "Dodatkowa pula pytań (RBD/SBD)",
+  "question": "Dana jest tabela Osoby(imie, nazwisko, zarobki). Które instrukcje są poprawne składniowo w Oracle?",
+  "topicTitle": "AVG, INSERT, LIKE - poprawne; agregat w WHERE i UPDATE bez SET - błędne",
+  "topicSummary": "AVG(zarobki), INSERT z jawną listą kolumn oraz DELETE z warunkiem LIKE to standardowe, poprawne konstrukcje. Błędne są za to: użycie agregatu MAX(zarobki) bezpośrednio w WHERE (agregaty nie działają na poziomie pojedynczego wiersza przed zgrupowaniem) oraz zapis `UPDATE Osoby.Nazwisko = 'Kowalski'`, który pomija obowiązkową składnię `UPDATE tabela SET kolumna = wartość`.",
+  "options": [
+   { "key": "a", "text": "SELECT AVG(zarobki) FROM Osoby;", "correct": true, "explain": "Poprawne - proste zapytanie agregujące bez GROUP BY, zwracające jedną wartość średniej." },
+   { "key": "b", "text": "INSERT INTO Osoby(imie, nazwisko, zarobki) VALUES ('Jan', 'Kowalski', 1000);", "correct": true, "explain": "Poprawne - jawna lista kolumn zgodna z listą wartości." },
+   { "key": "c", "text": "DELETE FROM Osoby WHERE nazwisko LIKE 'Kowalski';", "correct": true, "explain": "Poprawne - LIKE bez znaków specjalnych (%, _) działa tu jak zwykłe porównanie równości." },
+   { "key": "d", "text": "SELECT imie, nazwisko FROM Osoby WHERE zarobki = MAX(zarobki);", "correct": false, "explain": "Niepoprawne - funkcji agregującej MAX nie wolno użyć bezpośrednio w WHERE; do porównania z maksimum potrzebne jest podzapytanie w nawiasach, np. WHERE zarobki = (SELECT MAX(zarobki) FROM Osoby)." },
+   { "key": "e", "text": "UPDATE Osoby.Nazwisko = 'Kowalski';", "correct": false, "explain": "Niepoprawne - brakuje obowiązkowej struktury UPDATE tabela SET kolumna = wartość; nie można zaktualizować pojedynczej kolumny bez słowa kluczowego SET i nazwy tabeli osobno od kolumny." }
+  ]
+ },
+ {
+  "id": "Q137",
+  "chapter": "G10",
+  "chapterName": "Dodatkowa pula pytań (RBD/SBD)",
+  "question": "Wskaż poprawne zapytania SQL w Oracle znajdujące stanowiska, na których średni zarobek wynosi 3000 lub więcej.",
+  "topicTitle": "HAVING AVG(sal) >= 3000 - w dowolnej kolejności z GROUP BY",
+  "topicSummary": "Warunek na średnią w obrębie grupy (AVG(sal) >= 3000) musi trafić do HAVING, a nie do WHERE. Oracle dopuszcza przy tym zapisanie HAVING zarówno po, jak i przed GROUP BY, z identycznym wynikiem - podobnie jak w analogicznych zapytaniach z COUNT(*) w tej bazie pytań.",
+  "options": [
+   { "key": "a", "text": "SELECT job, AVG(sal) FROM emp GROUP BY job HAVING AVG(sal) >= 3000;", "correct": true, "explain": "Poprawne i zalecane - klasyczny wzorzec GROUP BY ... HAVING z warunkiem na średnią zarobków w grupie." },
+   { "key": "b", "text": "SELECT job, AVG(sal) FROM emp HAVING AVG(sal) >= 3000 GROUP BY job;", "correct": true, "explain": "Poprawne w Oracle - dialekt ten dopuszcza zapisanie HAVING przed GROUP BY, z tym samym wynikiem co w odpowiedzi A." },
+   { "key": "c", "text": "SELECT job, AVG(sal) FROM emp WHERE AVG(sal) >= 3000 GROUP BY job;", "correct": false, "explain": "Niepoprawne - funkcji agregującej AVG nie wolno używać w klauzuli WHERE." },
+   { "key": "d", "text": "SELECT job, AVG(sal) FROM emp GROUP BY job WHERE AVG(sal) >= 3000;", "correct": false, "explain": "Niepoprawne - WHERE musi poprzedzać GROUP BY, a nie występować po nim, a dodatkowo agregat w WHERE jest niedozwolony." }
+  ]
+ },
+ {
+  "id": "Q138",
+  "chapter": "G10",
+  "chapterName": "Dodatkowa pula pytań (RBD/SBD)",
+  "question": "Wskazać poprawne zapytanie SQL znajdujące ilość pracowników w dziale mającym siedzibę w DALLAS. Schematy: emp(..., deptno), dept(deptno, dname, loc).",
+  "topicTitle": "Ta sama liczba: przez złączenie z GROUP BY albo przez podzapytanie",
+  "topicSummary": "Liczbę pracowników działu z Dallas można policzyć na dwa równoważne sposoby: złączeniem emp z dept i pogrupowaniem po deptno (z warunkiem loc='DALLAS' w WHERE), albo prostszym podzapytaniem, które najpierw znajduje numer działu z lokalizacją DALLAS, a potem liczy pracowników tego działu bez żadnego złączenia. Pominięcie warunku złączenia (emp.deptno=dept.deptno) prowadzi do błędnego, kartezjańskiego przemnożenia wierszy, a HAVING na loc bez GROUP BY po loc też nie da poprawnego wyniku dla pojedynczego działu.",
+  "options": [
+   { "key": "a", "text": "SELECT COUNT(*) FROM emp, dept WHERE dept.loc = 'DALLAS' AND emp.deptno = dept.deptno GROUP BY dept.deptno;", "correct": true, "explain": "Poprawne - złączenie po deptno ogranicza wiersze do pracowników działu z Dallas, a GROUP BY dept.deptno grupuje je (tu efektywnie w jedną grupę, bo warunek loc='DALLAS' wybiera zwykle jeden dział)." },
+   { "key": "b", "text": "SELECT COUNT(*) FROM emp WHERE deptno = (SELECT deptno FROM dept WHERE loc = 'DALLAS');", "correct": true, "explain": "Poprawne - podzapytanie skalarne znajduje numer działu z lokalizacją DALLAS, a zapytanie zewnętrzne liczy samych pracowników tego działu, bez potrzeby złączenia." },
+   { "key": "c", "text": "SELECT COUNT(*) FROM emp, dept WHERE dept.loc = 'DALLAS' GROUP BY dept.deptno;", "correct": false, "explain": "Niepoprawne - brak warunku złączenia emp.deptno = dept.deptno powoduje iloczyn kartezjański wszystkich pracowników z każdym wierszem działu w Dallas, dając zawyżony wynik." },
+   { "key": "d", "text": "SELECT COUNT(*) FROM emp, dept WHERE emp.deptno = dept.deptno GROUP BY dept.deptno HAVING dept.loc = 'DALLAS';", "correct": false, "explain": "Niepoprawne - dept.loc nie jest ani kolumną z GROUP BY, ani wynikiem funkcji agregującej, więc nie może wystąpić w HAVING w tej postaci (Oracle zgłosi błąd)." }
+  ]
+ },
+ {
+  "id": "Q139",
+  "chapter": "G10",
+  "chapterName": "Dodatkowa pula pytań (RBD/SBD)",
+  "question": "Polecenia ROLLBACK i COMMIT dotyczą poleceń SQL:",
+  "topicTitle": "COMMIT/ROLLBACK obejmują wszystkie polecenia zmieniające dane",
+  "topicSummary": "Transakcja i jej zatwierdzanie (COMMIT) lub wycofywanie (ROLLBACK) dotyczą WSZYSTKICH poleceń modyfikujących zawartość tabel (INSERT, UPDATE, DELETE, a w niektórych systemach też MERGE) - nie tylko wybranej, węższej podgrupy. SELECT nie modyfikuje danych, więc nie ma czego wycofywać ani zatwierdzać w jego kontekście.",
+  "options": [
+   { "key": "a", "text": "tylko INSERT, UPDATE, SELECT", "correct": false, "explain": "Nie - SELECT niczego nie zmienia, więc nie jest objęty COMMIT/ROLLBACK, a lista jest niepełna (brakuje DELETE)." },
+   { "key": "b", "text": "tylko INSERT, UPDATE, SELECT, DELETE", "correct": false, "explain": "Nie - SELECT nie zmienia danych, więc nie powinien być tu wymieniony obok poleceń modyfikujących." },
+   { "key": "c", "text": "tylko SELECT, INSERT, UPDATE, SELECT, DELETE", "correct": false, "explain": "Nie - z tego samego powodu SELECT nie powinien się tu znaleźć." },
+   { "key": "d", "text": "wszystkich poleceń SQL zmieniających zawartość tabel", "correct": true, "explain": "Tak - COMMIT i ROLLBACK dotyczą wszystkich poleceń modyfikujących dane (INSERT, UPDATE, DELETE), niezależnie od tego, ile ich było i w jakiej kolejności." }
+  ]
+ },
+ {
+  "id": "Q140",
+  "chapter": "G10",
+  "chapterName": "Dodatkowa pula pytań (RBD/SBD)",
+  "question": "Funkcja NVL służy do:",
+  "topicTitle": "NVL zamienia NULL na wartość zastępczą - w kolumnie lub zmiennej",
+  "topicSummary": "NVL(wyrażenie, wartość_zastępcza) zwraca podaną wartość zastępczą, jeśli pierwsze wyrażenie ma wartość NULL, a w przeciwnym razie zwraca samo wyrażenie bez zmian - działa to zarówno dla wartości pochodzącej z kolumny tabeli, jak i ze zwykłej zmiennej, a zastępczą wartością nie musi być akurat zero (może to być dowolna wartość podana jako drugi argument).",
+  "options": [
+   { "key": "a", "text": "Zamiany napotkanej w tabeli wartości \"NULL\" na zero", "correct": false, "explain": "Nie - to zbyt wąskie ujęcie; wartość zastępcza nie musi być zerem, tylko dowolną wartością podaną jako drugi argument NVL." },
+   { "key": "b", "text": "Zamiany napotkanej w tabeli wartości z \"NULL\" na podaną w argumencie wartość", "correct": true, "explain": "Tak - to podstawowe zastosowanie NVL: zamiana NULL-a z kolumny tabeli na dowolną wartość podaną jako drugi argument." },
+   { "key": "c", "text": "Zamiany wartości zmiennej z \"NULL\" na podaną w argumencie wartość", "correct": true, "explain": "Tak - NVL działa identycznie dla dowolnego wyrażenia, w tym wartości zmiennej, nie tylko dla kolumny tabeli." },
+   { "key": "d", "text": "Zamiany wartości podanej w argumencie zmiennej lub komórki perspektywy z \"NULL\" na podaną w drugim argumencie wartość", "correct": false, "explain": "Nie - to nadmiarowo zawężone/mylące sformułowanie w porównaniu do prostszych i pełniejszych opisów w odpowiedziach B i C." }
+  ]
+ },
+ {
+  "id": "Q141",
+  "chapter": "G10",
+  "chapterName": "Dodatkowa pula pytań (RBD/SBD)",
+  "question": "Użycie klauzuli PRIMARY KEY przy deklaracji pola tabeli w instrukcji CREATE TABLE powoduje, że:",
+  "topicTitle": "PRIMARY KEY na poziomie kolumny - jeden na tabelę",
+  "topicSummary": "Klauzula PRIMARY KEY dodana bezpośrednio przy definicji jednej kolumny czyni ją kluczem głównym, automatycznie wymusza NOT NULL (klucz główny nigdy nie może być pusty) oraz automatycznie zakłada na niej unikalny indeks. Ponieważ tabela może mieć tylko jeden klucz główny, tej samej, kolumnowej klauzuli PRIMARY KEY nie można powtórzyć przy innym polu tej samej tabeli - klucz złożony z wielu kolumn wymaga osobnej, tabelowej postaci tej klauzuli (PRIMARY KEY (kol1, kol2)).",
+  "options": [
+   { "key": "a", "text": "To pole staje się polem klucza głównego", "correct": true, "explain": "Tak - to podstawowe, bezpośrednie działanie klauzuli PRIMARY KEY." },
+   { "key": "b", "text": "W żadnym innym polu tej tabeli nie może zostać użyta klauzula PRIMARY KEY", "correct": true, "explain": "Tak - tabela może mieć tylko jeden klucz główny, więc kolumnowa klauzula PRIMARY KEY nie może się powtórzyć przy innej kolumnie (klucz złożony wymaga osobnej, tabelowej składni)." },
+   { "key": "c", "text": "W polu tym nie może wystąpić wartość \"NULL\"", "correct": true, "explain": "Tak - klucz główny niejawnie wymusza ograniczenie NOT NULL." },
+   { "key": "d", "text": "Na tej kolumnie (polu) zostanie automatycznie założony indeks", "correct": true, "explain": "Tak - Oracle automatycznie zakłada unikalny indeks wspierający ograniczenie PRIMARY KEY." }
+  ]
+ },
+ {
+  "id": "Q142",
+  "chapter": "G10",
+  "chapterName": "Dodatkowa pula pytań (RBD/SBD)",
+  "question": "Instrukcja COMMIT:",
+  "topicTitle": "COMMIT zatwierdza wszystkie zmiany od ostatniego COMMIT/ROLLBACK",
+  "topicSummary": "COMMIT trwale zapisuje w bazie danych WSZYSTKIE zmiany (INSERT, UPDATE, DELETE) wykonane od początku bieżącej transakcji, czyli od ostatniego COMMIT albo ROLLBACK - nie tylko ostatnio wydane polecenie, i nie dotyczy samego SELECT, który niczego nie zmienia.",
+  "options": [
+   { "key": "a", "text": "Dotyczy ostatnio wydanego polecenia SELECT, UPDATE albo DELETE", "correct": false, "explain": "Nie - COMMIT dotyczy wszystkich zmian od początku transakcji, nie tylko ostatniego polecenia, a SELECT w ogóle nie ma czego zatwierdzać." },
+   { "key": "b", "text": "Dotyczy wszystkich poleceń SELECT, INSERT, UPDATE albo DELETE wydanych od ostatniego polecenia ROLLBACK", "correct": false, "explain": "Nie - SELECT nie powinien być tu wymieniony (nie zmienia danych), a poza tym początkiem transakcji jest też poprzedni COMMIT, nie tylko ROLLBACK." },
+   { "key": "c", "text": "Dokonuje trwałej zmiany w zawartości tabeli bazy danych", "correct": true, "explain": "Tak - COMMIT trwale zapisuje (zatwierdza) zmiany wprowadzone w bieżącej transakcji." },
+   { "key": "d", "text": "Wszystkich poleceń INSERT, UPDATE albo DELETE wydanych od ostatniego polecenia COMMIT albo ROLLBACK", "correct": true, "explain": "Tak - COMMIT obejmuje łącznie wszystkie zmiany danych od początku bieżącej transakcji, wyznaczonego przez poprzedni COMMIT lub ROLLBACK." }
+  ]
+ },
+ {
+  "id": "Q143",
+  "chapter": "G10",
+  "chapterName": "Dodatkowa pula pytań (RBD/SBD)",
+  "question": "Czy istniejący indeks przyśpiesza wykonanie instrukcji SELECT:",
+  "topicTitle": "Indeks przyspiesza SELECT tylko czasami",
+  "topicSummary": "Indeks może przyspieszyć SELECT, gdy optymalizator zdecyduje się go użyć (np. selektywny warunek WHERE na indeksowanej kolumnie) - ale nie zawsze: dla zapytań zwracających dużą część tabeli albo dla kolumn o niskiej selektywności optymalizator często wybierze pełne przeszukanie tabeli, bo jest szybsze niż korzystanie z indeksu. Odpowiedź brzmi więc „czasem”, nie „zawsze” ani „nigdy”.",
+  "options": [
+   { "key": "a", "text": "nigdy", "correct": false, "explain": "Nie - dla selektywnych warunków WHERE na indeksowanej kolumnie indeks bardzo często przyspiesza SELECT." },
+   { "key": "b", "text": "zawsze", "correct": false, "explain": "Nie - dla mało selektywnych zapytań (zwracających dużą część tabeli) optymalizator może wybrać pełne przeszukanie tabeli jako szybsze niż użycie indeksu." },
+   { "key": "c", "text": "czasem", "correct": true, "explain": "Tak - to zależy od zapytania, selektywności warunku i decyzji optymalizatora zapytań." }
+  ]
+ },
+ {
+  "id": "Q144",
+  "chapter": "G10",
+  "chapterName": "Dodatkowa pula pytań (RBD/SBD)",
+  "question": "Czy istniejący indeks przyśpiesza wykonanie instrukcji COMMIT:",
+  "topicTitle": "Indeks nie ma wpływu na COMMIT",
+  "topicSummary": "COMMIT tylko trwale zapisuje (zatwierdza) już wprowadzone zmiany w dzienniku transakcji - nie przeszukuje danych, więc indeksy (które przyspieszają wyszukiwanie) nie mają na jego wykonanie żadnego wpływu.",
+  "options": [
+   { "key": "a", "text": "nigdy", "correct": true, "explain": "Tak - COMMIT nie przeszukuje danych, więc indeksy (przyspieszające wyszukiwanie) nie wpływają na jego szybkość." },
+   { "key": "b", "text": "zawsze", "correct": false, "explain": "Nie - indeks nie przyspiesza COMMIT nigdy, bo COMMIT z natury nie korzysta z indeksów." },
+   { "key": "c", "text": "czasem", "correct": false, "explain": "Nie - to nie zależy od okoliczności; indeks nigdy nie wpływa na czas wykonania COMMIT." }
+  ]
+ },
+ {
+  "id": "Q145",
+  "chapter": "G10",
+  "chapterName": "Dodatkowa pula pytań (RBD/SBD)",
+  "question": "Które klauzule - jeżeli występują - muszą znaleźć się przed GROUP BY w zapytaniu SELECT w Oracle?",
+  "topicTitle": "Kolejność klauzul: FROM, WHERE, GROUP BY, HAVING, ORDER BY",
+  "topicSummary": "Standardowa kolejność klauzul zapytania SELECT to: FROM, WHERE, GROUP BY, HAVING, ORDER BY - stąd zarówno FROM, jak i WHERE muszą (jeśli występują) poprzedzać GROUP BY. ORDER BY zawsze występuje na samym końcu zapytania, a HAVING standardowo bezpośrednio po GROUP BY (choć w praktyce Oracle dopuszcza też zapis HAVING przed GROUP BY).",
+  "options": [
+   { "key": "a", "text": "FROM", "correct": true, "explain": "Tak - klauzula FROM zawsze poprzedza GROUP BY (wskazuje źródło danych do zgrupowania)." },
+   { "key": "b", "text": "WHERE", "correct": true, "explain": "Tak - WHERE filtruje pojedyncze wiersze przed ich zgrupowaniem, więc musi poprzedzać GROUP BY." },
+   { "key": "c", "text": "ORDER BY", "correct": false, "explain": "Nie - ORDER BY sortuje już gotowy wynik zapytania i występuje na samym końcu, po GROUP BY (i po HAVING)." },
+   { "key": "d", "text": "HAVING", "correct": false, "explain": "Nie - HAVING filtruje wynik grupowania, więc standardowo występuje po GROUP BY, a nie przed nim." }
+  ]
+ },
+ {
+  "id": "Q146",
+  "chapter": "G10",
+  "chapterName": "Dodatkowa pula pytań (RBD/SBD)",
+  "question": "Jaką wartość przyjmie kolumna \"Salary\" dla wierszy spełniających warunek Sal IS NULL w zapytaniu: SELECT ename, NVL(sal, 0) \"Salary\" FROM Emp WHERE Sal IS NULL ORDER BY ename;",
+  "topicTitle": "NVL zamienia NULL na podaną wartość zastępczą",
+  "topicSummary": "Warunek WHERE Sal IS NULL wybiera tylko te wiersze, w których Sal jest puste - a NVL(sal, 0) zamienia właśnie taką pustą wartość na podaną wartość zastępczą, tu: 0. Dla każdego zwróconego wiersza kolumna „Salary” będzie więc miała wartość 0, a nie NULL.",
+  "options": [
+   { "key": "a", "text": "0", "correct": true, "explain": "Tak - NVL(sal, 0) zamienia NULL na wartość zastępczą podaną jako drugi argument, tu: 0." },
+   { "key": "b", "text": "NULL", "correct": false, "explain": "Nie - właśnie po to używa się NVL, żeby zamienić NULL na konkretną wartość zastępczą (tu 0), a nie zwrócić samo NULL." },
+   { "key": "c", "text": "spację", "correct": false, "explain": "Nie - NVL zwraca dokładnie podaną wartość zastępczą (liczbę 0), a nie spację." },
+   { "key": "d", "text": "zapytanie nie zwróci żadnych wierszy", "correct": false, "explain": "Nie - warunek Sal IS NULL poprawnie wybiera wiersze z pustym Sal (o ile takie istnieją), NVL jedynie zmienia wyświetlaną wartość, nie filtruje wyniku." }
+  ]
+ },
+ {
+  "id": "Q147",
+  "chapter": "G10",
+  "chapterName": "Dodatkowa pula pytań (RBD/SBD)",
+  "question": "Który z poniższych operatorów zwróci sumę zapytań bez eliminacji powtarzających się wierszy?",
+  "topicTitle": "UNION ALL zachowuje duplikaty",
+  "topicSummary": "UNION usuwa duplikaty z sumy dwóch zapytań (co kosztuje dodatkowe sortowanie/porównywanie), a UNION ALL po prostu skleja wyniki obu zapytań bez takiej eliminacji - jest więc szybszy, ale może zwrócić powtarzające się wiersze. MINUS i INTERSECT to zupełnie inne operacje (różnica i część wspólna zbiorów).",
+  "options": [
+   { "key": "a", "text": "MINUS", "correct": false, "explain": "Nie - MINUS zwraca różnicę zbiorów (wiersze z pierwszego zapytania, których nie ma w drugim), a nie sumę." },
+   { "key": "b", "text": "UNION ALL", "correct": true, "explain": "Tak - UNION ALL sumuje wyniki obu zapytań bez usuwania powtarzających się wierszy, w przeciwieństwie do zwykłego UNION." },
+   { "key": "c", "text": "UNION", "correct": false, "explain": "Nie - zwykły UNION usuwa duplikaty z sumy wyników, w odróżnieniu od UNION ALL." },
+   { "key": "d", "text": "INTERSECT", "correct": false, "explain": "Nie - INTERSECT zwraca część wspólną (wiersze występujące w obu zapytaniach), a nie sumę." }
+  ]
+ },
+ {
+  "id": "Q148",
+  "chapter": "G10",
+  "chapterName": "Dodatkowa pula pytań (RBD/SBD)",
+  "question": "Jaki będzie efekt wykonania polecenia: CREATE TABLE Osoby (imie VARCHAR2(30) PRIMARY KEY, nazwisko VARCHAR2(30) PRIMARY KEY, zarobki NUMBER(7,2))",
+  "topicTitle": "Dwie kolumnowe klauzule PRIMARY KEY w jednej tabeli to błąd",
+  "topicSummary": "Klauzula PRIMARY KEY użyta przy definicji pojedynczej kolumny może wystąpić w tabeli tylko RAZ (tabela ma dokładnie jeden klucz główny). Tu użyto jej dwukrotnie - najpierw przy imie, potem przy nazwisko - co Oracle odrzuci jako błąd składniowy/definicyjny. Żeby zbudować klucz złożony z obu kolumn, trzeba użyć osobnej, tabelowej postaci ograniczenia: PRIMARY KEY (imie, nazwisko), a nie powtarzać klauzuli przy każdej kolumnie z osobna.",
+  "options": [
+   { "key": "a", "text": "przy próbie wykonania polecenia wystąpi błąd", "correct": true, "explain": "Tak - dwukrotne użycie kolumnowej klauzuli PRIMARY KEY w jednej tabeli jest niedozwolone i Oracle zgłosi błąd." },
+   { "key": "b", "text": "zostanie stworzona tabela Osoby, której kluczem głównym będzie pole imie", "correct": false, "explain": "Nie - polecenie w ogóle się nie wykona z powodu błędu, więc żadna tabela nie powstanie." },
+   { "key": "c", "text": "zostanie stworzona tabela Osoby, której kluczem głównym będzie zbiór złożony z pól (imie, nazwisko)", "correct": false, "explain": "Nie - klucz złożony z dwóch kolumn wymaga osobnej, tabelowej składni PRIMARY KEY (imie, nazwisko), a nie dwukrotnego powtórzenia klauzuli kolumnowej." },
+   { "key": "d", "text": "zostanie stworzona tabela Osoby, której kluczem głównym będzie pole nazwisko", "correct": false, "explain": "Nie - polecenie w ogóle się nie wykona z powodu błędu." }
+  ]
+ },
+ {
+  "id": "Q149",
+  "chapter": "G10",
+  "chapterName": "Dodatkowa pula pytań (RBD/SBD)",
+  "question": "Wykonujesz zapytanie: SELECT e1.ename||' pracuje dla ' ||e2.ename \"Pracownicy i ich szefowie\" FROM emp e1, emp e2 WHERE e1.mgr=e2.empno; Jaki to jest rodzaj złączenia?",
+  "topicTitle": "Samozłączenie: ta sama tabela dwukrotnie, pod różnymi aliasami",
+  "topicSummary": "Zapytanie odwołuje się do tej samej tabeli emp dwukrotnie, pod dwoma różnymi aliasami (e1, e2), łącząc pracownika (e1) z jego przełożonym (e2) po warunku e1.mgr = e2.empno - to klasyczny przykład samozłączenia (self-join), a nie złączenia kartezjańskiego (bo jest warunek WHERE) ani zewnętrznego (nie użyto OUTER JOIN).",
+  "options": [
+   { "key": "a", "text": "kartezjańskie", "correct": false, "explain": "Nie - złączenie kartezjańskie nie ma żadnego warunku łączącego wiersze; tu warunek e1.mgr=e2.empno jest obecny." },
+   { "key": "b", "text": "zewnętrzne", "correct": false, "explain": "Nie - złączenie zewnętrzne (OUTER JOIN) zwraca też niedopasowane wiersze z jednej ze stron, a tu użyto zwykłego złączenia wewnętrznego (przecinek + WHERE)." },
+   { "key": "c", "text": "samozłączenie", "correct": true, "explain": "Tak - tabela emp występuje dwukrotnie pod różnymi aliasami (e1, e2) i jest złączona sama ze sobą po warunku e1.mgr=e2.empno, co jest definicją samozłączenia." }
+  ]
+ },
+ {
+  "id": "Q150",
+  "chapter": "G10",
+  "chapterName": "Dodatkowa pula pytań (RBD/SBD)",
+  "question": "Jakie nazwiska zostaną wyświetlone w wyniku zapytania: SELECT ename FROM emp WHERE ename LIKE '_A%';",
+  "topicTitle": "Podkreślnik w LIKE to dokładnie jeden dowolny znak",
+  "topicSummary": "W operatorze LIKE znak podkreślenia (_) oznacza dokładnie jeden dowolny znak, a % - dowolną (także zerową) liczbę dowolnych znaków. Wzorzec '_A%' pasuje więc do nazwisk, w których na DRUGIM miejscu (po dokładnie jednym dowolnym znaku) występuje litera A, a po niej cokolwiek (albo nic).",
+  "options": [
+   { "key": "a", "text": "nazwiska, w których litera A występuje na dowolnym miejscu poza pierwszym", "correct": false, "explain": "Nie - wzorzec '_A%' wymaga litery A dokładnie na DRUGIM miejscu, a nie na dowolnym miejscu poza pierwszym." },
+   { "key": "b", "text": "nazwiska, w których litera A występuje na drugim miejscu", "correct": true, "explain": "Tak - podkreślnik zajmuje dokładnie jedną (pierwszą) pozycję, a zaraz po niej musi wystąpić litera A, czyli A jest na drugim miejscu nazwiska." },
+   { "key": "c", "text": "nazwiska kończące się na A", "correct": false, "explain": "Nie - do tego służyłby wzorzec '%A' (bez podkreślnika na początku), a nie '_A%'." },
+   { "key": "d", "text": "nazwiska zaczynające się na A", "correct": false, "explain": "Nie - do tego służyłby wzorzec 'A%' (bez podkreślnika na początku), a nie '_A%', który wymusza jeden dowolny znak PRZED literą A." }
+  ]
+ },
+ {
+  "id": "Q151",
+  "chapter": "G10",
+  "chapterName": "Dodatkowa pula pytań (RBD/SBD)",
+  "question": "Które instrukcje SELECT ... INTO nie zakończą się błędem, jeśli tabela DEPT zawiera dokładnie dwa wiersze z deptno równymi 10 i 20, a v_deptno jest poprawnie zadeklarowaną zmienną skalarną?",
+  "topicTitle": "SELECT INTO do zmiennej skalarnej wymaga dokładnie jednego wiersza",
+  "topicSummary": "SELECT ... INTO do zmiennej skalarnej (w PL/SQL) musi zwrócić dokładnie jeden wiersz - zero wierszy powoduje wyjątek NO_DATA_FOUND, a więcej niż jeden wiersz wyjątek TOO_MANY_ROWS. Przy dokładnie dwóch wierszach (deptno=10 i deptno=20) warunki deptno=10, deptno>10 i deptno<20 wybierają każdy dokładnie jeden z nich, natomiast deptno>=10 dopasowuje OBA wiersze naraz, co kończy się błędem.",
+  "options": [
+   { "key": "a", "text": "SELECT deptno INTO v_deptno FROM dept WHERE deptno = 10;", "correct": true, "explain": "Poprawne - warunek wybiera dokładnie jeden wiersz (deptno=10)." },
+   { "key": "b", "text": "SELECT deptno INTO v_deptno FROM dept WHERE deptno > 10;", "correct": true, "explain": "Poprawne - warunek wybiera dokładnie jeden wiersz (deptno=20, jedyny większy od 10)." },
+   { "key": "c", "text": "SELECT deptno INTO v_deptno FROM dept WHERE deptno < 20;", "correct": true, "explain": "Poprawne - warunek wybiera dokładnie jeden wiersz (deptno=10, jedyny mniejszy od 20)." },
+   { "key": "d", "text": "SELECT deptno INTO v_deptno FROM dept WHERE deptno >= 10;", "correct": false, "explain": "Niepoprawne - warunek dopasowuje OBA wiersze (10 i 20), co przy przypisaniu do zmiennej skalarnej kończy się błędem TOO_MANY_ROWS." }
+  ]
+ },
+ {
+  "id": "Q152",
+  "chapter": "G10",
+  "chapterName": "Dodatkowa pula pytań (RBD/SBD)",
+  "question": "Zaznacz poprawne stwierdzenia:",
+  "topicTitle": "UPDATE trafia do dziennika transakcji, SELECT nie musi czytać z dysku",
+  "topicSummary": "Zatwierdzona zmiana wprowadzona instrukcją UPDATE jest zapisywana w dzienniku transakcji (redo log), co gwarantuje jej trwałość nawet po awarii - to prawdziwe stwierdzenie. Nieprawdą jest natomiast, że każdy SELECT wymaga fizycznego odczytu z dysku (dane mogą już być w buforze pamięci podręcznej), że wynik UPDATE od razu trafia do pliku z danymi (może poczekać w buforze do czasu zapisu przez proces bazy) czy że wynik SELECT jest zapisywany w dzienniku transakcji (SELECT niczego nie zmienia, więc nie ma czego logować).",
+  "options": [
+   { "key": "a", "text": "Każda instrukcja SELECT wymaga pobrania danych z dysku twardego", "correct": false, "explain": "Nie - dane mogą już znajdować się w buforze pamięci podręcznej (cache), więc SELECT nie zawsze wymaga fizycznego odczytu z dysku." },
+   { "key": "b", "text": "Wynik działania każdej instrukcji UPDATE jest natychmiast po zatwierdzeniu zapisywany w pliku z danymi", "correct": false, "explain": "Nie - zapis do właściwego pliku z danymi może nastąpić później (asynchronicznie); gwarancję trwałości po zatwierdzeniu daje zapis do dziennika transakcji, nie od razu do pliku danych." },
+   { "key": "c", "text": "Wynik działania każdej instrukcji SELECT jest zapisywany w dzienniku transakcji", "correct": false, "explain": "Nie - SELECT nie modyfikuje danych, więc nie generuje wpisów w dzienniku transakcji (który rejestruje zmiany)." },
+   { "key": "d", "text": "Wynik działania każdej instrukcji UPDATE jest natychmiast po zatwierdzeniu zapisywany w dzienniku transakcji", "correct": true, "explain": "Tak - zatwierdzenie (COMMIT) zmiany wprowadzonej przez UPDATE gwarantuje jej trwały zapis w dzienniku transakcji, co jest podstawą odporności bazy na awarie." }
+  ]
+ },
+ {
+  "id": "Q153",
+  "chapter": "G10",
+  "chapterName": "Dodatkowa pula pytań (RBD/SBD)",
+  "question": "Aby posortować wyniki zapytania w odwrotnym porządku leksykograficznym przy nazwie sortowanej kolumny należy wpisać:",
+  "topicTitle": "DESC odwraca domyślny porządek sortowania",
+  "topicSummary": "Domyślnym porządkiem sortowania w ORDER BY jest porządek rosnący (ASC), który nie musi być jawnie wypisywany. Aby uzyskać porządek malejący (odwrotny do domyślnego), trzeba jawnie dopisać słowo kluczowe DESC bezpośrednio po nazwie sortowanej kolumny.",
+  "options": [
+   { "key": "a", "text": "nic nie trzeba wpisywać, to domyślny sposób sortowania", "correct": false, "explain": "Nie - domyślny (bez dopisku) jest porządek ROSNĄCY (ASC), a nie malejący/odwrotny." },
+   { "key": "b", "text": "DESC", "correct": true, "explain": "Tak - DESC jawnie odwraca kierunek sortowania na malejący." },
+   { "key": "c", "text": "ASC", "correct": false, "explain": "Nie - ASC to (i tak domyślny) porządek rosnący, a pytanie dotyczy porządku odwrotnego." }
+  ]
+ },
+ {
+  "id": "Q154",
+  "chapter": "G10",
+  "chapterName": "Dodatkowa pula pytań (RBD/SBD)",
+  "question": "Która z poniższych instrukcji w SQL Server jest składniowo poprawna (zostanie wykonana)?",
+  "topicTitle": "DELETE z NULL, TRUNCATE TABLE, INSERT...SELECT i bezefektowy UPDATE",
+  "topicSummary": "Wszystkie cztery instrukcje są składniowo poprawne, choć niektóre logicznie nic nie zmieniają: DELETE z warunkiem empno=NULL wykona się bez błędu (po prostu nie usunie żadnego wiersza, bo porównanie z NULL nigdy nie jest prawdziwe), TRUNCATE TABLE opróżnia całą tabelę, INSERT...SELECT z tej samej tabeli poprawnie duplikuje jej wiersze, a UPDATE ustawiające kolumnę na jej własną, niezmienioną wartość jest poprawnym, choć bezefektowym poleceniem.",
+  "options": [
+   { "key": "a", "text": "DELETE FROM emp WHERE empno = NULL;", "correct": true, "explain": "Poprawne składniowo - wykona się bez błędu, choć logicznie nie usunie żadnego wiersza (porównanie z NULL operatorem = nigdy nie jest prawdziwe; do sprawdzania NULL służy IS NULL)." },
+   { "key": "b", "text": "TRUNCATE TABLE emp;", "correct": true, "explain": "Poprawne - TRUNCATE TABLE to standardowe polecenie DDL opróżniające całą tabelę." },
+   { "key": "c", "text": "INSERT INTO emp (ename, job) SELECT ename, job FROM emp;", "correct": true, "explain": "Poprawne - można wstawiać do tabeli wiersze pochodzące z zapytania na tej samej tabeli; duplikuje to istniejące wiersze." },
+   { "key": "d", "text": "UPDATE emp SET sal = sal WHERE sal = sal;", "correct": true, "explain": "Poprawne, choć bezefektowe - przypisanie kolumnie jej własnej wartości jest składniowo prawidłowym UPDATE-em (warunek sal=sal jest zawsze prawdziwy dla niepustych wartości)." }
+  ]
+ },
+ {
+  "id": "Q155",
+  "chapter": "G10",
+  "chapterName": "Dodatkowa pula pytań (RBD/SBD)",
+  "question": "Rola w bazie danych:",
+  "topicTitle": "Rola to nazwana grupa uprawnień nadawana użytkownikom",
+  "topicSummary": "Rola jest obiektem bazy danych grupującym UŻYTKOWNIKÓW (a nie tabele, procedury czy perspektywy), któremu można nadać zestaw uprawnień jednym poleceniem GRANT, a następnie przypisywać tę rolę kolejnym użytkownikom zamiast nadawać im uprawnienia pojedynczo. Rola sama w sobie nie ułatwia zakładania indeksów.",
+  "options": [
+   { "key": "a", "text": "Jest grupą obiektów bazy danych (tabel, procedur, perspektyw)", "correct": false, "explain": "Nie - rola grupuje UŻYTKOWNIKÓW, a nie obiekty typu tabele czy procedury." },
+   { "key": "b", "text": "Jest obiektem bazy danych pozwalającym łatwiej zakładać indeksy", "correct": false, "explain": "Nie - rola nie ma nic wspólnego z zakładaniem indeksów; służy do zarządzania uprawnieniami użytkowników." },
+   { "key": "c", "text": "Jest grupą użytkowników", "correct": true, "explain": "Tak - rola to nazwany zestaw uprawnień, który można nadać grupie użytkowników jednym poleceniem." },
+   { "key": "d", "text": "Może mieć nadane uprawnienia", "correct": true, "explain": "Tak - uprawnienia nadaje się roli (GRANT ... TO rola), a potem przypisuje się rolę użytkownikom, zamiast nadawać uprawnienia każdemu z osobna." }
+  ]
+ },
+ {
+  "id": "Q156",
+  "chapter": "G10",
+  "chapterName": "Dodatkowa pula pytań (RBD/SBD)",
+  "question": "W którym z poniższych przypadków konieczne jest umieszczenie tekstu w apostrofach (w Oracle)?",
+  "topicTitle": "Apostrofy tylko dla literałów tekstowych",
+  "topicSummary": "Apostrofy w Oracle ograniczają LITERAŁY tekstowe (stałe teksty wpisane wprost w zapytaniu) - np. myślnik wyświetlany między dwiema łączonymi kolumnami (ename||'-'||job) musi być w apostrofach, bo jest literałem. Odwołanie do zmiennej (niezależnie od jej typu) nie wymaga apostrofów, bo to nie jest literał tekstowy, tylko nazwa zmiennej, a nazwy kolumn w SELECT nigdy nie ujmuje się w apostrofy (to identyfikatory, nie literały).",
+  "options": [
+   { "key": "a", "text": "odwołanie do zmiennej typu CHAR w klauzuli WHERE", "correct": false, "explain": "Nie - odwołanie do zmiennej (nawet znakowej) to nazwa zmiennej, a nie literał tekstowy, więc apostrofów nie wymaga." },
+   { "key": "b", "text": "odwołanie do zmiennej numerycznej w klauzuli WHERE", "correct": false, "explain": "Nie - z tego samego powodu; apostrofy dotyczą literałów tekstowych, a nie odwołań do zmiennych jakiegokolwiek typu." },
+   { "key": "c", "text": "wyświetlenie myślnika (-) między dwoma połączonymi kolumnami", "correct": true, "explain": "Tak - myślnik wpisany wprost w zapytaniu jest literałem tekstowym (np. w konkatenacji kol1||'-'||kol2) i musi być ujęty w apostrofy." },
+   { "key": "d", "text": "wskazanie nazw kolumn w klauzuli SELECT", "correct": false, "explain": "Nie - nazwy kolumn to identyfikatory, a nie literały tekstowe, więc nigdy nie ujmuje się ich w apostrofy." }
+  ]
+ },
+ {
+  "id": "Q157",
+  "chapter": "G10",
+  "chapterName": "Dodatkowa pula pytań (RBD/SBD)",
+  "question": "Jakie są podstawowe składowe diagramów związków encji?",
+  "topicTitle": "Encje, atrybuty i związki - trzy filary modelu E-R",
+  "topicSummary": "Diagram związków encji (E-R) opisuje świat za pomocą trzech podstawowych rodzajów składowych: encji (typów obiektów), ich atrybutów (cech) oraz związków (relacji) łączących encje ze sobą.",
+  "options": [
+   { "key": "a", "text": "związki", "correct": true, "explain": "Tak - związki (relacje między encjami) to jedna z podstawowych składowych diagramu E-R." },
+   { "key": "b", "text": "atrybuty", "correct": true, "explain": "Tak - atrybuty (cechy encji lub związków) to kolejna podstawowa składowa diagramu E-R." },
+   { "key": "c", "text": "encje", "correct": true, "explain": "Tak - encje (typy obiektów) to trzecia z podstawowych składowych diagramu E-R." }
+  ]
+ },
+ {
+  "id": "Q158",
+  "chapter": "G10",
+  "chapterName": "Dodatkowa pula pytań (RBD/SBD)",
+  "question": "Jaki rodzaj związku binarnego jest elementarnym związkiem w hierarchii encji?",
+  "topicTitle": "Hierarchia encji (IS-A) opiera się na związku jeden-jednoznacznym",
+  "topicSummary": "Hierarchia encji (generalizacja/specjalizacja, związek typu \"jest rodzajem\") łączy nadtyp z podtypem związkiem jeden-jednoznacznym (1:1) - każdy egzemplarz podtypu odpowiada dokładnie jednemu egzemplarzowi nadtypu (i najczęściej na odwrót, gdy podtypy są rozłączne i kompletne), co odróżnia tę relację od zwykłego związku wieloznacznego.",
+  "options": [
+   { "key": "a", "text": "związek jedno-jednoznaczny oznaczany symbolem jest .", "correct": true, "explain": "Tak - hierarchia encji (relacja \"jest rodzajem\"/IS-A) opiera się na elementarnym związku jeden-jednoznacznym między nadtypem a podtypem." },
+   { "key": "b", "text": "związek wieloznaczny", "correct": false, "explain": "Nie - związek wieloznaczny (N:M) nie jest elementarnym związkiem hierarchii encji; ta opiera się na związku 1:1." }
+  ]
+ },
+ {
+  "id": "Q159",
+  "chapter": "G10",
+  "chapterName": "Dodatkowa pula pytań (RBD/SBD)",
+  "question": "Które z następujących elementów: atrybuty, encje, związki mogą być argumentami związków?",
+  "topicTitle": "Encje, związki, a nawet atrybuty opisowe mogą uczestniczyć w związkach",
+  "topicSummary": "W rozbudowanych modelach E-R argumentami (uczestnikami) związku mogą być nie tylko encje, ale też inne związki (związki wyższego rzędu, agregacja związków) oraz atrybuty opisowe (deskryptywne), które dodatkowo charakteryzują sam związek lub jego uczestnika.",
+  "options": [
+   { "key": "a", "text": "atrybuty dekryptywne", "correct": true, "explain": "Tak - atrybuty opisowe mogą uczestniczyć jako argumenty/charakterystyki związku." },
+   { "key": "b", "text": "encje", "correct": true, "explain": "Tak - encje są najbardziej podstawowym i typowym rodzajem argumentu związku." },
+   { "key": "c", "text": "związki", "correct": true, "explain": "Tak - w modelach wyższego rzędu sam związek może być argumentem (uczestnikiem) innego związku." }
+  ]
+ },
+ {
+  "id": "Q160",
+  "chapter": "G10",
+  "chapterName": "Dodatkowa pula pytań (RBD/SBD)",
+  "question": "Jaki jest model podstawowej jednostki danych poziomu fizycznego bazy danych?",
+  "topicTitle": "Poziom fizyczny: rekord, nie tabela",
+  "topicSummary": "Na poziomie fizycznym (sposobie faktycznego przechowywania danych na dysku) podstawową jednostką jest rekord - ciąg pól o określonych typach danych. Tabela jest pojęciem z poziomu logicznego (koncepcyjnego) modelu relacyjnego, a nie fizycznej organizacji danych.",
+  "options": [
+   { "key": "a", "text": "rekord składający się z pól określonych typów danych", "correct": true, "explain": "Tak - na poziomie fizycznym dane przechowywane są jako rekordy złożone z pól o określonych typach." },
+   { "key": "b", "text": "tabela", "correct": false, "explain": "Nie - tabela to pojęcie logicznego (nie fizycznego) modelu relacyjnego." }
+  ]
+ },
+ {
+  "id": "Q161",
+  "chapter": "G10",
+  "chapterName": "Dodatkowa pula pytań (RBD/SBD)",
+  "question": "Dane są trzy tabele Klienci(Id_Klienta, Imie, Nazwisko), Produkty(Id_Produktu, Nazwa, Cena) oraz Zakupy(Id_Klienta, Id_Produktu, Ilosc). Wskaż poprawne zapytania SQL znajdujące nazwy i ceny produktów, które zostały zakupione przez przynajmniej jednego klienta.",
+  "topicTitle": "INNER JOIN (lub jego odpowiednik przez WHERE) zwraca tylko faktycznie kupione produkty",
+  "topicSummary": "„Zakupione przez przynajmniej jednego klienta” wymaga złączenia Produkty z Zakupy - czy to klasyczną składnią z przecinkiem i WHERE, czy jawnym INNER JOIN - oba dają ten sam wynik: tylko produkty, które mają choć jeden pasujący wiersz w Zakupy. RIGHT OUTER JOIN od strony Zakupy do Produktów dołączyłby też produkty BEZ żadnego zakupu (z NULL-ami), co jest niezgodne z treścią, a zapytanie bez żadnego złączenia z Zakupy w ogóle nie sprawdza, czy produkt był kupiony.",
+  "options": [
+   { "key": "a", "text": "SELECT DISTINCT Nazwa, Cena FROM Zakupy RIGHT OUTER JOIN Produkty ON Produkty.Id_Produktu = Zakupy.Id_Produktu;", "correct": false, "explain": "Niepoprawne względem treści - RIGHT OUTER JOIN (od Produkty) dołączy też produkty, które nigdy nie zostały kupione (z NULL-ami po stronie Zakupy), co jest sprzeczne z wymaganiem „kupione przez przynajmniej jednego klienta”." },
+   { "key": "b", "text": "SELECT DISTINCT Nazwa, Cena FROM Produkty, Zakupy WHERE Produkty.Id_Produktu = Zakupy.Id_Produktu;", "correct": true, "explain": "Poprawne - klasyczne złączenie zwraca tylko produkty mające co najmniej jeden pasujący wiersz w Zakupy, czyli faktycznie kupione." },
+   { "key": "c", "text": "SELECT DISTINCT Nazwa, Cena FROM Produkty, Klienci;", "correct": false, "explain": "Niepoprawne - to iloczyn kartezjański Produktów i Klientów, w ogóle nieodwołujący się do tabeli Zakupy, więc nie sprawdza faktu zakupu." },
+   { "key": "d", "text": "SELECT DISTINCT Nazwa, Cena FROM Produkty INNER JOIN Zakupy ON Produkty.Id_Produktu = Zakupy.Id_Produktu;", "correct": true, "explain": "Poprawne - INNER JOIN to jawna, równoważna postać złączenia z odpowiedzi B, dająca ten sam, poprawny wynik." }
+  ]
+ },
+ {
+  "id": "Q162",
+  "chapter": "G10",
+  "chapterName": "Dodatkowa pula pytań (RBD/SBD)",
+  "question": "Wskaż poprawne zapytanie SQL (dialekt Oracle) znajdujące pracowników zarabiających minimalną pensję na ich stanowiskach pracy:",
+  "topicTitle": "Minimum per stanowisko: przez (sal,job) IN albo skorelowane podzapytanie",
+  "topicSummary": "Znalezienie pracowników zarabiających najmniej NA SWOIM stanowisku wymaga porównania z minimum policzonym OSOBNO dla każdego stanowiska (job) - można to zrobić przez parę (sal,job) IN (SELECT MIN(sal), job ... GROUP BY job), albo przez skorelowane podzapytanie porównujące sal z MIN(sal) tego samego stanowiska (WHERE job = e.job). Zapytanie porównujące z jednym, globalnym MIN(sal) po wszystkich stanowiskach (bez korelacji po job) jest błędne, bo ignoruje podział na stanowiska - a zapis z brakującym przecinkiem w SELECT jest po prostu niepoprawny składniowo.",
+  "options": [
+   { "key": "a", "text": "SELECT ename, job, sal FROM emp WHERE (sal,job) IN (SELECT MIN(sal), job FROM emp GROUP BY job);", "correct": true, "explain": "Poprawne - para (sal,job) porównywana jest z parami (minimalna pensja, stanowisko) osobno dla każdego stanowiska, więc zwraca dokładnie tych, którzy zarabiają minimum na swoim stanowisku." },
+   { "key": "b", "text": "SELECT ename, job MIN(sal) FROM emp GROUP BY job;", "correct": false, "explain": "Niepoprawne składniowo - brakuje przecinka między job a MIN(sal) na liście SELECT." },
+   { "key": "c", "text": "SELECT ename, job, sal FROM emp WHERE sal = (SELECT MIN(sal) FROM emp GROUP BY job);", "correct": false, "explain": "Niepoprawne - podzapytanie z GROUP BY job (bez korelacji) zwraca WIELE wierszy (po jednym na stanowisko), a porównanie sal = (...) oczekuje dokładnie jednej wartości, więc Oracle zgłosi błąd." },
+   { "key": "d", "text": "SELECT ename, job, sal FROM emp e WHERE sal = (SELECT MIN(sal) FROM emp WHERE job = e.job);", "correct": true, "explain": "Poprawne - skorelowane podzapytanie liczy minimalną pensję tylko dla tego samego stanowiska co bieżący wiersz (job = e.job), zwracając dokładnie jedną wartość do porównania." }
+  ]
+ },
+ {
+  "id": "Q163",
+  "chapter": "G10",
+  "chapterName": "Dodatkowa pula pytań (RBD/SBD)",
+  "question": "Co należy do zalet synonimów?",
+  "topicTitle": "Synonimy: niezależność logiczna i definiowanie poziomu zewnętrznego",
+  "topicSummary": "Synonim to alternatywna nazwa dla obiektu bazy danych (tabeli, widoku, procedury) - pozwala ukryć przed użytkownikiem rzeczywistą nazwę/właściciela/lokalizację obiektu, co jest formą niezależności LOGICZNEJ (aplikacja odwołuje się do stabilnej nazwy, niezależnie od zmian po stronie właściciela obiektu) i naturalnym narzędziem budowania zewnętrznego (widocznego dla użytkownika) poziomu schematu bazy. Synonimy same w sobie nie chronią przed nieuprawnionym dostępem (to rola uprawnień) ani nie dotyczą fizycznego sposobu przechowywania danych.",
+  "options": [
+   { "key": "a", "text": "Są środkiem do realizacji niezależności fizycznej danych.", "correct": false, "explain": "Nie - to nie jest zaleta synonimów; niezależność fizyczną (od sposobu przechowywania danych na dysku) zapewniają inne mechanizmy." },
+   { "key": "b", "text": "Ochraniają przed niepowołanym lub nieprawidłowym dostępem do danych.", "correct": false, "explain": "Nie - kontrolę dostępu zapewniają uprawnienia (GRANT/REVOKE), a nie synonimy same w sobie." },
+   { "key": "c", "text": "Są środkiem do realizacji niezależności logicznej danych.", "correct": true, "explain": "Tak - synonim ukrywa rzeczywistą nazwę/lokalizację obiektu za stabilną nazwą alternatywną, co jest formą niezależności logicznej." },
+   { "key": "d", "text": "Umożliwiają zdefiniowanie poziomu zewnętrznego bazy danych.", "correct": true, "explain": "Tak - synonimy pozwalają zbudować widoczny dla użytkownika, uproszczony poziom nazewnictwa niezależny od wewnętrznej struktury bazy." }
+  ]
+ },
+ {
+  "id": "Q164",
+  "chapter": "G10",
+  "chapterName": "Dodatkowa pula pytań (RBD/SBD)",
+  "question": "Dany schemat relacyjny Książka(NAZWISKO_AUTORA, TYTUŁ, Imie_Autora, Kategoria) z zależnościami funkcyjnymi F = {Nazwisko_Autora → Imie_Autora; Tytuł → Kategoria} jest w:",
+  "topicTitle": "Zależność częściowa od dwuatrybutowego klucza łamie 2NF",
+  "topicSummary": "Kluczem jest tu para (Nazwisko_Autora, Tytuł) - dopiero razem te dwa atrybuty wyznaczają, za pomocą obu zależności, całą resztę (Imie_Autora i Kategorię). Zależność Nazwisko_Autora → Imie_Autora jest jednak zależnością CZĘŚCIOWĄ: Imie_Autora zależy tylko od części klucza (samego Nazwiska_Autora), a nie od całego klucza (Nazwisko_Autora, Tytuł) - to wprost łamie II postać normalną, więc schemat pozostaje jedynie w I postaci normalnej.",
+  "options": [
+   { "key": "a", "text": "drugiej postaci normalnej", "correct": false, "explain": "Nie - zależność Nazwisko_Autora → Imie_Autora jest zależnością częściową (Imie_Autora zależy tylko od części klucza), co wyklucza już II postać normalną." },
+   { "key": "b", "text": "trzeciej postaci normalnej", "correct": false, "explain": "Nie - skoro schemat nie spełnia nawet II postaci normalnej, nie może spełniać silniejszej III postaci normalnej." },
+   { "key": "c", "text": "pierwszej postaci normalnej", "correct": true, "explain": "Tak - wartości są atomowe, ale zależność częściowa Nazwisko_Autora → Imie_Autora od części klucza (Nazwisko_Autora, Tytuł) uniemożliwia osiągnięcie II postaci normalnej." }
+  ]
+ },
+ {
+  "id": "Q165",
+  "chapter": "G10",
+  "chapterName": "Dodatkowa pula pytań (RBD/SBD)",
+  "question": "Dany jest schemat relacyjny Pracownik(DOWOD_OSOBISTY, Nazwisko, Adres_Prac, Nr_Działu, Nazwa_Działu), gdzie DOWOD_OSOBISTY jest kluczem głównym, oraz F = {Dowod_Osobisty → Nazwisko; Dowod_Osobisty → Adres_Prac; Dowod_Osobisty → Nr_Działu; Nr_Działu → Nazwa_Działu}. W których postaciach normalnych jest ten schemat?",
+  "topicTitle": "Klucz jednoatrybutowy gwarantuje 2NF, ale zależność przechodnia łamie 3NF",
+  "topicSummary": "Klucz (Dowod_Osobisty) jest tu jednoatrybutowy, więc zależność częściowa od klucza w ogóle nie jest możliwa (2NF jest spełniona automatycznie). Zależność Nr_Działu → Nazwa_Działu jest jednak zależnością PRZECHODNIĄ: Nr_Działu nie jest nadkluczem, a Nazwa_Działu nie jest atrybutem klucza - to łamie III postać normalną (a tym bardziej BCNF), więc schemat jest tylko w I i II postaci normalnej.",
+  "options": [
+   { "key": "a", "text": "I postać normalna", "correct": true, "explain": "Tak - wartości są atomowe, co jest warunkiem koniecznym każdej wyższej postaci normalnej." },
+   { "key": "b", "text": "II postać normalna", "correct": true, "explain": "Tak - klucz jest jednoatrybutowy (Dowod_Osobisty), więc zależność częściowa od klucza nie może wystąpić, a 2NF jest spełniona automatycznie." },
+   { "key": "c", "text": "III postać normalna", "correct": false, "explain": "Nie - Nr_Działu → Nazwa_Działu to zależność przechodnia (Nr_Działu nie jest nadkluczem, Nazwa_Działu nie jest atrybutem klucza), co łamie 3NF." },
+   { "key": "d", "text": "postać normalna Boyce'a-Codda", "correct": false, "explain": "Nie - skoro schemat nie spełnia nawet III postaci normalnej, nie może spełniać silniejszej od niej BCNF." }
+  ]
+ },
+ {
+  "id": "Q166",
+  "chapter": "G10",
+  "chapterName": "Dodatkowa pula pytań (RBD/SBD)",
+  "question": "Z ilu tabel powinna się składać prosta znormalizowana baza zawierająca informacje o częściach, urządzeniach i przynależności \"wiele do wielu\" między nimi:",
+  "topicTitle": "Związek N:M wymaga trzeciej, łączącej tabeli",
+  "topicSummary": "W odróżnieniu od związku 1:N (który zapisuje się samym kluczem obcym, bez dodatkowej tabeli), związek wiele-do-wielu (część może wchodzić w skład wielu urządzeń, a urządzenie ma wiele części) wymaga TRZECIEJ, dodatkowej tabeli łączącej (asocjacyjnej) z kluczami obcymi do obu encji. Stąd cała, znormalizowana baza składa się z trzech tabel: Części, Urządzenia i tabeli łączącej między nimi.",
+  "options": [
+   { "key": "a", "text": "2", "correct": false, "explain": "Nie - dwie tabele (same encje, bez łączącej) wystarczyłyby dla związku 1:N, nie dla wiele-do-wielu." },
+   { "key": "b", "text": "4", "correct": false, "explain": "Nie - to więcej tabel, niż wymaga prosty związek M:N między dwiema encjami." },
+   { "key": "c", "text": "1", "correct": false, "explain": "Nie - jedna tabela nie rozdzieliłaby dwóch różnych encji (część i urządzenie) o różnych atrybutach." },
+   { "key": "d", "text": "3", "correct": true, "explain": "Tak - związek wiele-do-wielu wymaga osobnej, trzeciej tabeli łączącej (asocjacyjnej) obok tabel Części i Urządzenia." }
+  ]
+ },
+ {
+  "id": "Q167",
+  "chapter": "G10",
+  "chapterName": "Dodatkowa pula pytań (RBD/SBD)",
+  "question": "Dane są trzy tabele Klienci(Id_Klienta, Imie, Nazwisko), Produkty(Id_Produktu, Nazwa, Cena) oraz Zakupy(Id_Klienta, Id_Produktu, Ilosc). Wskaż poprawne zapytanie SQL znajdujące imiona i nazwiska klientów, którzy zakupili co najmniej jeden produkt.",
+  "topicTitle": "Złączenie z Zakupy (nawet dodatkowo z Produkty) wystarczy - LEFT JOIN i brak złączenia nie",
+  "topicSummary": "„Zakupił co najmniej jeden produkt” wymaga, żeby dla klienta istniał choć jeden pasujący wiersz w Zakupy - zwykłe złączenie Klienci z Zakupy to zapewnia, a dodatkowe, poprawne dołączenie tabeli Produkty (przez Id_Produktu) niczego nie psuje, bo nie zmienia zbioru klientów spełniających warunek. LEFT OUTER JOIN od strony Klienci dołączyłby też klientów BEZ żadnego zakupu (z NULL-ami po stronie Zakupy), a zapytanie bez złączenia z Zakupy w ogóle nie sprawdza faktu zakupu.",
+  "options": [
+   { "key": "a", "text": "SELECT DISTINCT Imie, Nazwisko FROM Klienci, Zakupy WHERE Klienci.Id_Klienta = Zakupy.Id_Klienta;", "correct": true, "explain": "Poprawne - złączenie z Zakupy zwraca tylko klientów mających co najmniej jeden wiersz zakupu." },
+   { "key": "b", "text": "SELECT DISTINCT Imie, Nazwisko FROM Klienci LEFT OUTER JOIN Zakupy ON Klienci.Id_Klienta = Zakupy.Id_Klienta;", "correct": false, "explain": "Niepoprawne - LEFT OUTER JOIN od strony Klienci dołączy też klientów BEZ żadnego zakupu (z wartościami NULL po stronie Zakupy), co jest sprzeczne z wymaganiem „co najmniej jeden produkt”." },
+   { "key": "c", "text": "SELECT Imie, Nazwisko FROM Klienci;", "correct": false, "explain": "Niepoprawne - zapytanie w ogóle nie odwołuje się do tabeli Zakupy, więc zwróci wszystkich klientów, niezależnie od tego, czy cokolwiek kupili." },
+   { "key": "d", "text": "SELECT DISTINCT Imie, Nazwisko FROM Klienci, Zakupy, Produkty WHERE Klienci.Id_Klienta = Zakupy.Id_Klienta AND Produkty.Id_Produktu = Zakupy.Id_Produktu;", "correct": true, "explain": "Poprawne - dodatkowe, poprawnie złączone dołączenie tabeli Produkty jest zbędne, ale nieszkodliwe; warunek złączenia z Zakupy nadal gwarantuje, że klient dokonał co najmniej jednego zakupu." }
+  ]
+ },
+ {
+  "id": "Q168",
+  "chapter": "G10",
+  "chapterName": "Dodatkowa pula pytań (RBD/SBD)",
+  "question": "Zakładanie indeksów jest zalecane na:",
+  "topicTitle": "Indeksy: kolumny sortowania, WHERE i klucze obce - nie kolumny często aktualizowane",
+  "topicSummary": "Indeksy przyspieszają wyszukiwanie i sortowanie, więc warto je zakładać na kolumnach często używanych w ORDER BY, WHERE oraz na kluczach obcych (przyspiesza to też sprawdzanie spójności referencyjnej i złączenia). Nie zaleca się ich natomiast na kolumnach często modyfikowanych przez UPDATE, bo każda taka zmiana wymaga też kosztownej aktualizacji indeksu.",
+  "options": [
+   { "key": "a", "text": "Kolumnach, po których sortujemy", "correct": true, "explain": "Tak - indeks na kolumnie sortowania pozwala uniknąć osobnego, kosztownego etapu sortowania wyniku." },
+   { "key": "b", "text": "Kolumnach często występujących w WHERE", "correct": true, "explain": "Tak - indeks na kolumnie filtrującej pozwala szybko zawęzić liczbę przeszukiwanych wierszy." },
+   { "key": "c", "text": "kolumnach, w których wartości są często aktualizowane przez instrukcje UPDATE", "correct": false, "explain": "Nie - częste aktualizacje wymuszają też częstą, kosztowną aktualizację samego indeksu, co jest wadą, a nie zaletą zakładania go na takiej kolumnie." },
+   { "key": "d", "text": "kluczach obcych", "correct": true, "explain": "Tak - indeksy na kluczach obcych przyspieszają złączenia oraz sprawdzanie spójności referencyjnej przy operacjach na tabeli nadrzędnej." }
   ]
  }
 ];
